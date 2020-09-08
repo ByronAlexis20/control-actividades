@@ -1,0 +1,58 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                         http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+                         http://www.springframework.org/schema/context 
+                         http://www.springframework.org/schema/context/spring-context-4.1.xsd
+                         http://www.springframework.org/schema/security 
+                         http://www.springframework.org/schema/security/spring-security-4.1.xsd">
+
+	<!-- Configuracion realizada segun: https://www.zkoss.org/wiki/ZK_Developer's_Reference/Integration/Security/Spring_Security -->
+
+	<!-- Configuracion de seguridad de las peticiones por el protocolo HTTP -->
+	<http auto-config="true" use-expressions="true">
+
+		<!-- Siempre deben estar esta configuracion para ZK -->
+		<!-- ZK AU reqeust -->
+		<intercept-url pattern="/zkau/**" access="permitAll" />
+
+		<!-- Seguridad de la aplicacion -->
+		<intercept-url pattern="/index.zul" access="isAuthenticated()" />
+		<intercept-url pattern="/formularios/**" access="hasRole('ROL_ADMINISTRADOR')" />
+		<intercept-url pattern="/formularios/**"
+			access="hasRole('ROL_ADMINISTRADOR') or hasRole('ROL_ADMINISTRADOR_SISTEMAS')" />
+		<intercept-url pattern="/" access="permitAll" />
+
+		<!-- Definicion de la pagina de login -->
+		<form-login login-page="/login.zul"
+			authentication-failure-url="/login.zul?login_error=1"
+			username-parameter="username" password-parameter="password"
+			login-processing-url="/j_spring_security_check" />
+
+		<!-- Definicion del proceso de logout -->
+		<logout logout-success-url="/index.zul" invalidate-session="true"
+			logout-url="/j_spring_security_logout" />
+
+		<!-- https://es.wikipedia.org/wiki/Cross-site_request_forgery -->
+		<csrf disabled="true" />
+
+		<!-- Para permitir la carga de archivos -->
+		<headers>
+			<frame-options policy="SAMEORIGIN" />
+		</headers>
+
+	</http>
+
+	<!-- Objeto que recupera los datos del usuario -->
+	<beans:bean id="servicioAutenticacion" class="com.actividades.util.ServicioAutenticacion" />
+
+	<!-- Definicion del proceso de autenticacion -->
+
+	<authentication-manager>
+		<authentication-provider user-service-ref="servicioAutenticacion">
+			<password-encoder hash="md5" />
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>

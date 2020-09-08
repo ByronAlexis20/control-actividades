@@ -1,0 +1,5 @@
+<hlayout hflex="1" vflex="1" valign="center">
+	<div align="center" hflex="1" vflex="1" >
+		<label value=" GOBERNACIÓN DE SANTA ELENA " style="font-size:18px;"/>
+	</div>
+</hlayout>

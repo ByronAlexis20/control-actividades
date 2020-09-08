@@ -1,0 +1,98 @@
+<zk>
+	<hbox vflex="1" hflex="1" align="center" pack="center"
+		style=" background: url(imagenes/wallpaper.jpg) no-repeat center top fixed;  background-size: cover; ">
+		<div width="min" align="left" height="380px">
+			<vbox hflex="1" vflex="1" align="center" pack="center">
+				<hbox align="center">
+					<label value="Sistema de Control de actividades" style="font-family: Berlin Sans FB;font-size: 26pt;color: #FFFFFF;"/>
+				</hbox>
+				<separator orient="horizontal" height="12px" />
+				<hbox align="center">
+					<label value="Gobernación de Santa Elena" style="font-family: Berlin Sans FB;font-size: 16pt;color: #FFFFFF;"/>
+				</hbox>
+			</vbox>
+
+		</div>
+		<div width="1px" height="50%"
+			style="border-color: #FFFFFF;border-width: 1px; border-style: solid;">
+		</div>
+		<div width="320px" align="left" height="380px">
+			<h:form id="f" name="f" action="j_spring_security_check"
+				method="POST" xmlns:h="native">
+				<separator orient="vertical" height="40px" />
+				<vbox hflex="1" vflex="1" align="center">
+					<hbox align="center" class="user-img"
+						style=" margin-top: -90px; margin-bottom: 35px; ">
+						<image src="/imagenes/usuario.png"
+							width="200px" />
+					</hbox>
+					<separator orient="horizontal" height="12px" />
+					<!-- Formulario para autenticacion -->
+					<hbox align="center" class="inputWithIcon">
+						<html>
+
+							
+							<![CDATA[ <i class="z-icon-user"
+							aria-hidden="true"></i>]]>
+							
+							
+						</html>
+						<textbox id="u" name="username" width="180px"
+							placeholder="Nombre de usuario" />
+					</hbox>
+
+					<style>
+						input[type="text"] { width: 100%; border:0;
+						border-radius: 5px; margin: 8px 0; outline:
+						none; padding:9px; box-sizing: border-box;
+						font-size:15px; } .inputWithIcon{ position:
+						relative; }
+
+						.inputWithIcon input[type="text"]{ padding-left:
+						25px; }
+
+						.inputWithIcon i { position: absolute; top: 6px;
+						padding: 9px 8px; color: #3b4652;;
+						font-size:20px; left:3px; }
+					</style>
+					<hbox align="center" class="inputWithIcon">
+						<html>
+
+							
+							<![CDATA[ <i class="z-icon-lock"
+							aria-hidden="true"></i>]]>
+							
+							
+						</html>
+						<textbox id="p" name="password" type="password"
+							width="180px" placeholder="Contraseña"
+							style="width: 100%; border: 0;  border-radius: 5px;  margin: 8px 0;  outline: none;  padding: 8px; box-sizing: border-box; padding-left: 25px; font-size:15px;" />
+					</hbox>
+					<html>
+						<input type="hidden"
+							name="${_csrf.parameterName}" value="${_csrf.token}" />
+					</html>
+					<!-- Procesa el login -->
+					<button sclass="btn-primary" id="login"
+						label="Ingresar" type="submit" iconSclass="z-icon-sign-in"
+						width="60%" height="38px"
+						style="background: #49494F; color:white; margin: 5px 0 25px; font-size:15px; border:0" />
+					<separator orient="vertical" width="30px" />
+					<html style="color:white"
+						if="${not empty param.login_error}">
+
+
+						
+						<![CDATA[ Usuario o clave incorrecto!!.]]>
+						
+						
+						
+						</html>
+				</vbox>
+			</h:form>
+		</div>
+
+	</hbox>
+
+
+</zk>

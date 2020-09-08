@@ -1,0 +1,100 @@
+<?page title="Categorias" contentType="text/html;charset=UTF-8"?>
+<?script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js" ?>
+<?link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" ?>
+<zk>
+	<window id="winEmpleadoEditar" width="455px" vflex="1"
+		style="color:#088A08;"
+		apply="org.zkoss.bind.BindComposer" border="none" position="center"
+		mode="overlapped"
+		viewModel="@id('vm') @init('com.actividades.controlador.SEmpleadosEditarC')">
+		<caption label="Ingrese datos" height="20px"
+			style="color:#088A08"/>
+		<vlayout>
+			<grid>
+				<columns>
+					<column align="right" hflex="min" />
+					<column align="left" hflex="1" />
+				</columns>
+				<rows>
+					<row>
+						<label value="Cédula: *" sclass="font-weight-bold col-form-label"/>
+						<textbox id="txtCedula"  maxlength="15" hflex="1" xmlns:w="client">
+							<attribute w:name="doKeyPress_">
+								function(evt){ if(this.getValue().length
+								> 0 ){ if (!this._shallIgnore(evt,
+								"0123456789")) this.$doKeyPress_(evt);
+								}else{ if (!this._shallIgnore(evt,
+								"0123456789")) this.$doKeyPress_(evt); }
+								}
+							</attribute>
+						</textbox>
+					</row>
+					<row>
+						<label value="Nombres: *" sclass="font-weight-bold col-form-label"/>
+						<textbox id="txtNombres" style="text-transform:uppercase" hflex="1" maxlength="60"/>
+					</row>
+					<row>
+						<label value="Apellidos: *" sclass="font-weight-bold col-form-label"/>
+						<textbox id="txtApellidos" style="text-transform:uppercase" hflex="1" maxlength="60"/>
+					</row>
+					<row>
+						<label value="Email: " sclass="font-weight-bold col-form-label"/>
+						<textbox id="txtEmail" constraint="/.+@.+\.[a-z]+/: No es una dirección email."
+							hflex="1" maxlength="250"/>
+					</row>
+					<row>
+						<label value="Dirección: " sclass="font-weight-bold col-form-label"/>
+						<textbox id="txtDireccion" style="text-transform:uppercase" hflex="1" maxlength="250"/>
+					</row>
+					<row>
+						<label value="Teléfono: " sclass="font-weight-bold col-form-label"/>
+						<textbox id="txtTelefono" hflex="1" maxlength="13" xmlns:w="client">
+							<attribute w:name="doKeyPress_">
+								function(evt){ if(this.getValue().length
+								> 0 ){ if (!this._shallIgnore(evt,
+								"0123456789")) this.$doKeyPress_(evt);
+								}else{ if (!this._shallIgnore(evt,
+								"0123456789")) this.$doKeyPress_(evt); }
+								}
+							</attribute>
+						</textbox>
+					</row>
+					<row>
+						<label value="Tipo de usuario: *" sclass="font-weight-bold col-form-label" />
+						<combobox id="cboTipoUsuario" model="@load(vm.tipoUsuario)" 
+							placeholder="Tipo de usuario" hflex="1" style="text-transform:uppercase">
+						</combobox>
+					</row>
+					<row>
+						<label value="Departamento: *" sclass="font-weight-bold col-form-label" />
+						<combobox id="cboDepartamento"
+							model="@load(vm.departamento)" placeholder="Departamento" hflex="1" style="text-transform:uppercase">
+						</combobox>
+					</row>
+					<row>
+						<label value="Puesto: " sclass="font-weight-bold col-form-label"/>
+						<textbox id="txtPuesto" value="@bind(vm.empleado.puesto)" hflex="1" maxlength="13"/>
+					</row>
+					<row>
+						<label value="Usuario: *" sclass="font-weight-bold col-form-label"/>
+						<textbox id="txtUsuario" value="@bind(vm.empleado.usuario)" hflex="1" maxlength="13"/>
+					</row>
+					<row>
+						<label value="Clave: *" sclass="font-weight-bold col-form-label"/>
+						<textbox id="txtClave" type="password" hflex="1" maxlength="13"/>
+					</row>
+				</rows>
+			</grid>
+			<!-- Los iconos listados con iconSclass son de: http://fontawesome.io/icons/ -->
+			<div>
+				<button id="grabar" label="Grabar" iconSclass="z-icon-save"
+					zclass="btn btn-outline-primary btn btn-sm"
+					onClick="@command('grabar')" />
+				<button id="salir" label="Salir"
+					iconSclass="z-icon-sign-out"
+					zclass="btn btn-outline-danger btn btn-sm"
+					onClick="@command('salir')" />
+			</div>
+		</vlayout>
+	</window>
+</zk>

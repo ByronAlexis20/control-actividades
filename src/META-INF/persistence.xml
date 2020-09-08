@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="sistema-control-actividades" transaction-type="RESOURCE_LOCAL">
+		<class>com.actividades.modelo.Actividad</class>
+		<class>com.actividades.modelo.Agenda</class>
+		<class>com.actividades.modelo.Cargo</class>
+		<class>com.actividades.modelo.Departamento</class>
+		<class>com.actividades.modelo.DepartamentoAsignado</class>
+		<class>com.actividades.modelo.Empleado</class>
+		<class>com.actividades.modelo.Empresa</class>
+		<class>com.actividades.modelo.Evidencia</class>
+		<class>com.actividades.modelo.Menu</class>
+		<class>com.actividades.modelo.Permiso</class>
+		<class>com.actividades.modelo.Persona</class>
+		<class>com.actividades.modelo.Publicacion</class>
+		<class>com.actividades.modelo.TipoActividad</class>
+		<class>com.actividades.modelo.TipoEvidencia</class>
+		<class>com.actividades.modelo.TipoUsuario</class>
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/control_actividades"/>
+			<property name="javax.persistence.jdbc.user" value="postgres"/>
+			<property name="javax.persistence.jdbc.password" value="tricampeon2015"/>
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+		</properties>
+	</persistence-unit>
+</persistence>

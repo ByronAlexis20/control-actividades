@@ -1,0 +1,56 @@
+<?page title="Departamento" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./winDepartamento" ?>
+<?link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" ?>
+<zk>
+	<window id="winDepartamento" border="none"
+		apply="com.actividades.controlador.ADDepartamentoC" hflex="1" vflex="1"
+		style="padding: 0 0 0 0;background:#FFFFFF;">
+		<vlayout vflex="1">
+			<groupbox>
+				<div align="center">
+					<label value="Departamentos"
+						style="color:#088A08;font-size:20px"
+						sclass="p-1 text-red font-italic font-weight-bold" />
+				</div>
+			</groupbox>
+			<div>
+				<button id="btnNuevo" label="Nuevo" iconSclass="z-icon-plus"
+					zclass="btn btn-outline-primary btn btn-sm"/>
+				<button id="btnEditar" label="Editar"
+					iconSclass="z-icon-pencil"
+					zclass="btn btn-outline-primary btn btn-sm"/>
+				<button id="btnEliminar" label="Eliminar"
+					iconSclass="z-icon-trash-o"
+					zclass="btn btn-outline-danger btn btn-sm"/>
+			</div>
+			<hlayout>
+				<textbox hflex="1" id="txtBuscar"
+					style="text-transform:uppercase" 
+					placeholder="Busqueda por departamento" />
+				<button label="Buscar!" id="btnBuscar" iconSclass="z-icon-search"
+					zclass="btn btn-outline-primary btn btn-sm"/>
+			</hlayout>
+			<hlayout vflex="1" hflex="1">
+				<listbox autopaging="true" id="ltsDepartamentos"
+					model="@{winDepartamento$composer.departamentoLista}"
+					selectedItem="@{winDepartamento$composer.departamentoSeleccionado}"
+					mold="paging" hflex="1" vflex="1">
+					<listhead>
+						<listheader label="Código" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Departamento" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Descripcion" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Estado" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell label="${each.idDepartamento}" />
+							<listcell label="${each.nombre}" />
+							<listcell label="${each.descripcion}" />
+							<listcell label="${each.estado}" />
+						</listitem>
+					</template>
+				</listbox>
+			</hlayout>
+		</vlayout>
+	</window>
+</zk>

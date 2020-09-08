@@ -1,0 +1,71 @@
+<zk>
+	<window id="winEmpresa" vflex="1" hflex="1" 
+		apply="org.zkoss.bind.BindComposer" 
+        viewModel="@id('vm') @init('com.actividades.controlador.SEmpresaC')">
+		<hbox vflex="1" hflex="1" align="center" pack="center">
+			<vbox width="40%" align="center" pack="center">
+				<groupbox hflex="1" vflex="min">
+					<vlayout hflex="1" vflex="1">
+						<grid style="background-color: transparent;border:none;">
+							<columns style="background-color: transparent;">
+								<column align="left" hflex="min"/>
+								<column align="left" />
+							</columns>
+							<rows>
+								<row align="center">
+									<cell colspan="2" align="center">
+										<vbox  pack="center" hflex="1">
+												<div align="center">
+													<label value="Logo"/>
+												</div>
+												<div align="center">
+													<image id="imgFoto" width="130px" height="130px"
+													content="@load(vm.logoInstitucion)"
+					       							onClick="@command('descargar')"  
+													style="border:1px #cccccc solid; " />
+												</div>
+												<div align="center">
+													<button id="btnUpload" label="Cargar..."
+														upload="true,accept=.jpg" onUpload="@command('subir', upEvent=event)"
+														iconSclass="z-icon-upload" />
+												</div>
+											
+										</vbox>
+									</cell>
+								</row>
+								<row align="center">
+									<cell sclass="row-title">Nombre de la Institución:</cell>
+									<cell> 
+										<textbox id="txtNombre" width="85%" maxlength="200"
+										value="@bind(vm.empresa.nombre)"/>
+									</cell>
+								</row>
+								<row align="center">
+									<cell sclass="row-title">Dirección:</cell>
+									<cell> <textbox id="txtDireccion" width="85%" 
+											value="@bind(vm.empresa.direccion)" maxlength="255"/> </cell>
+								</row>
+								<row align="center">
+									<cell sclass="row-title">Teléfono:</cell>
+									<cell> <textbox id="txtTelefono" width="85%" 
+											value="@bind(vm.empresa.telefono)" maxlength="15"/> </cell>
+								</row>
+								<row align="center">
+									<cell sclass="row-title">Correo:</cell>
+									<cell> <textbox id="txtCorreo" width="85%" 
+											constraint="/.+@.+\.[a-z]+/: No es una dirección email."
+											value="@bind(vm.empresa.email)" maxlength="100"/> </cell>
+								</row>
+							</rows>
+						</grid>
+						<hbox>
+							<button id="btnGrabar" label="Grabar" onClick="@command('grabar')" iconSclass="z-icon-save"  />
+						</hbox>
+					</vlayout>
+				</groupbox>
+			</vbox>
+		</hbox>
+	</window>
+</zk>
+
+

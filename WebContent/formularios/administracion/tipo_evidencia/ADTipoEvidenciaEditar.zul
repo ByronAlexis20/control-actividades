@@ -1,0 +1,53 @@
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./winTipoEvidenciaEditar" ?>
+<?script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js" ?>
+<?link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" ?>
+<zk>
+	<window id="winTipoEvidenciaEditar" border="normal"  width="30%"
+		 apply="com.actividades.controlador.ADTipoEvidenciaEditarC">
+		<caption sclass="fn-caption"
+			label="Tipo de Evidencia" />
+		<vlayout>
+			<grid hflex="1">
+				<columns>
+					<column align="right" hflex="min" />
+					<column/>
+				</columns>
+				<rows>
+					<row>
+						<cell>Código:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm" placeholder="Código"
+								hflex="1" disabled="true"
+								value="@{winTipoEvidenciaEditar$composer.tipoEvidencia.idTipoEvidencia}" />
+						</cell>
+					</row>
+					<row>
+						<cell>Tipo de evidencia:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm" placeholder="Tipo de evidencia"
+								id="txtTipoEvidencia" hflex="1"
+								value="@{winTipoEvidenciaEditar$composer.tipoEvidencia.descripcion}" />
+						</cell>
+					</row>
+					<row>
+						<cell sclass="row-title">Formato de archivo:</cell>
+						<cell>
+							<textbox hflex="1"
+								class="form-control form-control-sm" id="txtFormato"
+								placeholder="Ejemplo: .pdf, .jpg, .png, etx"
+								value="@{winTipoEvidenciaEditar$composer.tipoEvidencia.formato}" />
+						</cell>
+					</row>
+				</rows>
+			</grid>
+			<hlayout hflex="1" height="1">
+				<div align="center" hflex="1">
+					<button id="btnGrabar" label="Grabar"/>
+					<button id="btnSalir" label="Salir"/>			
+				</div>
+			</hlayout>
+		</vlayout>
+	</window>
+</zk>

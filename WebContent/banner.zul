@@ -1,0 +1,37 @@
+<zk>
+	<hbox vflex="1" hflex="1" style="background-color: transparent;" pack="start">
+		<separator orient="horizontal" width="20px"/>
+		<hbox pack="start" align="start" hflex="1">
+			<vbox pack="start">
+				<separator orient="horizontal" height="3px"/>
+				<label style="font: 120% sans-serif; font-weight: bold; color: white" 
+					value="Sistema de Control de Actividades" />
+				<label style="font: 100% sans-serif;color:white; font-weight: bold"
+					value="Gobernación de Santa Elena" />
+			</vbox>
+		</hbox>
+
+		<hbox hflex="1" vflex="1" pack="end" align="center">
+			<vbox vflex="1" pack="center">
+				<label value="Usuario: "
+					style="font: 110% sans-serif;color:white" />
+			</vbox>
+			<vbox vflex="1" pack="center">
+				<label value="@load(vm.nombreUsuario)"
+					style="font: 100% sans-serif;color:white" />
+			</vbox>
+			<separator orient="horizontal" width="10px"/>
+			<vbox vflex="1" pack="center">
+				<h:form id="f" name="f"
+					action="j_spring_security_logout" method="POST" xmlns:h="native">
+					<html>
+						<input type="hidden"
+							name="${_csrf.parameterName}" value="${_csrf.token}" />
+					</html>
+					<button label="Salir" type="submit"
+						iconSclass="z-icon-sign-out" style="background: red; color:white;  -webkit-border-radius: .5em;    -moz-border-radius: .5em;    border-radius: .5em; font: 85% sans-serif"/>
+				</h:form>
+			</vbox>
+		</hbox>
+	</hbox>
+</zk>

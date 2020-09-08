@@ -1,0 +1,54 @@
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./winOpcionPerfilEditar" ?>
+<zk>
+	<window id="winOpcionPerfilEditar" border="none" hflex="1" vflex="1"
+		apply="com.actividades.controlador.SPermisosC">
+		<vlayout hflex="1" vflex="1">
+			<groupbox>
+				<hlayout>
+					<div>
+						Seleccionar perfil
+						<combobox placeholder="Seleccione tipo de usuario"
+							id="cboPerfiles" width="300px" readonly="true" model="@{winOpcionPerfilEditar$composer.listaPerfiles}">
+							<template name="model">
+								<comboitem label="${each.tipoUsuario}" />
+							</template>
+						</combobox>
+					</div>
+					<space />
+				</hlayout>
+			</groupbox>
+			<hbox hflex="1" vflex="1" align="center">
+				<listbox id="lstPermisosTodos"
+					autopaging="true" mold="paging"
+					hflex="1" vflex="1">
+					<listhead>
+						<listheader label="Opciones Disponible" />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell label="${each.presentacion}" />
+						</listitem>
+					</template>
+				</listbox>
+				<vbox>
+					<button id="btnAgregar" iconSclass="z-icon-angle-right"
+						sclass="btn btn-outline-success" />
+					<button id="btnQuitar" iconSclass="z-icon-angle-left"
+						sclass="btn btn-outline-success" />
+				</vbox>
+				<listbox id="lstPermisoPerfil"
+					autopaging="true" mold="paging"
+					hflex="1" vflex="1">
+					<listhead>
+						<listheader label="Opciones Asignadas" />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell label="${each.menu.presentacion}" />
+						</listitem>
+					</template>
+				</listbox>
+			</hbox>
+		</vlayout>
+	</window>
+</zk>	
