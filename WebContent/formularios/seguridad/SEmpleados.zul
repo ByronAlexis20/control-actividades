@@ -54,7 +54,7 @@
 							<listcell label="@load(each.persona.apellido)" />
 							<listcell label="@load(each.tipoUsuario.tipoUsuario)" />
 							<listcell label="@load(each.departamento.nombre)" />
-							<listcell label="@load(each.puesto)" />
+							<listcell label="@load(each.cargo.descripcion)" />
 							<listcell label="@load(each.usuario)" />
 						</listitem>
 					</template>

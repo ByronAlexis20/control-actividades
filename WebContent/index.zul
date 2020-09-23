@@ -1,4 +1,4 @@
-
+<?page title="Control de Actividades" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<borderlayout hflex="1" vflex="1"
 		apply="org.zkoss.bind.BindComposer"

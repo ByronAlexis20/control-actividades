@@ -4,13 +4,14 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the cargo database table.
- * 
- */
 @Entity
-@NamedQuery(name="Cargo.findAll", query="SELECT c FROM Cargo c")
+@Table(name="cargo")
+@NamedQueries({
+	@NamedQuery(name="Cargo.buscarActivos", query="SELECT c FROM Cargo c where c.estado = 'A' order by c.idCargo asc"),
+	@NamedQuery(name="Cargo.buscarPorPatron", query="SELECT c FROM Cargo c where lower(c.descripcion) like lower(:patron) "
+			+ "and c.estado = 'A' order by c.idCargo asc")
+})
+
 public class Cargo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -74,6 +75,11 @@ public class Cargo implements Serializable {
 		empleado.setCargo(null);
 
 		return empleado;
+	}
+
+	@Override
+	public String toString() {
+		return this.descripcion;
 	}
 
 }

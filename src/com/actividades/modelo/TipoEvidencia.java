@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name="tipo_evidencia")
 @NamedQueries({
 	@NamedQuery(name="TipoEvidencia.buscarPorPatron", query="SELECT t FROM TipoEvidencia t where "
-			+ "t.descripcion like :patron and t.estado = 'A' order by t.idTipoEvidencia asc")
+			+ "lower(t.descripcion) like lower(:patron) and t.estado = 'A' order by t.idTipoEvidencia asc")
 })
 public class TipoEvidencia implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -87,6 +87,11 @@ public class TipoEvidencia implements Serializable {
 		evidencia.setTipoEvidencia(null);
 
 		return evidencia;
+	}
+
+	@Override
+	public String toString() {
+		return this.descripcion + " - " + this.formato;
 	}
 
 }

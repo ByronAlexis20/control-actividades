@@ -1,6 +1,8 @@
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./winActividades" ?>
+<?page title="Actividades diarias" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window id="winActividades" border="none" hflex="1" vflex="1" apply="com.actividades.controlador.ADiariaC">
+	<window apply="org.zkoss.bind.BindComposer" border="none"
+		viewModel="@id('vm') @init('com.actividades.controlador.ADiariaC')"
+		hflex="1" vflex="1">
 		<vlayout hflex="1" vflex="1">
 			<groupbox>
 				<div align="center">
@@ -15,26 +17,27 @@
 						<caption label="Agendas"/>
 						<vbox hflex="1" vflex="1">
 							<div>
-								<button id="btnNuevoAgenda"
+								<button id="btnNuevoAgenda" onClick="@command('nuevaAgenda')"
 									iconSclass="z-icon-plus" height="20px" width="80px">
 									Nuevo
 								</button>
-								<button id="btnEditarAgenda"
+								<button id="btnEditarAgenda" onClick="@command('editarAgenda')"
 									iconSclass="z-icon-pencil" height="20px" width="80px">
 									Editar
 								</button>
-								<button id="btnEliminarAgenda"
+								<button id="btnEliminarAgenda" onClick="@command('eliminarAgenda')"
 									iconSclass="z-icon-trash-o" height="20px" width="80px">
 									Eliminar
 								</button>
 							</div>
-							<listbox id="lstAgenda" hflex="1" vflex="1" selectedItem="@{winActividades$composer.agendaSeleccionada}">
+							<listbox id="lstAgenda" hflex="1" vflex="1" model="@load(vm.listaAgenda)" 
+								selectedItem="@bind(vm.agendaSeleccionada)" onSelect="@command('seleccionarAgenda')">
 								<listhead>
 									<listheader/>
 								</listhead>
 								<template name="model">
 									<listitem>
-										<listcell label="${each.descripcion}"/>
+										<listcell label="@load(each.descripcion)" />
 									</listitem>
 								</template>
 							</listbox>
@@ -72,34 +75,44 @@
 							</hbox>
 							
 							<div hflex="1">
-								<button id="btnNuevaActividad"
+								<button id="btnNuevaActividad" onClick="@command('nuevaActividad')"
 									iconSclass="z-icon-plus" height="20px" width="80px">
 									Nuevo
 								</button>    
-								<button id="btnEditarActividad"
+								<button id="btnEditarActividad" onClick="@command('editarActividad')"
 									iconSclass="z-icon-pencil" height="20px" width="80px">
 									Editar
 								</button>
-								<button id="btnEliminarActividad"
+								<button id="btnEliminarActividad" onClick="@command('eliminarActividad')"
 									iconSclass="z-icon-trash-o" height="20px" width="80px">
 									Eliminar
 								</button>
 							</div>
 							
-							<listbox id="lstActividades" hflex="1" 
+							<listbox id="lstActividades" hflex="1" model="@load(vm.listaActividad)" selectedItem="@bind(vm.actividadSeleccionada)"
 								vflex="1" >
 								<listhead>
-									<listheader label="Código" width="10%"/>
 									<listheader label="Actividad" />
 									<listheader label="Fecha" width="15%"/>
-									<listheader label="Estado Publicacion" width="17%"/>
+									<listheader label="Estado" width="17%"/>
+									<listheader label="Evidencias" width="17%" align="center"/>
+									<listheader label="Publicar" width="17%" align="center"/>
 								</listhead>
 								<template name="model">
 									<listitem>
-										<listcell label="${each.idActividad}"/>
-										<listcell label="${each.descripcion}"/>
-										<listcell label="${each.fechaActividad}"/>
-										<listcell label="${each.estadoPublicado}"/>
+										<listcell label="@load(each.descripcion)" />
+										<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" />
+										<listcell label="@load(each.estadoActividad)" />
+										<listcell>
+											<div hflex="1" align="center">
+												<button label="Ver" onClick="@command('evidencias',actividad=each)"/>
+											</div>
+										</listcell>
+										<listcell>
+											<div hflex="1" align="center">
+												<button label="Publicar" onClick="@command('publicar',actividad=each)"/>
+												</div>
+										</listcell>
 									</listitem>
 								</template>
 							</listbox>

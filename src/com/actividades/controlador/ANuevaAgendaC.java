@@ -3,6 +3,7 @@ package com.actividades.controlador;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.EventListener;
@@ -44,6 +45,8 @@ public class ANuevaAgendaC extends SelectorComposer<Component>{
 			txtDescripcion.setText(agenda.getDescripcion());
 			dtpFechaInicio.setValue(agenda.getFechaInicio());
 			dtpFechaFin.setValue(agenda.getFechaFin());
+			dtpFechaInicio.setDisabled(true);
+			dtpFechaFin.setDisabled(true);
 		}else {
 			agenda = new Agenda();
 			//dtpFechaInicio.setValue(new Date());
@@ -70,7 +73,8 @@ public class ANuevaAgendaC extends SelectorComposer<Component>{
 						}
 						agendaDAO.getEntityManager().getTransaction().commit();
 						Messagebox.show("Datos grabados con exito");
-						aDiaria.cargarAgendas();
+						//aDiaria.cargarAgendas();
+						BindUtils.postGlobalCommand(null, null, "Agenda.buscarActivos", null);
 						salir();
 					}
 				}

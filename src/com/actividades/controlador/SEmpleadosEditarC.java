@@ -20,6 +20,8 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+import com.actividades.modelo.Cargo;
+import com.actividades.modelo.CargoDAO;
 import com.actividades.modelo.Departamento;
 import com.actividades.modelo.DepartamentoDAO;
 import com.actividades.modelo.Empleado;
@@ -39,7 +41,7 @@ public class SEmpleadosEditarC {
 	@Wire private Textbox txtTelefono;
 	@Wire private Combobox cboTipoUsuario;
 	@Wire private Combobox cboDepartamento;
-	@Wire private Textbox txtPuesto;
+	@Wire private Combobox cboCargo;
 	@Wire private Textbox txtUsuario;
 	@Wire private Textbox txtClave;
 	
@@ -49,6 +51,7 @@ public class SEmpleadosEditarC {
 	private Persona persona;
 	private TipoUsuarioDAO tipoUsuarioDAO = new TipoUsuarioDAO();
 	private DepartamentoDAO departamentoDAO = new DepartamentoDAO();
+	private CargoDAO cargoDAO = new CargoDAO();
 	private ControllerHelper helper = new ControllerHelper();
 	
 	@AfterCompose
@@ -72,8 +75,8 @@ public class SEmpleadosEditarC {
 		txtDireccion.setText(empleado.getPersona().getDireccion());
 		txtTelefono.setText(empleado.getPersona().getTelefono());
 		cboTipoUsuario.setText(empleado.getTipoUsuario().getTipoUsuario());
-		cboDepartamento.setText(empleado.getDepartamento().getDescripcion());
-		txtPuesto.setText(empleado.getPuesto());
+		cboDepartamento.setText(empleado.getDepartamento().getNombre());
+		cboCargo.setText(empleado.getCargo().getDescripcion());
 		txtUsuario.setText(empleado.getUsuario());
 	}
 	public List<TipoUsuario> getTipoUsuario() {		
@@ -83,8 +86,9 @@ public class SEmpleadosEditarC {
 	public List<Departamento> getDepartamento() {		
 		return departamentoDAO.getDepartamentosActivos();
 	}
-	
-
+	public List<Cargo> getCargo(){
+		return cargoDAO.getCargosActivos();
+	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
@@ -103,7 +107,8 @@ public class SEmpleadosEditarC {
 							empleadoDAO.getEntityManager().persist(persona);
 						}else{
 							copiarDatos();
-							empleado = (Empleado) empleadoDAO.getEntityManager().merge(empleado);
+							empleadoDAO.getEntityManager().merge(empleado);
+							empleadoDAO.getEntityManager().merge(empleado.getPersona());
 						}			
 						empleadoDAO.getEntityManager().getTransaction().commit();
 						Clients.showNotification("Proceso Ejecutado con exito.");
@@ -133,7 +138,6 @@ public class SEmpleadosEditarC {
 				lista.add(empleado);
 				empleado.setPersona(persona);
 				persona.setEmpleados(lista);
-				empleado.setPuesto(txtPuesto.getText().toString());
 				empleado.setUsuario(txtUsuario.getText().toString());
 				empleado.setClave(helper.encriptar(txtClave.getText().toString()));
 				empleado.setPrimeraVez("S");
@@ -142,6 +146,8 @@ public class SEmpleadosEditarC {
 				empleado.setTipoUsuario(tipo);
 				Departamento dep = (Departamento) cboDepartamento.getSelectedItem().getValue();
 				empleado.setDepartamento(dep);
+				Cargo car = (Cargo) cboCargo.getSelectedItem().getValue();
+				empleado.setCargo(car);
 			
 			}else {
 				empleado.getPersona().setCedula(txtCedula.getText().toString());
@@ -150,7 +156,6 @@ public class SEmpleadosEditarC {
 				empleado.getPersona().setEmail(txtEmail.getText().toString());
 				empleado.getPersona().setDireccion(txtDireccion.getText().toString());
 				empleado.getPersona().setTelefono(txtTelefono.getText().toString());
-				empleado.setPuesto(txtPuesto.getText().toString());
 				empleado.setUsuario(txtUsuario.getText().toString());
 				empleado.setClave(helper.encriptar(txtClave.getText().toString()));
 				empleado.setPrimeraVez("S");
@@ -159,6 +164,8 @@ public class SEmpleadosEditarC {
 				empleado.setTipoUsuario(tipo);
 				Departamento dep = (Departamento) cboDepartamento.getSelectedItem().getValue();
 				empleado.setDepartamento(dep);
+				Cargo car = (Cargo) cboCargo.getSelectedItem().getValue();
+				empleado.setCargo(car);
 			}
 			
 		}catch(Exception ex) {

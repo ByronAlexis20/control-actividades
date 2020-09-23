@@ -7,6 +7,7 @@
 			label="Agenda" />
 		<vlayout>
 			<grid hflex="1">
+			
 				<columns>
 					<column align="right" hflex="min" />
 					<column/>

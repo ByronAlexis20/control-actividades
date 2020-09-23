@@ -9,7 +9,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@NamedQuery(name="Evidencia.findAll", query="SELECT e FROM Evidencia e")
+@NamedQuery(name="Evidencia.buscarPorActividad", query="SELECT e FROM Evidencia e where e.actividad.idActividad = :idActividad and e.estado = 'A' order by e.idEvidencia asc")
 public class Evidencia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -86,4 +86,10 @@ public class Evidencia implements Serializable {
 		this.tipoEvidencia = tipoEvidencia;
 	}
 
+	@Override
+	public String toString() {
+		return "Evidencia [idEvidencia=" + idEvidencia + ", descripcion=" + descripcion + ", estado=" + estado
+				+ ", rutaArchivo=" + rutaArchivo + ", actividad=" + actividad + ", tipoEvidencia=" + tipoEvidencia
+				+ "]";
+	}
 }

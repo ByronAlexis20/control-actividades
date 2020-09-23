@@ -1,6 +1,4 @@
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./winEvidencia" ?>
-<?script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js" ?>
-<?link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" ?>
+
 <zk>
 	<window id="winEvidencia" border="normal" width="30%" apply="org.zkoss.bind.BindComposer" 
         viewModel="@id('vm') @init('com.actividades.controlador.AEvidenciaC')">
@@ -16,23 +14,20 @@
 					<row hflex="1">
 						<cell>Tipo de evidencia:</cell>
 						<cell hflex="1">
-							<combobox hflex="1"/>
-						</cell>
-					</row>
-					<row>
-						<cell sclass="row-title">Fecha:</cell>
-						<cell>
-							<datebox id="dtpFecha" onChange="" width="50%"/>
-						</cell>
-					</row>
-					<row>
-						<cell colspan="2" align="center">
-							<button id="btnAnadirArchivo" label="Añadir Archivo" onUpload="@command('subir', upEvent=event)" iconSclass="z-icon-upload"/>
+							<combobox id="cboTipoEvidencia" model="@load(vm.tipoEvidencia)" 
+							placeholder="Tipo de evidencia" hflex="1" style="text-transform:uppercase"
+							onSelect="@command('cambioFormato')">
+						</combobox>
 						</cell>
 					</row>
 					<row>
 						<cell colspan="2" align="center">
-							<label value="Sin archivo....."/>
+							<button id="btnAnadirArchivo" label="Añadir Archivo" onUpload="@command('agregar', upEvent=event)" iconSclass="z-icon-upload"/>
+						</cell>
+					</row>
+					<row>
+						<cell colspan="2" align="center">
+							<textbox id="txtArchivo" value="Sin archivo......" hflex="1" readonly="true"/>
 						</cell>
 					</row>
 				</rows>
@@ -40,7 +35,7 @@
 			
 			<hlayout hflex="1" height="1">
 				<div align="center" hflex="1">
-					<button id="btnAgregar" onClick="@command('agregar')" label="Agregar"/>
+					<button id="btnAgregar" onClick="@command('grabar')" label="Agregar"/>
 					<button id="btnSalir" onClick="@command('salir')" label="Salir"/>			
 				</div>
 			</hlayout>

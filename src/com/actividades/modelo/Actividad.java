@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name="actividad")
 @NamedQueries({
-	@NamedQuery(name="Actividad.buscarPorAgenda", query="SELECT a FROM Actividad a where a.estado = 'A' and a.agenda.idAgenda = :idAgenda")
+	@NamedQuery(name="Actividad.buscarPorAgenda", query="SELECT a FROM Actividad a where a.estado = 'A' and a.agenda.idAgenda = :idAgenda order by a.idActividad asc")
 })
 public class Actividad implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -137,6 +137,13 @@ public class Actividad implements Serializable {
 		evidencia.setActividad(null);
 
 		return evidencia;
+	}
+
+	@Override
+	public String toString() {
+		return "Actividad [idActividad=" + idActividad + ", descripcion=" + descripcion + ", estado=" + estado
+				+ ", estadoActividad=" + estadoActividad + ", estadoPublicado=" + estadoPublicado + ", fecha=" + fecha
+				+ ", agenda=" + agenda + ", tipoActividad=" + tipoActividad + ", evidencias=" + evidencias + "]";
 	}
 
 }

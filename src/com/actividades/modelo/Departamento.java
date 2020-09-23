@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name="departamento")
 @NamedQueries({
 	@NamedQuery(name="Departamento.buscarActivos", query="SELECT d FROM Departamento d where d.estado = 'A'"),
-	@NamedQuery(name="Departamento.buscarPorPatron", query="SELECT d FROM Departamento d where d.nombre like :patron "
+	@NamedQuery(name="Departamento.buscarPorPatron", query="SELECT d FROM Departamento d where lower(d.nombre) like lower(:patron) "
 			+ "and d.estado = 'A' order by d.idDepartamento asc")
 })
 public class Departamento implements Serializable {

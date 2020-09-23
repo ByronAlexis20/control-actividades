@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name="agenda")
 @NamedQueries({
-	@NamedQuery(name="Agenda.buscarActivos", query="SELECT a FROM Agenda a where a.estado = 'A' order by a.idAgenda asc"),
+	@NamedQuery(name="Agenda.buscarActivos", query="SELECT a FROM Agenda a where a.estado = 'A'  order by a.idAgenda asc"),
 	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeado", query="SELECT a FROM Agenda a where a.estado = 'A' and a.empleado.idEmpleado = :idEmpleado order by a.idAgenda asc")
 })
 public class Agenda implements Serializable {

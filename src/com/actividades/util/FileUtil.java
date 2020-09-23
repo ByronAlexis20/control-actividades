@@ -68,7 +68,6 @@ public class FileUtil {
 
 		return pathArchivoCargado;
 	}
-
 	/**
 	 * Proceso para descarga de un archivo dado.
 	 * @param nombreArchivo

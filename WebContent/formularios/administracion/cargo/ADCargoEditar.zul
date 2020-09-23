@@ -1,0 +1,45 @@
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./winCargoEditar" ?>
+<?script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js" ?>
+<?link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" ?>
+<zk>
+	<window id="winCargoEditar" border="normal"  width="30%"
+		 apply="com.actividades.controlador.ADCargoEditarC">
+		<caption sclass="fn-caption"
+			label="Cargos" />
+		<vlayout>
+			<grid hflex="1">
+				<columns>
+					<column align="right" hflex="min" />
+					<column/>
+				</columns>
+				<rows>
+					<row>
+						<cell>Código:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm" placeholder="Código"
+								hflex="1" disabled="true"
+								value="@{winCargoEditar$composer.cargo.idCargo}" />
+						</cell>
+					</row>
+					
+					<row>
+						<cell>Descripción:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm" placeholder="Descripción del cargo"
+								id="txtDescripcion" hflex="1"
+								value="@{winCargoEditar$composer.cargo.descripcion}" />
+						</cell>
+					</row>
+				</rows>
+			</grid>
+			<hlayout hflex="1" height="1">
+				<div align="center" hflex="1">
+					<button id="btnGrabar" label="Grabar"/>
+					<button id="btnSalir" label="Salir"/>			
+				</div>
+			</hlayout>
+		</vlayout>
+	</window>
+</zk>

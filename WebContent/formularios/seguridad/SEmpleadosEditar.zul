@@ -72,8 +72,10 @@
 						</combobox>
 					</row>
 					<row>
-						<label value="Puesto: " sclass="font-weight-bold col-form-label"/>
-						<textbox id="txtPuesto" value="@bind(vm.empleado.puesto)" hflex="1" maxlength="13"/>
+						<label value="Cargo " sclass="font-weight-bold col-form-label"/>
+						<combobox id="cboCargo"
+							model="@load(vm.cargo)" placeholder="Cargo" hflex="1" style="text-transform:uppercase">
+						</combobox>
 					</row>
 					<row>
 						<label value="Usuario: *" sclass="font-weight-bold col-form-label"/>
