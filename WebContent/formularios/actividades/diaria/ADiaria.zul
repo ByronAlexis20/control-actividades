@@ -1,5 +1,10 @@
 <?page title="Actividades diarias" contentType="text/html;charset=UTF-8"?>
 <zk>
+	<style>
+		.listCellStyle {
+			background-color: #8397FA;
+		}
+	</style>
 	<window apply="org.zkoss.bind.BindComposer" border="none"
 		viewModel="@id('vm') @init('com.actividades.controlador.ADiariaC')"
 		hflex="1" vflex="1">
@@ -33,11 +38,13 @@
 							<listbox id="lstAgenda" hflex="1" vflex="1" model="@load(vm.listaAgenda)" 
 								selectedItem="@bind(vm.agendaSeleccionada)" onSelect="@command('seleccionarAgenda')">
 								<listhead>
+									<listheader width="20%"/>
 									<listheader/>
 								</listhead>
 								<template name="model">
 									<listitem>
-										<listcell label="@load(each.descripcion)" />
+										<listcell label="@load(each.codigo)" style="font-size:10px;font-family: Calibri;font-weight: bold;"/>
+										<listcell label="@load(each.descripcion)" style="font-family: Calibri;"/>
 									</listitem>
 								</template>
 							</listbox>
@@ -92,25 +99,32 @@
 							<listbox id="lstActividades" hflex="1" model="@load(vm.listaActividad)" selectedItem="@bind(vm.actividadSeleccionada)"
 								vflex="1" >
 								<listhead>
+									<listheader label="Código" width="10%"/>
 									<listheader label="Actividad" />
-									<listheader label="Fecha" width="15%"/>
-									<listheader label="Estado" width="17%"/>
-									<listheader label="Evidencias" width="17%" align="center"/>
-									<listheader label="Publicar" width="17%" align="center"/>
+									<listheader label="Fecha" width="10%"/>
+									<listheader label="Estado" width="12%"/>
+									<listheader label="Evidencias" width="11%" align="center"/>
+									<listheader label="Publicar" width="13%" align="center"/>
 								</listhead>
 								<template name="model">
 									<listitem>
-										<listcell label="@load(each.descripcion)" />
-										<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" />
-										<listcell label="@load(each.estadoActividad)" />
-										<listcell>
+										<listcell label="@load(each.codigo)" style="font-size:10px;font-family: Calibri;font-weight: bold;"
+											sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
+										<listcell label="@load(each.descripcion)" style="font-family: Calibri;"
+											sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
+										<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;"
+											sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
+										<listcell label="@load(each.estadoActividad)" style="font-family: Calibri;"
+											sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
+										<listcell sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')">
 											<div hflex="1" align="center">
 												<button label="Ver" onClick="@command('evidencias',actividad=each)"/>
 											</div>
 										</listcell>
-										<listcell>
+										<listcell sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')">
 											<div hflex="1" align="center">
-												<button label="Publicar" onClick="@command('publicar',actividad=each)"/>
+												<button label="@load(each.estadoPublicado eq 'NO PUBLICADO' ? 'Publicar' : 'Publicado')" 
+												onClick="@command('publicar',actividad=each)" disabled="@load(each.estadoPublicado eq 'PUBLICADO')"/>
 												</div>
 										</listcell>
 									</listitem>

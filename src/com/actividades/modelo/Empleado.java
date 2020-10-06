@@ -25,6 +25,8 @@ import java.util.List;
 			+ "and e.idEmpleado <> :idEmpleado"),
 	@NamedQuery(name="Empleado.buscarPorUsuarioNuevo", query="SELECT e FROM Empleado e where e.usuario = :usuario and e.estado = 'A'"),
 	@NamedQuery(name="Empleado.buscarPorUsuarioRegistrado", query="SELECT e FROM Empleado e where e.persona.cedula <> :cedula and e.usuario = :usuario and e.estado = 'A'"),
+	@NamedQuery(name="Empleado.buscarPorDepartamento", query="SELECT e FROM Empleado e where "
+			+ "e.departamento.idDepartamento = :idDepartamento and e.tipoUsuario.idTipoUsuario = :idTipoUsuario and e.estado = 'A'"),
 })
 public class Empleado implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -52,6 +54,9 @@ public class Empleado implements Serializable {
 	//bi-directional many-to-one association to Agenda
 	@OneToMany(mappedBy="empleado")
 	private List<Agenda> agendas;
+	
+	@OneToMany(mappedBy="empleado")
+	private List<Queja> quejas;
 
 	//bi-directional many-to-one association to DepartamentoAsignado
 	@OneToMany(mappedBy="empleado")
@@ -147,6 +152,27 @@ public class Empleado implements Serializable {
 		agenda.setEmpleado(null);
 
 		return agenda;
+	}
+
+	public List<Queja> getQuejas() {
+		return quejas;
+	}
+
+	public void setQuejas(List<Queja> quejas) {
+		this.quejas = quejas;
+	}
+	
+	public Queja addQueja(Queja queja) {
+		getQuejas().add(queja);
+		queja.setEmpleado(this);
+		
+		return queja;
+	}
+	
+	public Queja removeQueja(Queja queja) {
+		getQuejas().remove(queja);
+		queja.setEmpleado(null);
+		return queja;
 	}
 
 	public List<DepartamentoAsignado> getDepartamentoAsignados() {

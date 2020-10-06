@@ -21,14 +21,13 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Messagebox.ClickEvent;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
-import org.zkoss.zul.Messagebox.ClickEvent;
 
 import com.actividades.modelo.Actividad;
 import com.actividades.modelo.ActividadDAO;
@@ -134,7 +133,7 @@ public class ADiariaC {
 		btnEliminarActividad.setDisabled(true);
 		btnNuevaActividad.setDisabled(true);
 		
-		listaActividad = null;
+		listaActividad = new ArrayList<>();
 		lstActividades.setModel(new ListModelList(listaActividad));
 	}
 
@@ -178,6 +177,7 @@ public class ADiariaC {
 		List<String> estados = new ArrayList<>();
 		estados.add(Constantes.ESTADO_NO_PUBLICADO);
 		estados.add(Constantes.ESTADO_PUBLICADO);
+		estados.add(Constantes.ESTADO_RECHAZADO);
 		for(String est : estados) {
 			for(Actividad act : resultado) {
 				if(est.equals(act.getEstadoPublicado())) {
@@ -209,6 +209,10 @@ public class ADiariaC {
 
 	@Command
 	public void nuevaActividad() {
+		if (agendaSeleccionada == null) {
+			Messagebox.show("Debe seleccionar una Agenda");
+			return; 
+		}
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Ventana", this);
 		params.put("Actividad", null);
@@ -220,6 +224,14 @@ public class ADiariaC {
 	public void editarActividad() {
 		if (actividadSeleccionada == null) {
 			Messagebox.show("Debe seleccionar una Actividad");
+			return; 
+		}
+		if (actividadSeleccionada.getEstadoActividad().equals(Constantes.ESTADO_RECHAZADO)) {
+			Messagebox.show("No se puede editar una Actividad RECHAZADA");
+			return; 
+		}
+		if (actividadSeleccionada.getEstadoPublicado().equals(Constantes.ESTADO_PUBLICADO)) {
+			Messagebox.show("No se puede editar una Actividad PUBLICADA");
 			return; 
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -260,7 +272,7 @@ public class ADiariaC {
 	@Command
 	public void evidencias(@BindingParam("actividad") Actividad seleccion){
 		if(seleccion == null) {
-			Clients.showNotification("Seleccione una opción de la lista.");
+			Messagebox.show("Seleccione una opción de la lista.");
 			return;
 		}
 		// Actualiza la instancia antes de enviarla a editar.
@@ -274,17 +286,21 @@ public class ADiariaC {
 	@Command
 	public void publicar(@BindingParam("actividad") Actividad seleccion) {
 		if(seleccion == null) {
-			Clients.showNotification("Seleccione una opción de la lista.");
+			Messagebox.show("Seleccione una opción de la lista.");
 			return;
 		}
 		
 		if(seleccion.getEstadoPublicado().equals(Constantes.ESTADO_PUBLICADO)) {
-			Clients.showNotification("La Actividad ya ha sido publicada");
+			Messagebox.show("La Actividad ya ha sido publicada");
 			return;
 		}
 		
 		if(!seleccion.getEstadoActividad().equals(Constantes.ESTADO_REALIZADO)) {
-			Clients.showNotification("La Actividad debe de tener estado REALIZADO para poder publicarla");
+			Messagebox.show("La Actividad debe de tener estado REALIZADO para poder publicarla");
+			return;
+		}
+		if(seleccion.getEstadoActividad().equals(Constantes.ESTADO_RECHAZADO)) {
+			Messagebox.show("La ha sido RECHAZADA");
 			return;
 		}
 		EventListener<ClickEvent> clickListener = new EventListener<Messagebox.ClickEvent>() {

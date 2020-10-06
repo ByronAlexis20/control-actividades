@@ -19,6 +19,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -33,6 +34,8 @@ import com.actividades.util.FileUtil;
 public class AEvidenciaListaC {
 	@Wire Window winEvidenciaLista;
 	@Wire Listbox lstEvidencia;
+	@Wire Button btnAnadirEvidencia;
+	@Wire Button btnQuitarEvidencia;
 	
 	EvidenciaDAO evidenciaDAO = new EvidenciaDAO();
 	
@@ -44,6 +47,14 @@ public class AEvidenciaListaC {
 		Selectors.wireComponents(view, this, false);
 		actividad = (Actividad) Executions.getCurrent().getArg().get("Actividad");
 		cargarEvidencias();
+		if(actividad.getEstadoPublicado().equals(Constantes.ESTADO_PUBLICADO)) {
+			btnAnadirEvidencia.setDisabled(true);
+			btnQuitarEvidencia.setDisabled(true);
+		}
+		if(actividad.getEstadoActividad().equals(Constantes.ESTADO_RECHAZADO)) {
+			btnAnadirEvidencia.setDisabled(false);
+			btnQuitarEvidencia.setDisabled(false);
+		}
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GlobalCommand("Evidencia.buscarPorActividad")

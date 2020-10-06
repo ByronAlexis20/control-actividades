@@ -2,6 +2,7 @@ package com.actividades.controlador;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.zk.ui.Component;
@@ -19,6 +20,7 @@ import org.zkoss.zul.Messagebox.ClickEvent;
 
 import com.actividades.modelo.Agenda;
 import com.actividades.modelo.AgendaDAO;
+import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.util.Constantes;
 import com.actividades.util.SecurityUtil;
@@ -60,12 +62,15 @@ public class ANuevaAgendaC extends SelectorComposer<Component>{
 			EventListener<ClickEvent> clickListener = new EventListener<Messagebox.ClickEvent>() {
 				public void onEvent(ClickEvent event) throws Exception {
 					if(Messagebox.Button.YES.equals(event.getButton())) {
-						agendaDAO.getEntityManager().getTransaction().begin();
+						
 						agenda.setDescripcion(txtDescripcion.getText().toString());
 						agenda.setEstado(Constantes.ESTADO_ACTIVO);
 						agenda.setFechaInicio(dtpFechaInicio.getValue());
 						agenda.setFechaFin(dtpFechaFin.getValue());
 						agenda.setEmpleado(usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim()));
+						codigoAgenda();
+						
+						agendaDAO.getEntityManager().getTransaction().begin();
 						if(agenda.getIdAgenda() == null) {//es un nuevo
 							agendaDAO.getEntityManager().persist(agenda);
 						}else {//es modificacion
@@ -83,6 +88,24 @@ public class ANuevaAgendaC extends SelectorComposer<Component>{
 					Messagebox.Button.YES, Messagebox.Button.NO }, Messagebox.QUESTION, clickListener);
 		}
 	}
+	
+	private void codigoAgenda() {
+		if(agenda.getIdAgenda() == null) {
+			String codigo = Constantes.CODIGO_AGENDA;
+			Integer ultimoCodigo = 1;
+			Empleado empleado = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
+			List<Agenda> agendas = agendaDAO.obtenerCodigoAgendaActiva(empleado.getIdEmpleado());
+			if(agendas.size() > 0) {
+				ultimoCodigo = agendas.get(0).getSecuencia() + 1;
+				codigo = codigo + ultimoCodigo + "-" + empleado.getDepartamento().getCodigo(); 
+			}else { //es la primera
+				codigo = codigo + "1-" + empleado.getDepartamento().getCodigo();
+			}
+			agenda.setCodigo(codigo);
+			agenda.setSecuencia(ultimoCodigo);
+		}
+	}
+	
 	@Listen("onChange=#dtpFechaInicio")
 	public void cambioFecha() {
 		try {

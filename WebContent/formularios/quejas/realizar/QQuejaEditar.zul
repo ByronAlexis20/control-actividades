@@ -1,0 +1,55 @@
+<zk>
+	<window id="winQuejaEditar" border="normal" width="30%" apply="org.zkoss.bind.BindComposer" 
+        viewModel="@id('vm') @init('com.actividades.controlador.QQuejaEditarC')">
+		<caption sclass="fn-caption"
+			label="Quejas" />
+		<vlayout>
+			<grid hflex="1">
+				<columns>
+					<column align="right" hflex="min" />
+					<column/>
+				</columns>
+				<rows>
+					<row hflex="1">
+						<cell>Problema:</cell>
+						<cell hflex="1">
+							<textbox class="form-control form-control-sm" placeholder="Problema" hflex="1"
+								id="txtProblema" value="@bind(vm.queja.problema)" />
+						
+						</cell>
+					</row>
+					<row hflex="1">
+						<cell>Descripción:</cell>
+						<cell hflex="1">
+							<textbox class="form-control form-control-sm" placeholder="Problema" multiline="true" height="100px" hflex="1"
+								id="txtDescripcion" value="@bind(vm.queja.descripcion)" />
+						</cell>
+					</row>
+					<row>
+						<cell colspan="2" align="center">
+							<label>Archivo Adjunto: </label>
+						</cell>
+					</row>
+					<row>
+						<cell colspan="2" align="center">
+							<button id="btnAnadirArchivo" label="Añadir Archivo" upload="true" 
+							onUpload="@command('agregar', upEvent=event)" iconSclass="z-icon-upload"/>
+						</cell>
+					</row>
+					<row>
+						<cell colspan="2" align="center">
+							<textbox id="txtArchivo" value="Sin archivo......" hflex="1" readonly="true"/>
+						</cell>
+					</row>
+				</rows>
+			</grid>
+			
+			<hlayout hflex="1" height="1">
+				<div align="center" hflex="1">
+					<button id="btnAgregar" onClick="@command('grabar')" label="Agregar"/>
+					<button id="btnSalir" onClick="@command('salir')" label="Salir"/>			
+				</div>
+			</hlayout>
+		</vlayout>
+	</window>
+</zk>

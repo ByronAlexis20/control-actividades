@@ -13,7 +13,10 @@ import java.util.List;
 @Entity
 @Table(name="actividad")
 @NamedQueries({
-	@NamedQuery(name="Actividad.buscarPorAgenda", query="SELECT a FROM Actividad a where a.estado = 'A' and a.agenda.idAgenda = :idAgenda order by a.idActividad asc")
+	@NamedQuery(name="Actividad.buscarPorAgenda", query="SELECT a FROM Actividad a where a.estado = 'A' "
+			+ "and a.agenda.idAgenda = :idAgenda order by a.idActividad asc"),
+	@NamedQuery(name="Actividad.buscarCodigoPorAgenda", query="SELECT a FROM Actividad a "
+			+ "where a.agenda.idAgenda = :idAgenda order by a.idActividad desc")
 })
 public class Actividad implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -26,6 +29,10 @@ public class Actividad implements Serializable {
 	private String descripcion;
 
 	private String estado;
+	
+	private Integer secuencia;
+	
+	private String codigo;
 
 	@Column(name="estado_actividad")
 	private String estadoActividad;
@@ -115,6 +122,22 @@ public class Actividad implements Serializable {
 
 	public void setTipoActividad(TipoActividad tipoActividad) {
 		this.tipoActividad = tipoActividad;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	public Integer getSecuencia() {
+		return secuencia;
+	}
+
+	public void setSecuencia(Integer secuencia) {
+		this.secuencia = secuencia;
 	}
 
 	public List<Evidencia> getEvidencias() {

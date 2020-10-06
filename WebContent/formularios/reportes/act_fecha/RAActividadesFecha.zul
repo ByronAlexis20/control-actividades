@@ -1,0 +1,89 @@
+<?page title="Actividades diarias" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window apply="org.zkoss.bind.BindComposer" border="none"
+		viewModel="@id('vm') @init('com.actividades.controlador.RAActividadesFechaC')"
+		hflex="1" vflex="1">
+		<vlayout hflex="1" vflex="1">
+			<groupbox>
+				<div align="center">
+					<label value="Consulta de actividades"
+						style="color:#088A08;font-size:20px"
+						sclass="p-1 text-red font-italic font-weight-bold" />
+				</div>
+			</groupbox>
+			<hbox hflex="1" vflex="1" align="center">
+				<vbox vflex="1" width="100%">
+					<groupbox hflex="1" vflex="1" closable="false">
+						<caption label="Departamentos y Jefes" />
+						<vbox hflex="1" vflex="1">
+							<hlayout>
+								<textbox hflex="1" id="txtBuscar" style="text-transform:uppercase"
+									value="@bind(vm.textoBuscar)" onOK="@command('buscar')" placeholder="Busqueda por departamento" />
+								<button label="Buscar!" id="btnBuscar" iconSclass="z-icon-search" onClick="@command('buscar')"/>
+							</hlayout>
+							<listbox id="lstDepartamento" hflex="1" vflex="1"
+								model="@load(vm.listaDepartamentos)"
+								selectedItem="@bind(vm.departamentoSeleccionado)"
+								onSelect="@command('seleccionarDepartamento')">
+								<listhead>
+									<listheader label="Departamento"/>
+									<listheader label="Responsable"/>
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell label="@load(each.departamento.nombre)" />
+										<listcell label="@load(each.nombreJefe)" />
+									</listitem>
+								</template>
+							</listbox>
+						</vbox>
+					</groupbox>
+				</vbox>
+				
+				<vbox vflex="1" hflex="1">
+					<groupbox hflex="1" vflex="1" closable="false">
+						<caption label="Agendas semanales"></caption>
+						<vbox hflex="1" vflex="1">
+							
+								<grid hflex="1">
+									<columns>
+										<column align="right" hflex="min" />
+										<column/>
+									</columns>
+									<rows>
+										<row>
+											<cell>Departamento:</cell>
+											<cell>
+												<textbox id="txtDepartamento" class="form-control form-control-sm" placeholder="Departamento"
+													hflex="1" readonly="true"/>
+											</cell>
+										</row>
+										<row>
+											<cell>Jefe Responsable:</cell>
+											<cell>
+												<textbox id="txtJefe" class="form-control form-control-sm" placeholder="Jefe responsable"
+													hflex="1" readonly="true"/>
+											</cell>
+										</row>
+										
+									</rows>
+								</grid>
+							
+							<groupbox hflex="1" closable="false" vflex="1">
+								<caption label="Seleccione Fecha"></caption>
+								<vbox align="center" pack="center" hflex="1" vflex="1">
+									<label value="Fecha de Inicio"/>
+									<datebox id="dtpFechaInicio" onChange="@command('seleccionaFechaFin')"/>
+									<label value="Fecha Fin"/>
+									<datebox id="dtpFechaFin"/>
+									<button label="Aceptar" onClick="@command('cargarActividades')"/>
+								</vbox>
+							</groupbox>
+							
+						</vbox>
+					</groupbox>
+				</vbox>
+			</hbox>
+		</vlayout>
+	</window>
+</zk>

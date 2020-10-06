@@ -15,4 +15,13 @@ public class ActividadDAO extends ClaseDAO{
 		resultado = (List<Actividad>) query.getResultList();
 		return resultado;
 	}
+	@SuppressWarnings("unchecked")
+	public List<Actividad> obtenerCodigoActividad(Integer idAgenda) {
+		List<Actividad> resultado = new ArrayList<Actividad>(); 
+		Query query = getEntityManager().createNamedQuery("Actividad.buscarCodigoPorAgenda");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idAgenda", idAgenda);
+		resultado = (List<Actividad>) query.getResultList();
+		return resultado;
+	}
 }

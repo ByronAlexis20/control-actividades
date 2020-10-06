@@ -14,7 +14,11 @@ import java.util.List;
 @Table(name="agenda")
 @NamedQueries({
 	@NamedQuery(name="Agenda.buscarActivos", query="SELECT a FROM Agenda a where a.estado = 'A'  order by a.idAgenda asc"),
-	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeado", query="SELECT a FROM Agenda a where a.estado = 'A' and a.empleado.idEmpleado = :idEmpleado order by a.idAgenda asc")
+	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeado", query="SELECT a FROM Agenda a where a.estado = 'A' "
+			+ "and a.empleado.idEmpleado = :idEmpleado order by a.idAgenda desc"),
+	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeadoCodigoAgenda", query="SELECT a FROM Agenda a where "
+			+ "a.empleado.idEmpleado = :idEmpleado order by a.idAgenda desc"),
+	
 })
 public class Agenda implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -25,6 +29,10 @@ public class Agenda implements Serializable {
 	private Integer idAgenda;
 
 	private String descripcion;
+	
+	private String codigo;
+	
+	private Integer secuencia;
 
 	private String estado;
 
@@ -87,6 +95,14 @@ public class Agenda implements Serializable {
 	public void setFechaInicio(Date fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
+	
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
 
 	public List<Actividad> getActividads() {
 		return this.actividads;
@@ -94,6 +110,14 @@ public class Agenda implements Serializable {
 
 	public void setActividads(List<Actividad> actividads) {
 		this.actividads = actividads;
+	}
+
+	public Integer getSecuencia() {
+		return secuencia;
+	}
+
+	public void setSecuencia(Integer secuencia) {
+		this.secuencia = secuencia;
 	}
 
 	public Actividad addActividad(Actividad actividad) {

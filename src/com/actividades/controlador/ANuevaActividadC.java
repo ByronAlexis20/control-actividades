@@ -22,7 +22,10 @@ import org.zkoss.zul.Window;
 import com.actividades.modelo.Actividad;
 import com.actividades.modelo.ActividadDAO;
 import com.actividades.modelo.Agenda;
+import com.actividades.modelo.Empleado;
+import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.util.Constantes;
+import com.actividades.util.SecurityUtil;
 
 @SuppressWarnings("serial")
 public class ANuevaActividadC extends SelectorComposer<Component>{
@@ -36,6 +39,7 @@ public class ANuevaActividadC extends SelectorComposer<Component>{
 	private Agenda agenda;
 	private Actividad actividad;
 	ActividadDAO actividadDAO = new ActividadDAO();
+	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
@@ -63,6 +67,11 @@ public class ANuevaActividadC extends SelectorComposer<Component>{
 				rbProceso.setSelected(true);
 			else if(actividad.getEstadoActividad().equals(Constantes.ESTADO_REALIZADO))
 				rbRealizado.setSelected(true);
+			else if(actividad.getEstadoActividad().equals(Constantes.ESTADO_RECHAZADO)) {
+				rbPendiente.setDisabled(true);
+				rbProceso.setDisabled(true);
+				rbRealizado.setSelected(true);
+			}
 		}
 	}
 	@Listen("onClick=#btnGrabar")
@@ -109,6 +118,7 @@ public class ANuevaActividadC extends SelectorComposer<Component>{
 			actividad.setEstadoActividad(Constantes.ESTADO_REALIZADO);
 		//enlazar con la aganda
 		actividad.setAgenda(agenda);
+		codigoActividad();
 		
 		if(agenda.getActividads().size() > 0) {
 			agenda.getActividads().add(actividad);
@@ -118,6 +128,25 @@ public class ANuevaActividadC extends SelectorComposer<Component>{
 			agenda.setActividads(lista);
 		}
 	}
+	
+	private void codigoActividad() {
+		if(actividad.getIdActividad() == null) {
+			String codigo = Constantes.CODIGO_ACTIVIDAD;
+			Integer ultimoCodigo = 1;
+			Empleado empleado = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
+			
+			List<Actividad> acividades = actividadDAO.obtenerCodigoActividad(agenda.getIdAgenda());
+			if(acividades.size() > 0) {
+				ultimoCodigo = acividades.get(0).getSecuencia() + 1;
+				codigo = codigo + ultimoCodigo + "-" + empleado.getDepartamento().getCodigo(); 
+			}else { //es la primera
+				codigo = codigo + "1-" + empleado.getDepartamento().getCodigo();
+			}
+			actividad.setCodigo(codigo);
+			actividad.setSecuencia(ultimoCodigo);
+		}
+	}
+	
 	private boolean validarDatos() {
 		try {
 			if(txtDescripcion.getText().isEmpty()) {

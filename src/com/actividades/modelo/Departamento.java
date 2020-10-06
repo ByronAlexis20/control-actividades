@@ -14,7 +14,9 @@ import java.util.List;
 @NamedQueries({
 	@NamedQuery(name="Departamento.buscarActivos", query="SELECT d FROM Departamento d where d.estado = 'A'"),
 	@NamedQuery(name="Departamento.buscarPorPatron", query="SELECT d FROM Departamento d where lower(d.nombre) like lower(:patron) "
-			+ "and d.estado = 'A' order by d.idDepartamento asc")
+			+ "and d.estado = 'A' order by d.idDepartamento asc"),
+	@NamedQuery(name="Departamento.buscarActivosReporte", query="SELECT d FROM Departamento d where lower(d.nombre) like (:patron) and "
+			+ "d.estado = 'A' and d.idDepartamento <> :idDepart order by d.idDepartamento asc")
 })
 public class Departamento implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -27,6 +29,8 @@ public class Departamento implements Serializable {
 	private String descripcion;
 
 	private String estado;
+	
+	private String codigo;
 
 	private String nombre;
 
@@ -72,6 +76,14 @@ public class Departamento implements Serializable {
 		this.nombre = nombre;
 	}
 
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
 	public List<DepartamentoAsignado> getDepartamentoAsignados() {
 		return this.departamentoAsignados;
 	}
@@ -115,6 +127,7 @@ public class Departamento implements Serializable {
 		return empleado;
 	}
 
+	
 	@Override
 	public String toString() {
 		return nombre;

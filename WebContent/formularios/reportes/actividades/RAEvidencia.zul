@@ -1,19 +1,12 @@
 <zk>
-	<window id="winEvidenciaLista" border="normal" width="50%" apply="org.zkoss.bind.BindComposer" 
-        viewModel="@id('vm') @init('com.actividades.controlador.AEvidenciaListaC')">
+	<window id="winEvidenciaReporte" border="normal" width="50%" apply="org.zkoss.bind.BindComposer" 
+        viewModel="@id('vm') @init('com.actividades.controlador.RAEvidenciaC')">
 		<caption sclass="fn-caption" label="Evidencias" />
 		<groupbox closable="false" hflex="1">
 				<caption label="Evidencias"/>
 				<vbox hflex="1" vflex="1">
-					<hbox hflex="1">
-						<button id="btnAnadirEvidencia" label="Añadir" width="100px" onClick="@command('nuevaEvidencia')"/>
-						<button id="btnQuitarEvidencia" label="Eliminar" width="100px" onClick="@command('eliminarEvidencia')"/>
-					</hbox>
 					<hbox hflex="1" vflex="1">
-				
-				
-					
-						<listbox id="lstEvidencia" model="@load(vm.listaEvidencia)" autopaging="true" selectedItem="@bind(vm.evidenciaSeleccionada)"
+						<listbox id="lstEvidencia" model="@load(vm.listaEvidencia)" autopaging="true" 
 							mold="paging" height="200px" vflex="1">
 							<listhead>
 								<listheader label="Tipo" width="20%"/>

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import com.actividades.util.Constantes;
+
 
 public class EmpleadoDAO extends ClaseDAO{
 	public Empleado getUsuario(String nombreUsuario) {
@@ -89,6 +91,17 @@ public class EmpleadoDAO extends ClaseDAO{
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setParameter("cedula", cedulaUsuario);
 		query.setParameter("usuario", usuario);
+		resultado = (List<Empleado>) query.getResultList();
+		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Empleado> buscarPorDepartamento(Integer idDepartamento) {
+		List<Empleado> resultado; 
+		Query query = getEntityManager().createNamedQuery("Empleado.buscarPorDepartamento");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idDepartamento", idDepartamento);
+		query.setParameter("idTipoUsuario", Constantes.ID_JEFE_AREA);
 		resultado = (List<Empleado>) query.getResultList();
 		return resultado;
 	}
