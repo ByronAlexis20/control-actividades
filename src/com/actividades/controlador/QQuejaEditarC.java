@@ -51,6 +51,7 @@ public class QQuejaEditarC {
 		queja.setEmpleado(usuario);
 		queja.setEstado("A");
 		queja.setEstadoQueja(Constantes.QUEJA_PENDIENTE);
+		queja.setEstadoAtencion(Constantes.QUEJA_NO_ATENDIDA);
 	}
 	
 	@Command
@@ -60,6 +61,7 @@ public class QQuejaEditarC {
 		pathRetornado = FileUtil.cargaArchivo(eventoCarga.getMedia());
 		txtArchivo.setValue(eventoCarga.getMedia().getName());
 		queja.setAdjunto(pathRetornado);
+		queja.setArchivoAdjunto(eventoCarga.getMedia().getName());
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

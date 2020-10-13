@@ -96,8 +96,9 @@ public class RAActividadesFechaC {
 	
 	@Command
 	public void seleccionaFechaFin() {
-		dtpFechaFin.setValue(dtpFechaInicio.getValue());
+		System.out.println(new SimpleDateFormat("yyyyMMdd").format(dtpFechaInicio.getValue()));
 		dtpFechaFin.setConstraint("after " + new SimpleDateFormat("yyyyMMdd").format(dtpFechaInicio.getValue()));
+		dtpFechaFin.setValue(dtpFechaInicio.getValue());
 	}
 	
 	@Command
@@ -108,6 +109,8 @@ public class RAActividadesFechaC {
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Empleado", departamentoSeleccionado.getEmpleado());
+		params.put("FechaInicio", dtpFechaInicio.getValue());
+		params.put("FechaFin", dtpFechaFin.getValue());
 		Window ventanaCargar = (Window) Executions.createComponents("/formularios/reportes/act_fecha/RAActividadDep.zul", null, params);
 		ventanaCargar.doModal();
 	}

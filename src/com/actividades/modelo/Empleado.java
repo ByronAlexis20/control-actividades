@@ -27,6 +27,11 @@ import java.util.List;
 	@NamedQuery(name="Empleado.buscarPorUsuarioRegistrado", query="SELECT e FROM Empleado e where e.persona.cedula <> :cedula and e.usuario = :usuario and e.estado = 'A'"),
 	@NamedQuery(name="Empleado.buscarPorDepartamento", query="SELECT e FROM Empleado e where "
 			+ "e.departamento.idDepartamento = :idDepartamento and e.tipoUsuario.idTipoUsuario = :idTipoUsuario and e.estado = 'A'"),
+	@NamedQuery(name="Empleado.buscarJefeDepartamento", query="SELECT e FROM Empleado e where e.departamento.idDepartamento = :idDepartamento "
+			+ "and e.estado = 'A' and e.tipoUsuario.idTipoUsuario = :idJefeArea"),
+	@NamedQuery(name="Empleado.buscarPorDepartamentoLogueado", query="SELECT e FROM Empleado e where e.estado = 'A' and e.departamento.idDepartamento = :idDepartamento and e.tipoUsuario.idTipoUsuario = 4"),
+	@NamedQuery(name="Empleado.buscarPorTipoUsuarioDepartamento", query="SELECT e FROM Empleado e where e.tipoUsuario.idTipoUsuario = :idTipoUsuario and e.estado = 'A' "
+			+ "and e.departamento.idDepartamento = :idDepartamento"),
 })
 public class Empleado implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -39,6 +44,8 @@ public class Empleado implements Serializable {
 	private String clave;
 
 	private String estado;
+	
+	private String permiso;
 
 	@ManyToOne
 	@JoinColumn(name="id_departamento")
@@ -249,6 +256,14 @@ public class Empleado implements Serializable {
 
 	public void setPuesto(String puesto) {
 		this.puesto = puesto;
+	}
+
+	public String getPermiso() {
+		return permiso;
+	}
+
+	public void setPermiso(String permiso) {
+		this.permiso = permiso;
 	}
 
 }

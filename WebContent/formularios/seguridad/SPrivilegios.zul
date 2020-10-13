@@ -1,6 +1,49 @@
-<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<?page title="Lista de Categorías" contentType="text/html;charset=UTF-8"?>
+<?script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js" ?>
+<?link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" ?>
 <zk>
-<window title="new page title" border="normal">
-New Content Here!
-</window>
+	<window apply="org.zkoss.bind.BindComposer" border="none"
+		viewModel="@id('vm') @init('com.actividades.controlador.SPrivilegiosC')"
+		hflex="1" vflex="1" style="padding: 0 0 0 0;background:#FFFFFF;">
+		<vlayout vflex="1">
+			<groupbox>
+				<div align="center">
+					<label value="Listado de Empleados del Departamento"
+						style="color:#088A08;font-size:20px"
+						sclass="p-1 text-red font-italic font-weight-bold" />
+				</div>
+			</groupbox>
+			<div>
+				<button label="Dar Permiso" iconSclass="z-icon-plus"
+					zclass="btn btn-outline-primary btn btn-sm"
+					onClick="@command('permitir')" />
+				<button id="btnEditar" label="Quitar Permiso"
+					iconSclass="z-icon-pencil"
+					zclass="btn btn-outline-primary btn btn-sm"
+					onClick="@command('quitarPermiso')"/>
+			</div>
+			<hlayout vflex="1" hflex="1">
+				<listbox model="@load(vm.listaEmpleados)" autopaging="true" id="lstEmpleados"
+					mold="paging" selectedItem="@bind(vm.empleadoSeleccionado)"
+					hflex="1" vflex="1">
+					<listhead>
+						<listheader label="Cédula" width="10%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Nombres" width="15%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Apellidos" width="15%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Departamento" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Estado" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell label="@load(each.empleado.persona.cedula)" />
+							<listcell label="@load(each.empleado.persona.nombre)" />
+							<listcell label="@load(each.empleado.persona.apellido)" />
+							<listcell label="@load(each.empleado.departamento.nombre)" />
+							<listcell label="@load(each.estado)" />
+						</listitem>
+					</template>
+				</listbox>
+			</hlayout>
+		</vlayout>
+	</window>
 </zk>

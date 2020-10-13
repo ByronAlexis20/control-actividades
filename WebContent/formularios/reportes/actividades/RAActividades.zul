@@ -6,7 +6,7 @@
 		<vlayout hflex="1" vflex="1">
 			<groupbox>
 				<div align="center">
-					<label value="Actividades de los departamentos"
+					<label value="Control de actividades"
 						style="color:#088A08;font-size:20px"
 						sclass="p-1 text-red font-italic font-weight-bold" />
 				</div>
@@ -42,7 +42,7 @@
 				
 				<vbox vflex="1" hflex="1">
 					<groupbox hflex="1" vflex="1" closable="false">
-						<caption label="Agendas semanales"></caption>
+						<caption label="Agendas"></caption>
 						<vbox hflex="1" vflex="1">
 							
 								<grid hflex="1">

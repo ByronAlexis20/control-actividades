@@ -1,0 +1,55 @@
+<zk>
+	<window id="winQuejaAtender" border="normal" width="30%" apply="org.zkoss.bind.BindComposer" 
+        viewModel="@id('vm') @init('com.actividades.controlador.QBQuejaAtenderC')">
+		<caption sclass="fn-caption"
+			label="Quejas" />
+		<vlayout>
+			<grid hflex="1">
+				<columns>
+					<column align="right" hflex="min" />
+					<column/>
+				</columns>
+				<rows>
+					<row hflex="1">
+						<cell>Problema:</cell>
+						<cell hflex="1">
+							<textbox class="form-control form-control-sm" placeholder="Problema" hflex="1"
+								id="txtProblema" value="@bind(vm.queja.problema)" />
+						
+						</cell>
+					</row>
+					<row hflex="1">
+						<cell>Descripción:</cell>
+						<cell hflex="1">
+							<textbox class="form-control form-control-sm" placeholder="Problema" multiline="true" height="100px" hflex="1"
+								id="txtDescripcion" value="@bind(vm.queja.descripcion)" />
+						</cell>
+					</row>
+					<row>
+						<cell colspan="2" align="center">
+							<label>Archivo Adjunto: </label>
+						</cell>
+					</row>
+					<row>
+						<cell colspan="2" align="center">
+							<button label="DescargarArchivp" upload="true" 
+							onUpload="@command('descargar')" iconSclass="z-icon-download"/>
+						</cell>
+					</row>
+					<row>
+						<cell colspan="2" align="center">
+							<textbox value="@bind(vm.queja.archivoAdjunto)" hflex="1" readonly="true"/>
+						</cell>
+					</row>
+				</rows>
+			</grid>
+			 
+			<hlayout hflex="1" height="1">
+				<div align="center" hflex="1">
+					<button onClick="@command('atender')" label="Marcar como Atendido"/>
+					<button onClick="@command('salir')" label="Salir"/>			
+				</div>
+			</hlayout>
+		</vlayout>
+	</window>
+</zk>

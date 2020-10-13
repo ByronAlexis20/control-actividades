@@ -4,9 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -15,18 +14,15 @@ import org.jfree.chart.encoders.ImageFormat;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 import org.zkoss.bind.annotation.AfterCompose;
-import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.GlobalCommand;
-import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -35,47 +31,52 @@ import org.zkoss.zul.Window;
 
 import com.actividades.modelo.Actividad;
 import com.actividades.modelo.ActividadDAO;
-import com.actividades.modelo.Agenda;
+import com.actividades.modelo.Empleado;
 import com.actividades.util.Constantes;
 
-public class RAGraficoActC {
-	@Wire Window winGraficoAct;
-	@Wire Textbox txtAgenda;
-	@Wire Textbox txtNoActividades;
-	@Wire Textbox txtNoPublicadas;
-	@Wire Textbox txtFechaInicio;
-	@Wire Textbox txtFechaFin;
-	@Wire Textbox txtRechazadas;
-	@Wire Image imGrafico;
+public class RAActividadDepC {
+	@Wire private Window winActividadDep;
+	@Wire private Textbox txtDepartamento;
+	@Wire private Textbox txtJefe;
+	@Wire private Textbox txtFechaInicio;
+	@Wire private Textbox txtFechaFin;
 	
 	@Wire private Listbox lstActividadesPublicadas;
 	@Wire private Listbox lstActividadesPendientes;
 	@Wire private Listbox lstActividadesRechazadas;
 	
+	@Wire Image imGrafico;
+	
 	List<Actividad> listaActividadesPendientes;
 	List<Actividad> listaActividadesRechazadas;
 	List<Actividad> listaActividadesPublicadas;
 	
-	Agenda agenda;
+	private Empleado empleado;
 	ActividadDAO actividadDAO = new ActividadDAO();
+	Date fechaInicio;
+	Date fechaFin;
 	
 	@AfterCompose
-	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
+	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
+		// Permite enlazar los componentes que se asocian con la anotacion @Wire
 		Selectors.wireComponents(view, this, false);
-		agenda = (Agenda) Executions.getCurrent().getArg().get("Agenda");
-		if(agenda != null) {
-			txtAgenda.setText(agenda.getDescripcion());
-			txtFechaInicio.setText(new SimpleDateFormat("dd/MM/yyyy").format(agenda.getFechaInicio()));
-			txtFechaFin.setText(new SimpleDateFormat("dd/MM/yyyy").format(agenda.getFechaFin()));
+		
+		empleado = (Empleado) Executions.getCurrent().getArg().get("Empleado");
+		fechaInicio = (Date) Executions.getCurrent().getArg().get("FechaInicio");
+		fechaFin = (Date) Executions.getCurrent().getArg().get("FechaFin");
+		
+		if(empleado != null) {
+			txtDepartamento.setText(empleado.getDepartamento().getNombre());
+			txtJefe.setText(empleado.getPersona().getNombre() + " " + empleado.getPersona().getApellido());
+			txtFechaInicio.setText(new SimpleDateFormat("dd/MM/yyyy").format(fechaInicio));
+			txtFechaFin.setText(new SimpleDateFormat("dd/MM/yyyy").format(fechaFin));
 			cargarActividades();
 		}
-			
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@GlobalCommand("Departamento.buscarActivosReporte")
+	@GlobalCommand("Actividad.buscarPorFecha")
 	@Command
-	@NotifyChange({"listaDepartamentos"})
 	public void cargarActividades() {
 		if(listaActividadesPendientes != null)
 			listaActividadesPendientes = null;
@@ -95,7 +96,7 @@ public class RAGraficoActC {
 		List<Actividad> listaRechazadas = new ArrayList<>();
 		List<Actividad> listaPublicadas = new ArrayList<>();
 		
-		List<Actividad> todas = actividadDAO.obtenerActividad(agenda.getIdAgenda());
+		List<Actividad> todas = actividadDAO.buscarPorFecha(fechaInicio, fechaFin, empleado.getIdEmpleado());
 		totalActividades = todas.size();
 		
 		for(Actividad act : todas) {
@@ -114,16 +115,11 @@ public class RAGraficoActC {
 			}
 		}
 		
-		txtNoActividades.setText(String.valueOf(totalActividades) + " Actividades Programadas");
-		txtNoPublicadas.setText(String.valueOf(cantidadPublicadas) + " Actividades Publicadas");
-		txtRechazadas.setText(String.valueOf(cantidadRechazadas) + " Actividades Rechazadas");
-		
 		try {
 			realizarGrafica(totalActividades,cantidadPublicadas,cantidadRechazadas,cantidadPendientes);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		listaActividadesPendientes = listaPendientes; 
 		System.out.println("Pendientes " + listaActividadesPendientes.size());
 		listaActividadesRechazadas = listaRechazadas;
@@ -133,8 +129,8 @@ public class RAGraficoActC {
 		lstActividadesPublicadas.setModel(new ListModelList(listaActividadesPublicadas));
 		lstActividadesPendientes.setModel(new ListModelList(listaActividadesPendientes));
 		lstActividadesRechazadas.setModel(new ListModelList(listaActividadesRechazadas));
+		
 	}
-	
 	private void realizarGrafica(int totalActividades,int cantidadPublicadas,int cantidadRechazadas,int cantidadPendientes) throws IOException {
 		double tPendiente  = 100.0;
 		double tRechazadas = 0.0;
@@ -161,21 +157,14 @@ public class RAGraficoActC {
 		imGrafico.setContent(image);
 	}
 	@Command
-	public void verEvidencias(@BindingParam("actividad") Actividad seleccion){
-		if(seleccion == null) {
-			Clients.showNotification("Seleccione una opción de la lista.");
-			return;
-		}
-		// Actualiza la instancia antes de enviarla a editar.
-		actividadDAO.getEntityManager().refresh(seleccion);		
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("Actividad", seleccion);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/reportes/actividades/RAEvidencia.zul", null, params);
-		ventanaCargar.doModal();
-	}
-	@Command
 	public void salir() {
-		winGraficoAct.detach();
+		winActividadDep.detach();
+	}
+	public Empleado getEmpleado() {
+		return empleado;
+	}
+	public void setEmpleado(Empleado empleado) {
+		this.empleado = empleado;
 	}
 	public List<Actividad> getListaActividadesPendientes() {
 		return listaActividadesPendientes;
@@ -194,11 +183,5 @@ public class RAGraficoActC {
 	}
 	public void setListaActividadesPublicadas(List<Actividad> listaActividadesPublicadas) {
 		this.listaActividadesPublicadas = listaActividadesPublicadas;
-	}
-	public Agenda getAgenda() {
-		return agenda;
-	}
-	public void setAgenda(Agenda agenda) {
-		this.agenda = agenda;
 	}
 }

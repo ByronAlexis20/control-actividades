@@ -105,4 +105,35 @@ public class EmpleadoDAO extends ClaseDAO{
 		resultado = (List<Empleado>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Empleado> validarJefeDepartamento(Integer idJefeArea,Integer idDepartamento) {
+		List<Empleado> resultado; 
+		Query query = getEntityManager().createNamedQuery("Empleado.buscarJefeDepartamento");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idDepartamento", idDepartamento);
+		query.setParameter("idJefeArea", idJefeArea);
+		resultado = (List<Empleado>) query.getResultList();
+		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Empleado> buscarEmpleadoPorDepartamentoLogueado(Integer idDepartamento) {
+		List<Empleado> resultado; 
+		Query query = getEntityManager().createNamedQuery("Empleado.buscarPorDepartamentoLogueado");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idDepartamento", idDepartamento);
+		resultado = (List<Empleado>) query.getResultList();
+		return resultado;
+	}
+	@SuppressWarnings("unchecked")
+	public List<Empleado> buscarEmpleadoPorTipoUsuarioDepartamento(Integer idTipoUsuario, Integer idDepartamento) {
+		List<Empleado> resultado; 
+		Query query = getEntityManager().createNamedQuery("Empleado.buscarPorTipoUsuarioDepartamento");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idTipoUsuario", idTipoUsuario);
+		query.setParameter("idDepartamento", idDepartamento);
+		resultado = (List<Empleado>) query.getResultList();
+		return resultado;
+	}
 }

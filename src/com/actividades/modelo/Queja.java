@@ -19,9 +19,13 @@ import javax.persistence.TemporalType;
 @Table(name="queja")
 @NamedQueries({
 	@NamedQuery(name="Queja.buscarPorResponsable", query="SELECT q FROM Queja q where q.empleado.idEmpleado = :id and q.estado = 'A' "
-			+ "and lower(q.problema) like lower(:patron)"),
+			+ "and q.estadoQueja = :estado and lower(q.problema) like lower(:patron)"),
+	@NamedQuery(name="Queja.buscarPorResponsableEstadoQuejaAtencion", query="SELECT q FROM Queja q where q.empleado.idEmpleado = :id and q.estado = 'A' "
+			+ "and q.estadoQueja = :estadoQueja and q.estadoAtencion = :estadoAtencion and lower(q.problema) like lower(:patron)"),
 	@NamedQuery(name="Queja.buscarPorEstado", query="SELECT q FROM Queja q where q.estado = 'A' "
-			+ "and q.estadoQueja = :estado")
+			+ "and q.estadoQueja = :estado"),
+	@NamedQuery(name="Queja.buscarQueja", query="SELECT q FROM Queja q where q.estado = 'A' and lower(q.empleado.departamento.nombre) like lower(:patron)"
+			+ " and q.estadoQueja = 'PUBLICADO'  order by q.fechaAceptacion desc"),
 })
 public class Queja implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -43,10 +47,20 @@ public class Queja implements Serializable{
 	@Column(name="fecha_aceptacion")
 	private Date fechaAceptacion;
 	
+	@Temporal(TemporalType.DATE)
+	@Column(name="fecha_atencion")
+	private Date fechaAtencion;
+	
 	private String adjunto;
 	
 	@Column(name="estado_queja")
 	private String estadoQueja;
+	
+	@Column(name="estado_atencion")
+	private String estadoAtencion;
+	
+	@Column(name="archivo_adjunto")
+	private String archivoAdjunto;
 	
 	private String estado;
 	
@@ -124,6 +138,30 @@ public class Queja implements Serializable{
 
 	public void setEmpleado(Empleado empleado) {
 		this.empleado = empleado;
+	}
+
+	public Date getFechaAtencion() {
+		return fechaAtencion;
+	}
+
+	public void setFechaAtencion(Date fechaAtencion) {
+		this.fechaAtencion = fechaAtencion;
+	}
+
+	public String getEstadoAtencion() {
+		return estadoAtencion;
+	}
+
+	public void setEstadoAtencion(String estadoAtencion) {
+		this.estadoAtencion = estadoAtencion;
+	}
+
+	public String getArchivoAdjunto() {
+		return archivoAdjunto;
+	}
+
+	public void setArchivoAdjunto(String archivoAdjunto) {
+		this.archivoAdjunto = archivoAdjunto;
 	}
 	
 	

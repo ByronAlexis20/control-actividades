@@ -16,6 +16,7 @@ import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Combobox;
+import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
@@ -29,6 +30,7 @@ import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.modelo.Persona;
 import com.actividades.modelo.TipoUsuario;
 import com.actividades.modelo.TipoUsuarioDAO;
+import com.actividades.util.Constantes;
 import com.actividades.util.ControllerHelper;
 
 public class SEmpleadosEditarC {
@@ -53,6 +55,7 @@ public class SEmpleadosEditarC {
 	private DepartamentoDAO departamentoDAO = new DepartamentoDAO();
 	private CargoDAO cargoDAO = new CargoDAO();
 	private ControllerHelper helper = new ControllerHelper();
+	private List<Cargo> cargos;
 	
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -64,6 +67,9 @@ public class SEmpleadosEditarC {
 			persona = new Persona();
 		} else {
 			recuperarDatos();
+			cboCargo.setDisabled(true);
+			cboDepartamento.setDisabled(true);
+			cboTipoUsuario.setDisabled(true);
 		}
 	}
 
@@ -86,8 +92,12 @@ public class SEmpleadosEditarC {
 	public List<Departamento> getDepartamento() {		
 		return departamentoDAO.getDepartamentosActivos();
 	}
-	public List<Cargo> getCargo(){
-		return cargoDAO.getCargosActivos();
+	public List<Cargo> getCargos() {
+		return cargos;
+	}
+
+	public void setCargos(List<Cargo> cargos) {
+		this.cargos = cargos;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -226,6 +236,12 @@ public class SEmpleadosEditarC {
 				txtClave.focus();
 				return false;
 			}
+			if(validarJefes() == true) {
+				Clients.showNotification("Ya existe un jefe en el Departamento!","info",cboTipoUsuario,"end_center",2000);
+				cboTipoUsuario.focus();
+				return false;
+			}
+			
 			if(validarUsuarioNuevo() == false) {
 				Clients.showNotification("El nombre de usuario ya existe dentro de los registros","info",txtUsuario,"end_center",2000);
 				txtUsuario.focus();
@@ -254,6 +270,38 @@ public class SEmpleadosEditarC {
 		}catch(Exception ex) {
 			System.out.println(ex.getMessage());
 			return false;
+		}
+	}
+	private boolean validarJefes() {
+		//hay q validar si ya estan registrado los jefes de los departamentos cuando es un nuevo registro
+		boolean bandera = false;
+		if(empleado.getIdEmpleado() == null) {
+			TipoUsuario tipo = (TipoUsuario) cboTipoUsuario.getSelectedItem().getValue();
+			if(tipo.getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)) {
+				Departamento dep = (Departamento)cboDepartamento.getSelectedItem().getValue();
+				List<Empleado> emp = empleadoDAO.validarJefeDepartamento(Constantes.ID_JEFE_AREA, dep.getIdDepartamento());
+				if(emp.size() > 0)
+					bandera = true;
+			}
+		}
+		return bandera;
+	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Command
+	public void cambiarUsuario() {
+		TipoUsuario tipo = (TipoUsuario) cboTipoUsuario.getSelectedItem().getValue();
+		if(tipo.getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA) || tipo.getIdTipoUsuario().equals(Constantes.ID_ADMINISTRACION_COMUNICACION)
+				|| tipo.getIdTipoUsuario().equals(Constantes.ID_ADMINISTRADOR_SISTEMAS) || tipo.getIdTipoUsuario().equals(Constantes.ID_AUTORIDAD_MAXIMA)) {
+			cboCargo.setDisabled(true);
+			List<Cargo> car = cargoDAO.cargoPorId(Constantes.ID_CARGO_JEFE);
+			cargos = cargoDAO.getCargosActivos();
+			cboCargo.setModel(new ListModelList(cargos));
+			cboCargo.setText(car.get(0).getDescripcion());
+		}else {
+			cboCargo.setDisabled(false);
+			cargos = cargoDAO.cargoSinJefe(Constantes.ID_CARGO_JEFE);
+			cboCargo.setModel(new ListModelList(cargos));
+			cboCargo.setText("");
 		}
 	}
 	private boolean validarUsuarioRegistradp() {

@@ -129,10 +129,10 @@ public class PAListaActC {
 		
 		
 		DefaultPieDataset pieDataset = new DefaultPieDataset();
-		pieDataset.setValue("PUBLICADAS", tPublicadas);
-		pieDataset.setValue("PENDIENTES", tPendiente);
-		pieDataset.setValue("RECHAZADAS", tRechazadas);
 		
+		pieDataset.setValue("PUBLICADAS [" + totalPublicadas + "]" , tPublicadas);
+		pieDataset.setValue("PENDIENTES [" + pendientes + "]", tPendiente);
+		pieDataset.setValue("RECHAZADAS [" + totalRechazadas + "]", tRechazadas);
 		JFreeChart chart = ChartFactory.createPieChart3D("Actividades", pieDataset,true,true,true);
 		PiePlot3D plot = (PiePlot3D) chart.getPlot();
 		plot.setForegroundAlpha(0.5f);

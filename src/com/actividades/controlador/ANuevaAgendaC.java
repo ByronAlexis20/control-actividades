@@ -1,6 +1,7 @@
 package com.actividades.controlador;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -67,7 +68,22 @@ public class ANuevaAgendaC extends SelectorComposer<Component>{
 						agenda.setEstado(Constantes.ESTADO_ACTIVO);
 						agenda.setFechaInicio(dtpFechaInicio.getValue());
 						agenda.setFechaFin(dtpFechaFin.getValue());
-						agenda.setEmpleado(usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim()));
+						
+						//hay q preguntar por si es un usuario privilegiado
+						Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
+						
+						if(!usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)){
+							if(usuario.getPermiso().equals(Constantes.USUARIO_PERMITIDO)) {
+								//hay q buscar el jefe de ese departamento
+								List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
+								if(jefeArea.size() > 0) {
+									agenda.setEmpleado(jefeArea.get(0));
+								}	
+							}
+						}else {
+							agenda.setEmpleado(usuario);
+						}
+						
 						codigoAgenda();
 						
 						agendaDAO.getEntityManager().getTransaction().begin();
@@ -93,13 +109,25 @@ public class ANuevaAgendaC extends SelectorComposer<Component>{
 		if(agenda.getIdAgenda() == null) {
 			String codigo = Constantes.CODIGO_AGENDA;
 			Integer ultimoCodigo = 1;
-			Empleado empleado = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
-			List<Agenda> agendas = agendaDAO.obtenerCodigoAgendaActiva(empleado.getIdEmpleado());
+			List<Agenda> agendas = new ArrayList<>();
+			Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
+			if(!usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)){
+				if(usuario.getPermiso().equals(Constantes.USUARIO_PERMITIDO)) {
+					//hay q buscar el jefe de ese departamento
+					List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
+					if(jefeArea.size() > 0) {
+						agendas = agendaDAO.obtenerCodigoAgendaActiva(jefeArea.get(0).getIdEmpleado());
+					}	
+				}
+			}else {
+				agendas = agendaDAO.obtenerCodigoAgendaActiva(usuario.getIdEmpleado());
+			}
+			
 			if(agendas.size() > 0) {
 				ultimoCodigo = agendas.get(0).getSecuencia() + 1;
-				codigo = codigo + ultimoCodigo + "-" + empleado.getDepartamento().getCodigo(); 
+				codigo = codigo + ultimoCodigo + "-" + usuario.getDepartamento().getCodigo(); 
 			}else { //es la primera
-				codigo = codigo + "1-" + empleado.getDepartamento().getCodigo();
+				codigo = codigo + "1-" + usuario.getDepartamento().getCodigo();
 			}
 			agenda.setCodigo(codigo);
 			agenda.setSecuencia(ultimoCodigo);

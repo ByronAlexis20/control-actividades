@@ -9,7 +9,9 @@ import java.util.List;
 @NamedQueries({
 	@NamedQuery(name="Cargo.buscarActivos", query="SELECT c FROM Cargo c where c.estado = 'A' order by c.idCargo asc"),
 	@NamedQuery(name="Cargo.buscarPorPatron", query="SELECT c FROM Cargo c where lower(c.descripcion) like lower(:patron) "
-			+ "and c.estado = 'A' order by c.idCargo asc")
+			+ "and c.estado = 'A' order by c.idCargo asc"),
+	@NamedQuery(name="Cargo.buscarPorID", query="SELECT c FROM Cargo c where c.idCargo = :id"),
+	@NamedQuery(name="Cargo.buscarSinJefe", query="SELECT c FROM Cargo c where c.estado = 'A' and c.idCargo <> :id order by c.idCargo asc"),
 })
 
 public class Cargo implements Serializable {

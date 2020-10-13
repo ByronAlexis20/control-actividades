@@ -11,22 +11,34 @@
 						sclass="p-1 text-red font-italic font-weight-bold" />
 				</div>
 			</groupbox>
+			<groupbox>
+				<div>
+					<radiogroup onCheck="@command('cambia')">
+						<label value="Seleccionar: "/>
+						<radio label="PENDIENTES" id="rbPendientes"/>
+						<separator orient="vertical" width="15px"/>
+						<radio label="REVISION" id="rbPublicadas"/>
+						<separator orient="vertical" width="15px"/>
+						<radio label="ATENDIDAS" id="rbAtendidas"/>
+					</radiogroup>
+				</div>
+			</groupbox>
 			<div>
-				<button label="Nueva Queja" iconSclass="z-icon-plus"
+				<button label="Nueva Queja" iconSclass="z-icon-plus" id="btnNuevaQueja"
 					zclass="btn btn-outline-primary btn btn-sm" onClick="@command('nuevaQueja')"/>
-				<button label="Editar Queja"
+				<button label="Editar Queja" id="btnEditarQueja"
 					iconSclass="z-icon-pencil" onClick="@command('editarQueja')"
 					zclass="btn btn-outline-primary btn btn-sm"/>
-				<button label="Eliminar Queja"
+				<button label="Eliminar Queja" id="btnEliminarQueja"
 					iconSclass="z-icon-trash-o" onClick="@command('eliminarQueja')"
 					zclass="btn btn-outline-danger btn btn-sm"/>
 				<separator orient="vertical" width="10px"></separator>
-				<button label="Pasar a revicion"
+				<button label="Pasar a revicion" id="btnPasarRevision"
 					onClick="@command('pasarRevision')"
 					zclass="btn btn-outline-danger btn btn-sm"/>
 			</div>
 			<hlayout>
-				<textbox hflex="1" value="@bind(vm.textoBuscar)"
+				<textbox hflex="1" value="@bind(vm.textoBuscar)" id="txtBuscar"
 					style="text-transform:uppercase" onOK="@command('buscar')"
 					placeholder="Busqueda por problema" />
 				<button label="Buscar!" iconSclass="z-icon-search" onClick="@command('buscar')"
@@ -36,10 +48,11 @@
 				<listbox id="lstQuejas" model="@load(vm.listaQueja)" autopaging="true" selectedItem="@bind(vm.quejaSeleccionada)"
 					mold="paging" hflex="1" vflex="1">
 					<listhead>
-						<listheader label="Código" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Código" width="10%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
 						<listheader label="Problema" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
-						<listheader label="Fecha Envío" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
-						<listheader label="Estado" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Fecha Envío" width="15%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Estado" width="15%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Atencion" width="15%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
 					</listhead>
 					<template name="model">
 						<listitem>
@@ -47,6 +60,7 @@
 							<listcell label="@load(each.problema)" />
 							<listcell label="@load(each.fechaEnvio) @converter('formatedDate',format='dd/MM/yyyy')" />
 							<listcell label="@load(each.estadoQueja)" />
+							<listcell label="@load(each.estadoAtencion)" />
 						</listitem>
 					</template>
 				</listbox>

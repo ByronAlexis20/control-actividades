@@ -49,6 +49,10 @@ public class ADiariaC {
 	@Wire private Button btnEditarActividad;
 	@Wire private Button btnEliminarActividad;
 	@Wire private Button btnPublicar;
+	
+	@Wire private Button btnNuevoAgenda;
+	@Wire private Button btnEditarAgenda;
+	@Wire private Button btnEliminarAgenda;
 
 
 	private Agenda agendaSeleccionada;
@@ -197,8 +201,33 @@ public class ADiariaC {
 	public void cargarAgendas(){
 		if (listaAgenda != null)
 			listaAgenda = null; 
+		listaAgenda = new ArrayList<>();
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
-		listaAgenda = agendaDAO.obtenerAgendaActiva(usuario.getIdEmpleado());
+		if(!usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)){
+			if(usuario.getPermiso() != null) {
+				if(usuario.getPermiso().equals(Constantes.USUARIO_PERMITIDO)) {
+					//hay q buscar el jefe de ese departamento
+					List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
+					if(jefeArea.size() > 0) {
+						listaAgenda = agendaDAO.obtenerAgendaActiva(jefeArea.get(0).getIdEmpleado());
+					}	
+				}else {
+					listaAgenda = new ArrayList<>();
+					btnNuevoAgenda.setDisabled(true);
+					btnEditarAgenda.setDisabled(true);
+					btnEliminarAgenda.setDisabled(true);
+				}
+			}else {
+				listaAgenda = new ArrayList<>();
+				btnNuevoAgenda.setDisabled(true);
+				btnEditarAgenda.setDisabled(true);
+				btnEliminarAgenda.setDisabled(true);
+			}
+			
+		}else {
+			listaAgenda = agendaDAO.obtenerAgendaActiva(usuario.getIdEmpleado());
+		}
+		
 		lstAgenda.setModel(new ListModelList(listaAgenda));
 		deshabilitarCampos();
 		agendaSeleccionada = null;	

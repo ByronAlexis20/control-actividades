@@ -23,4 +23,24 @@ public class CargoDAO extends ClaseDAO{
 		resultado = (List<Cargo>) query.getResultList();
 		return resultado;
 	}
+	@SuppressWarnings("unchecked")
+	public List<Cargo> cargoPorId(Integer id) {
+		List<Cargo> resultado = new ArrayList<Cargo>(); 
+		Query query = getEntityManager().createNamedQuery("Cargo.buscarPorID");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("id",id);
+		resultado = (List<Cargo>) query.getResultList();
+		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Cargo> cargoSinJefe(Integer id) {
+		List<Cargo> resultado = new ArrayList<Cargo>(); 
+		Query query = getEntityManager().createNamedQuery("Cargo.buscarSinJefe");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("id",id);
+		resultado = (List<Cargo>) query.getResultList();
+		return resultado;
+	}
+	
 }

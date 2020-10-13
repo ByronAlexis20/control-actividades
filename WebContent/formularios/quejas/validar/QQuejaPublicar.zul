@@ -13,9 +13,9 @@
 			</groupbox>
 			<div>
 				<button label="Publicar Quejas" iconSclass="z-icon-plus"
-					zclass="btn btn-outline-primary btn btn-sm" onClick="@command('nuevaQueja')"/>
+					zclass="btn btn-outline-primary btn btn-sm" onClick="@command('publicarQueja')"/>
 				<button label="Dar de baja"
-					iconSclass="z-icon-pencil" onClick="@command('editarQueja')"
+					iconSclass="z-icon-pencil" onClick="@command('darBaja')"
 					zclass="btn btn-outline-primary btn btn-sm"/>
 			</div>
 			<hlayout vflex="1" hflex="1">

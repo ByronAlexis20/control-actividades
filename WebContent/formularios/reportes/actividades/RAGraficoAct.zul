@@ -4,7 +4,7 @@
 		viewModel="@id('vm') @init('com.actividades.controlador.RAGraficoActC')">
 		<caption sclass="fn-caption" label="Actividades" />
 		<groupbox closable="false" hflex="1">
-			<caption label="Actividades Publicadas" />
+			<caption label="Agenda Seleccionada" />
 			<vbox hflex="1" vflex="1">
 				<grid hflex="1">
 					<columns>
@@ -47,45 +47,94 @@
 					</rows>
 				</grid>
 				<groupbox hflex="1" height="300px">
-					<caption label="Actividades Publicadas"/>
+					<caption label="Control de actividades"/>
 					<hbox hflex="1" vflex="1">
 						<grid hflex="1" vflex="1">
-							<columns>
-								<column width="60%"></column>
-								<column width="40%"></column>
-							</columns>
-							<rows>
-								<row hflex="1"  vflex="1">
-									<cell vflex="1">
-										<listbox id="lstActividades"
-											model="@load(vm.listaActividades)"
-											mold="paging" hflex="1" vflex="1">
-											<listhead>
-												<listheader label="Código" width="15%"/>
-												<listheader label="Actividad"/>
-												<listheader label="Fecha" width="15%"/>
-												<listheader label="Evidencias" width="15%"/>
-											</listhead>
-											<template name="model">
-												<listitem>
-													<listcell label="@load(each.codigo)" style="font-size:10px;font-family: Calibri;font-weight: bold;"/>
-													<listcell label="@load(each.descripcion)" style="font-family: Calibri;"/>
-													<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;"/>
-													<listcell>
-														<button onClick="@command('verEvidencias',actividad=each)">
-															Ver
-														</button>
-													</listcell>
-												</listitem>
-											</template>
-										</listbox>
-									</cell>
-									<cell height="250px">
-										<image id="imGrafico" vflex="1" hflex="1"></image>
-									</cell>
-								</row>
-							</rows>
-						</grid>
+						<columns>
+							<column width="60%"></column>
+							<column width="40%"></column>
+						</columns>
+						<rows>
+							<row hflex="1" vflex="1">
+								<cell vflex="1">
+									<tabbox hflex="1" vflex="1">
+										<tabs>
+											<tab label="Publicadas" />
+											<tab label="Pendientes" />
+											<tab label="Rechazadas" />
+										</tabs>
+										<tabpanels>
+											<tabpanel>
+												<listbox id="lstActividadesPublicadas" model="@load(vm.listaActividadesPublicadas)" mold="paging" hflex="1" vflex="1">
+													<listhead>
+														<listheader label="Código" width="15%" />
+														<listheader label="Actividad" />
+														<listheader label="Fecha" width="15%" />
+														<listheader label="Evidencias" width="15%" />
+													</listhead>
+													<template name="model">
+														<listitem>
+															<listcell label="@load(each.codigo)" style="font-size:10px;font-family: Calibri;font-weight: bold;" />
+															<listcell label="@load(each.descripcion)" style="font-family: Calibri;" />
+															<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;" />
+															<listcell>
+																<button onClick="@command('verEvidencias',actividad=each)" label="Ver"/>
+															</listcell>
+														</listitem>
+													</template>
+												</listbox>
+											</tabpanel>
+											<tabpanel>
+												<listbox id="lstActividadesPendientes" model="@load(vm.listaActividadesPendientes)" mold="paging" hflex="1" vflex="1">
+													<listhead>
+														<listheader label="Código" width="15%" />
+														<listheader label="Actividad" />
+														<listheader label="Fecha" width="15%" />
+														<listheader label="Evidencias" width="15%" />
+													</listhead>
+													<template name="model">
+														<listitem>
+															<listcell label="@load(each.codigo)" style="font-size:10px;font-family: Calibri;font-weight: bold;" />
+															<listcell label="@load(each.descripcion)" style="font-family: Calibri;" />
+															<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;" />
+															<listcell>
+																<button onClick="@command('verEvidencias',actividad=each)" label="Ver"/>
+															</listcell>
+														</listitem>
+													</template>
+												</listbox>
+											</tabpanel>
+											<tabpanel>
+												<listbox id="lstActividadesRechazadas" model="@load(vm.listaActividadesRechazadas)" mold="paging" hflex="1" vflex="1">
+													<listhead>
+														<listheader label="Código" width="15%" />
+														<listheader label="Actividad" />
+														<listheader label="Fecha" width="15%" />
+														<listheader label="Evidencias" width="15%" />
+													</listhead>
+													<template name="model">
+														<listitem>
+															<listcell label="@load(each.codigo)" style="font-size:10px;font-family: Calibri;font-weight: bold;" />
+															<listcell label="@load(each.descripcion)" style="font-family: Calibri;" />
+															<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;" />
+															<listcell>
+																<button onClick="@command('verEvidencias',actividad=each)" label="Ver"/>
+															</listcell>
+														</listitem>
+													</template>
+												</listbox>
+											</tabpanel>
+										</tabpanels>
+									</tabbox>
+								</cell>
+								<cell height="250px">
+									<image id="imGrafico" vflex="1"
+										hflex="1">
+									</image>
+								</cell>
+							</row>
+						</rows>
+					</grid>
 					
 					</hbox>
 				</groupbox>

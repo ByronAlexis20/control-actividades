@@ -31,11 +31,11 @@
 					</row>
 					<row>
 						<label value="Nombres: *" sclass="font-weight-bold col-form-label"/>
-						<textbox id="txtNombres" style="text-transform:uppercase" hflex="1" maxlength="60"/>
+						<textbox id="txtNombres" hflex="1" maxlength="60"/>
 					</row>
 					<row>
 						<label value="Apellidos: *" sclass="font-weight-bold col-form-label"/>
-						<textbox id="txtApellidos" style="text-transform:uppercase" hflex="1" maxlength="60"/>
+						<textbox id="txtApellidos" hflex="1" maxlength="60"/>
 					</row>
 					<row>
 						<label value="Email: " sclass="font-weight-bold col-form-label"/>
@@ -44,7 +44,7 @@
 					</row>
 					<row>
 						<label value="Dirección: " sclass="font-weight-bold col-form-label"/>
-						<textbox id="txtDireccion" style="text-transform:uppercase" hflex="1" maxlength="250"/>
+						<textbox id="txtDireccion" hflex="1" maxlength="250"/>
 					</row>
 					<row>
 						<label value="Teléfono: " sclass="font-weight-bold col-form-label"/>
@@ -61,20 +61,20 @@
 					</row>
 					<row>
 						<label value="Tipo de usuario: *" sclass="font-weight-bold col-form-label" />
-						<combobox id="cboTipoUsuario" model="@load(vm.tipoUsuario)" 
-							placeholder="Tipo de usuario" hflex="1" style="text-transform:uppercase">
+						<combobox id="cboTipoUsuario" model="@load(vm.tipoUsuario)" onChange="@command('cambiarUsuario')"
+							placeholder="Tipo de usuario" hflex="1">
 						</combobox>
 					</row>
 					<row>
 						<label value="Departamento: *" sclass="font-weight-bold col-form-label" />
 						<combobox id="cboDepartamento"
-							model="@load(vm.departamento)" placeholder="Departamento" hflex="1" style="text-transform:uppercase">
+							model="@load(vm.departamento)" placeholder="Departamento" hflex="1">
 						</combobox>
 					</row>
 					<row>
 						<label value="Cargo " sclass="font-weight-bold col-form-label"/>
 						<combobox id="cboCargo"
-							model="@load(vm.cargo)" placeholder="Cargo" hflex="1" style="text-transform:uppercase">
+							model="@load(vm.cargos)" placeholder="Cargo" hflex="1">
 						</combobox>
 					</row>
 					<row>

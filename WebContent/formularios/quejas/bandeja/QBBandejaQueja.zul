@@ -1,0 +1,48 @@
+<?page title="Lista de quejas" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window apply="org.zkoss.bind.BindComposer" border="none"
+		viewModel="@id('vm') @init('com.actividades.controlador.QBBandejaQuejaC')"
+		hflex="1" vflex="1">
+		<vlayout vflex="1">
+			<groupbox>
+				<div align="center">
+					<label value="Listado de Quejas"
+						style="color:#088A08;font-size:20px"
+						sclass="p-1 text-red font-italic font-weight-bold" />
+				</div>
+			</groupbox>
+			<div>
+				<button label="Ver Queja" 
+					zclass="btn btn-outline-primary btn btn-sm" onClick="@command('verQueja')"/>
+			</div>
+			<hlayout>
+				<textbox hflex="1" value="@bind(vm.textoBuscar)"
+					style="text-transform:uppercase" onOK="@command('buscar')"
+					placeholder="Busqueda por departamento" />
+				<button label="Buscar!" iconSclass="z-icon-search" onClick="@command('buscar')"
+					zclass="btn btn-outline-primary btn btn-sm"/>
+			</hlayout>
+			<hlayout vflex="1" hflex="1">
+				<listbox id="lstQuejas" model="@load(vm.listaQuejas)" autopaging="true" selectedItem="@bind(vm.quejaSeleccionada)"
+					mold="paging" hflex="1" vflex="1">
+					<listhead>
+						<listheader label="Código" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Departamento" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
+						<listheader label="Problema" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Fecha Recepción" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Estado" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell label="@load(each.idQueja)" />
+							<listcell label="@load(each.empleado.departamento.nombre)" />
+							<listcell label="@load(each.problema)" />
+							<listcell label="@load(each.fechaAceptacion) @converter('formatedDate',format='dd/MM/yyyy')" />
+							<listcell label="@load(each.estadoAtencion)" />
+						</listitem>
+					</template>
+				</listbox>
+			</hlayout>
+		</vlayout>
+	</window>
+</zk>
