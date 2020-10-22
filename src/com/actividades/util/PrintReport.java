@@ -4,6 +4,8 @@ import java.awt.Dialog.ModalExclusionType;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -66,6 +68,41 @@ public class PrintReport {
 		}
 	}
 
+	public String crearArchivo(String path, ClaseDAO claseDAO,Map<String, Object> param) {
+		try {
+			String pathAbsoluto = Executions.getCurrent()
+					.getDesktop().getWebApp()
+					.getRealPath("/");
+			String nombreReporte = pathAbsoluto + path;
+			Connection cn = claseDAO.abreConexion();
+
+			String nombreArchivo = null;
+			nombreArchivo = pathAbsoluto + "temp";
+
+			//pregunta si la carpeta existe
+			File folder = new File(nombreArchivo);
+			if (folder.exists()) {
+			}else {
+				folder.mkdir();
+			}
+
+			Date fecha = new Date();
+			// Obtiene un nombre aleatorio para el reporte
+			nombreArchivo = nombreArchivo + "/quejas" + new SimpleDateFormat("dd-MM-yyyy").format(fecha) + ".pdf";
+
+			System.out.println(nombreArchivo);
+			byte[] b = null;
+			b = JasperRunManager.runReportToPdf(nombreReporte, param, cn);
+			FileOutputStream fos = new FileOutputStream(nombreArchivo);
+			fos.write(b);
+			fos.close();
+			return nombreArchivo;
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			return "";
+		}
+	}
+	
 	public void exportToPDF(String destino) {
 		try {
 			//JasperExportManager.exportReportToPdfFile(destino);

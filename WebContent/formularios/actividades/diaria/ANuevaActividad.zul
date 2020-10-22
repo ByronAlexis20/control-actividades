@@ -1,7 +1,5 @@
 <?page title="Nueva Actividad" contentType="text/html;charset=UTF-8"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./winActividadEditar" ?>
-<?script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js" ?>
-<?link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" ?>
 <zk>
 	<window id="winActividadEditar" border="normal" width="37%" apply="com.actividades.controlador.ANuevaActividadC">
 	
@@ -15,9 +13,23 @@
 				</columns>
 				<rows>
 					<row hflex="1">
+						<cell hflex="1" colspan="2" align="center">
+							<vbox hflex="1" align="center" pack="center">
+								<label value="Tipo de Actividad: "/>
+								<radiogroup >
+						            <radio id="rbPrincipal" label="PRINCIPAL" disabled="true"/>
+						            <separator orient="vertical" width="10px"/>
+									<radio id="rbInterna" label="INTERNA" disabled="true"/>
+						        </radiogroup>
+					        </vbox>
+						</cell>
+					</row>
+					
+				
+					<row hflex="1">
 						<cell>Descripción Actividad:</cell>
 						<cell hflex="1">
-							<textbox multiline="true" class="form-control form-control-sm" placeholder="Nombre" id="txtDescripcion" height="50px" hflex="1"/>
+							<textbox multiline="true" class="form-control form-control-sm" placeholder="Descripción" id="txtDescripcion" height="50px" hflex="1"/>
 						</cell>
 					</row>
 					<row>

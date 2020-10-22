@@ -31,9 +31,7 @@ public class FileUtil {
 		String pathRepositorio;
 		String nombreArchivo;
 		String pathArchivoCargado = null; 
-
 		try {
-
 			// Obtiene la fecha del dia para definir el directorio donde se depositara el archivo.
 			Calendar hoy = Calendar.getInstance();
 			int anio = hoy.get(Calendar.YEAR);
@@ -58,7 +56,7 @@ public class FileUtil {
 
 			// Construye el path completo del archivo.
 			pathArchivoCargado = pathRepositorio + pathArchivo + nombreArchivo;
-
+			System.out.println(pathArchivoCargado);
 			// Copia el archivo en la ruta definitiva.
 			Files.copy(new File(pathArchivoCargado), media.getStreamData());
 

@@ -24,6 +24,8 @@ import com.actividades.modelo.ActividadDAO;
 import com.actividades.modelo.Agenda;
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
+import com.actividades.modelo.TipoActividad;
+import com.actividades.modelo.TipoActividadDAO;
 import com.actividades.util.Constantes;
 import com.actividades.util.SecurityUtil;
 
@@ -36,17 +38,23 @@ public class ANuevaActividadC extends SelectorComposer<Component>{
 	@Wire private Radio rbProceso;
 	@Wire private Radio rbRealizado;
 	
+	@Wire private Radio rbPrincipal;
+	@Wire private Radio rbInterna;
+	
+	
 	private Agenda agenda;
 	private Actividad actividad;
 	ActividadDAO actividadDAO = new ActividadDAO();
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
-	
+	TipoActividadDAO tipoActividadDAO = new TipoActividadDAO();
+	String tipoActividad = "";
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
 		agenda = (Agenda) Executions.getCurrent().getArg().get("Agenda");
 		actividad = (Actividad) Executions.getCurrent().getArg().get("Actividad");
-
+		tipoActividad = (String) Executions.getCurrent().getArg().get("TipoActividad");
+		
 		if(agenda == null) {
 			agenda = new Agenda();
 			agenda.setEstado("A");
@@ -58,9 +66,11 @@ public class ANuevaActividadC extends SelectorComposer<Component>{
 			actividad = new Actividad();
 			actividad.setIdActividad(null);
 			rbPendiente.setSelected(true);
+			rbPrincipal.setSelected(true);
 		}else {
 			txtDescripcion.setText(actividad.getDescripcion());
 			dtpFecha.setValue(actividad.getFecha());
+			//seleccionar estado de actividad
 			if(actividad.getEstadoActividad().equals(Constantes.ESTADO_PENDIENTE))
 				rbPendiente.setSelected(true);
 			else if(actividad.getEstadoActividad().equals(Constantes.ESTADO_EN_PROCESO))
@@ -72,6 +82,26 @@ public class ANuevaActividadC extends SelectorComposer<Component>{
 				rbProceso.setDisabled(true);
 				rbRealizado.setSelected(true);
 			}
+			//seleccionar tipo de actividad
+			if(actividad.getTipoActividad() != null) {
+				if(actividad.getTipoActividad().getIdTipoActividad() == Constantes.ID_TIPO_PRIMORDIALES) {
+					rbPrincipal.setChecked(true);
+					rbInterna.setChecked(false);
+				}else {
+					rbPrincipal.setChecked(false);
+					rbInterna.setChecked(true);
+				}
+			}else {
+				rbPrincipal.setSelected(true);
+			}
+		}
+		
+		if(tipoActividad.equals("INTERNA")) {
+			rbInterna.setChecked(true);
+			rbPrincipal.setChecked(false);
+		}else {
+			rbInterna.setChecked(false);
+			rbPrincipal.setChecked(true);
 		}
 	}
 	@Listen("onClick=#btnGrabar")
@@ -116,6 +146,16 @@ public class ANuevaActividadC extends SelectorComposer<Component>{
 			actividad.setEstadoActividad(Constantes.ESTADO_EN_PROCESO);
 		else if(rbRealizado.isChecked())
 			actividad.setEstadoActividad(Constantes.ESTADO_REALIZADO);
+		
+		//cargar el tipo de actividad
+		
+		List<TipoActividad> tipo = new ArrayList<>();
+		if(rbInterna.isChecked()) {
+			tipo = tipoActividadDAO.obtenerPorId(Constantes.ID_TIPO_INTERNAS);
+		}else {
+			tipo = tipoActividadDAO.obtenerPorId(Constantes.ID_TIPO_PRIMORDIALES);
+		}
+		actividad.setTipoActividad(tipo.get(0));
 		//enlazar con la aganda
 		actividad.setAgenda(agenda);
 		codigoActividad();
@@ -179,5 +219,11 @@ public class ANuevaActividadC extends SelectorComposer<Component>{
 	}
 	public void setActividad(Actividad actividad) {
 		this.actividad = actividad;
+	}
+	public String getTipoActividad() {
+		return tipoActividad;
+	}
+	public void setTipoActividad(String tipoActividad) {
+		this.tipoActividad = tipoActividad;
 	}
 }

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.15.0.final using JasperReports Library version 6.15.0-dd49bfb94918336b8321d5507193f0169ead4e95  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="actividades" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d9e0e455-a5f9-4292-ae13-6b9dd07a348b">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Control Actividades"/>
+	<property name="ireport.zoom" value="1.2100000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="6"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="243"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="746"/>
+	<parameter name="ID_TIPO_ACTIVIDAD" class="java.lang.Integer"/>
+	<parameter name="FECHA_INICIO" class="java.util.Date"/>
+	<parameter name="FECHA_FIN" class="java.util.Date"/>
+	<parameter name="FECHA_BUSQUEDA" class="java.lang.String"/>
+	<parameter name="ID_EMPLEADO" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select de.id_departamento,de.nombre as departamento,(pe.nombre || ' ' || pe.apellido) as jefe,
+ac.codigo, ac.descripcion, ac.fecha
+from actividad ac, agenda ag,empleado em, persona pe, departamento de, tipo_usuario tu
+where ac.id_agenda = ag.id_agenda and ag.id_empleado = em.id_empleado and
+pe.id_persona = em.id_persona and em.id_departamento = de.id_departamento and
+em.id_tipo_usuario = tu.id_tipo_usuario and ac.estado = 'A' and ag.estado = 'A' and
+em.estado = 'A' and pe.estado = 'A' and de.estado = 'A' and tu.estado = 'A'
+and ac.id_tipo_actividad =  $P{ID_TIPO_ACTIVIDAD}
+and ac.fecha between  $P{FECHA_INICIO} and  $P{FECHA_FIN}
+and ag.id_empleado =  $P{ID_EMPLEADO} ]]>
+	</queryString>
+	<field name="id_departamento" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_departamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_departamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="departamento"/>
+	</field>
+	<field name="departamento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="departamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="departamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="departamento"/>
+	</field>
+	<field name="jefe" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="jefe"/>
+		<property name="com.jaspersoft.studio.field.label" value="jefe"/>
+	</field>
+	<field name="codigo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="codigo"/>
+		<property name="com.jaspersoft.studio.field.label" value="codigo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="actividad"/>
+	</field>
+	<field name="descripcion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="descripcion"/>
+		<property name="com.jaspersoft.studio.field.label" value="descripcion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="actividad"/>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fecha"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="actividad"/>
+	</field>
+	<group name="Por departamento">
+		<groupExpression><![CDATA[$F{id_departamento}]]></groupExpression>
+		<groupHeader>
+			<band height="99">
+				<staticText>
+					<reportElement x="31" y="15" width="119" height="20" uuid="346195a6-53d6-4daf-95c1-ed496dd22709"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Departamento:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="31" y="36" width="119" height="20" uuid="296e329b-47ee-455f-b413-8c2d0fbcca06"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Jéfe de Área:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="31" y="58" width="493" height="20" uuid="d61b05d5-854d-4729-a45e-610fa82a3b1d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Actividades]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="21" y="78" width="63" height="20" uuid="905b006f-efee-49ed-989d-295ebed2ed2d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Calibri" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Código]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="87" y="79" width="351" height="20" uuid="ac5e4e20-4997-42ee-9662-452026c27aed"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Calibri" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Actividad]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="441" y="78" width="89" height="20" uuid="445e141b-c1b6-42d0-9074-0c36387775a2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Calibri" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha]]></text>
+				</staticText>
+				<line>
+					<reportElement x="21" y="79" width="514" height="1" uuid="8e684ceb-9c2e-4d63-bb51-dffae20aab05"/>
+				</line>
+				<line>
+					<reportElement x="21" y="98" width="514" height="1" uuid="d0e974ac-b198-4a6c-84df-9a2d9c4b8333"/>
+				</line>
+				<line>
+					<reportElement x="21" y="56" width="514" height="1" uuid="c2277633-7146-43f4-9070-999c2f0e5560"/>
+				</line>
+				<line>
+					<reportElement x="21" y="35" width="514" height="1" uuid="4c1f7f32-beb1-487c-bb42-13fb7161aee7"/>
+				</line>
+				<line>
+					<reportElement x="21" y="14" width="514" height="1" uuid="4804fadc-3a7c-414b-b80b-43668485c72e"/>
+				</line>
+				<textField>
+					<reportElement x="161" y="15" width="363" height="20" uuid="576771c1-4e20-41c7-8870-65bcf863b784"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{departamento}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="161" y="35" width="363" height="20" uuid="28d37778-0865-45ad-ab95-7daa26f2e51f"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{jefe}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="535" y="14" width="1" height="84" uuid="416b894c-488f-4572-a994-ac29f69ddded"/>
+				</line>
+				<line>
+					<reportElement x="19" y="14" width="1" height="84" uuid="d32e2de0-7dcb-4b94-b4d1-37a67c94629c"/>
+				</line>
+				<line>
+					<reportElement x="155" y="15" width="1" height="40" uuid="5b174cf0-ad5d-4962-be60-4e63f3a8c5ce"/>
+				</line>
+				<line>
+					<reportElement x="85" y="80" width="1" height="18" uuid="31703db2-438e-468c-ac35-e287922341b3"/>
+				</line>
+				<line>
+					<reportElement x="439" y="80" width="1" height="18" uuid="17a2bf57-2cdf-49cd-a612-7eb6c3be790a"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="83" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement stretchType="RelativeToTallestObject" x="21" y="9" width="97" height="68" uuid="f8b3fbc2-b81d-41f3-be45-4124c1f385b3"/>
+				<imageExpression><![CDATA["logo_gobernacion.jpg"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="21" y="8" width="514" height="1" uuid="283d47e8-c76a-428e-b145-4e8cc1be6370"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="21" y="77" width="514" height="1" uuid="c60b7f44-c009-41ea-86f3-400d9bf85199"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="118" y="9" width="417" height="68" uuid="eae8885f-54b5-4228-bf95-51b0e4d44e99"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE ACTIVIDADES]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<textField>
+				<reportElement x="21" y="41" width="514" height="20" uuid="f0d2e56d-7b61-4ad4-9771-467322839d55"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FECHA_BUSQUEDA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="18" y="3" width="517" height="26" uuid="799dd3fa-abc9-4edf-bfcb-dd7fa14e282f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INFORMACIÓN]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="21" y="0" width="63" height="14" uuid="4f57a3df-6259-4227-aee3-f55bfec36736"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="87" y="0" width="351" height="14" uuid="f92b021c-fc6a-426b-9afb-c3ba122f7f76"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="441" y="0" width="89" height="14" uuid="ea39d59d-fe79-4907-a204-4583c6616651"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="21" y="14" width="514" height="1" uuid="88ba0d8f-91dc-448f-9877-cf1383caf4e8"/>
+			</line>
+			<line>
+				<reportElement x="535" y="-2" width="1" height="15" uuid="dce357be-24e0-43e8-8994-c64aa5a18aac"/>
+			</line>
+			<line>
+				<reportElement x="439" y="-1" width="1" height="15" uuid="da7792c1-ff97-4868-b03a-462db33d76e8"/>
+			</line>
+			<line>
+				<reportElement x="85" y="-2" width="1" height="15" uuid="fe709762-966b-41df-98a2-77e0f1aa722f"/>
+			</line>
+			<line>
+				<reportElement x="19" y="-2" width="1" height="15" uuid="b51283df-e884-46d5-9543-80df3266b7c1"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

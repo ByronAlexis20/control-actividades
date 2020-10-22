@@ -83,7 +83,8 @@ public class PAListaActC {
 		
 		List<Actividad> lista = new ArrayList<>();
 		List<Actividad> listaAgregar = new ArrayList<>();
-		List<Actividad> resultado = actividadDAO.obtenerActividad(agenda.getIdAgenda());
+		//solo se traen las actividades primordiales
+		List<Actividad> resultado = actividadDAO.obtenerActividad(agenda.getIdAgenda(),Constantes.ID_TIPO_PRIMORDIALES);
 		for(Actividad act : resultado) {
 			cantidadActividades ++;
 			if(act.getEstadoPublicado().equals(Constantes.ESTADO_PUBLICADO)) {

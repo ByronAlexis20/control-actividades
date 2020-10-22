@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="quejas" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e33421e6-a922-4695-aa09-82f7d16f8278">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Control Actividades"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="ESTADO_QUEJA" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select (p.nombre || ' ' || p.apellido) as funcionario, d.nombre, p.email,
+q.fecha_envio,q.problema
+from queja q, empleado e, persona p,departamento d
+where q.id_empleado = e.id_empleado and e.id_persona = p.id_persona
+and e.id_departamento = d.id_departamento
+and q.estado = 'A' and e.estado = 'A' and p.estado = 'A'
+and q.estado_queja =  $P{ESTADO_QUEJA}]]>
+	</queryString>
+	<field name="funcionario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="funcionario"/>
+		<property name="com.jaspersoft.studio.field.label" value="funcionario"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="departamento"/>
+	</field>
+	<field name="email" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="email"/>
+		<property name="com.jaspersoft.studio.field.label" value="email"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="persona"/>
+	</field>
+	<field name="fecha_envio" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fecha_envio"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha_envio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="queja"/>
+	</field>
+	<field name="problema" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="problema"/>
+		<property name="com.jaspersoft.studio.field.label" value="problema"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="queja"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="81" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement stretchType="RelativeToTallestObject" x="10" y="10" width="97" height="68" uuid="0e410cbd-5849-44c8-a40c-c985b594df1a"/>
+				<imageExpression><![CDATA["logo_gobernacion.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="107" y="10" width="417" height="68" uuid="83073f29-3867-4019-aa53-d94681e98ee4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE QUEJAS]]></text>
+			</staticText>
+			<line>
+				<reportElement x="10" y="10" width="514" height="1" uuid="33d7ab16-03e4-4846-8f63-1cd15773b07c"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="10" y="79" width="514" height="1" uuid="ffbb7dec-e8bb-4182-aed8-30b79f8860bd"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="0" width="517" height="26" uuid="ac1028be-198e-457f-8e14-705b31c01564"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOTIFICACIÓN]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="119" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="5" width="74" height="20" uuid="83583185-e0fd-4b8a-a225-8f7765a829a0"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Funcionario:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="27" width="74" height="20" uuid="94f3600d-8171-4236-8f07-83f69d221a0a"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Departamento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="49" width="74" height="20" uuid="56b664ed-fd2c-4eda-94d0-0432b4a3d6e0"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Correo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="71" width="74" height="20" uuid="ce405490-646f-4f4d-a851-220dbc1cc541"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="93" width="74" height="20" uuid="6c49a3be-0799-4d65-8161-c94451789470"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Problema:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="15" y="4" width="509" height="1" uuid="bfddfeb7-f62a-4841-a152-3415e6efc2e1"/>
+			</line>
+			<line>
+				<reportElement x="15" y="26" width="509" height="1" uuid="28946047-968b-4f26-b272-abb4a91dba6f"/>
+			</line>
+			<line>
+				<reportElement x="15" y="48" width="509" height="1" uuid="0941fce4-0cc6-4f25-972a-8494cbaf2fe7"/>
+			</line>
+			<line>
+				<reportElement x="15" y="70" width="509" height="1" uuid="8d15669a-af9c-4025-81ae-82aee286d77c"/>
+			</line>
+			<line>
+				<reportElement x="15" y="92" width="509" height="1" uuid="eb85b980-1a6b-4037-abbc-01cd8d8b00b9"/>
+			</line>
+			<line>
+				<reportElement x="15" y="113" width="509" height="1" uuid="47029b0a-17b0-4ba1-bdfd-48e507521add"/>
+			</line>
+			<line>
+				<reportElement x="525" y="3" width="1" height="111" uuid="cbb93d70-f192-44b6-8bca-188904667f8c"/>
+			</line>
+			<line>
+				<reportElement x="95" y="3" width="1" height="111" uuid="cdac3525-27da-4710-a7a6-6d3fd242e7a5"/>
+			</line>
+			<line>
+				<reportElement x="15" y="3" width="1" height="111" uuid="c97fca99-154e-4833-9ed8-350f19a6b265"/>
+			</line>
+			<textField>
+				<reportElement x="99" y="5" width="424" height="20" uuid="5f584c48-aec5-457f-88af-f3b5fc7b294d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{funcionario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="99" y="28" width="424" height="20" uuid="8d2befa8-bdea-4c80-b2b4-435187112549"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="99" y="50" width="424" height="20" uuid="ad344c74-6548-4bbd-a0dd-921521e3d003"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="99" y="71" width="424" height="20" uuid="6316b273-0434-4791-b23d-f58fce222124"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha_envio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="99" y="93" width="424" height="20" uuid="36156eaa-fac4-4210-89c8-b0353cc1cc5c"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{problema}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

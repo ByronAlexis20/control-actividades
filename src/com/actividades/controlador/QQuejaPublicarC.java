@@ -2,7 +2,9 @@ package com.actividades.controlador;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -28,6 +30,7 @@ import com.actividades.modelo.Queja;
 import com.actividades.modelo.QuejaDAO;
 import com.actividades.util.Constantes;
 import com.actividades.util.ControllerHelper;
+import com.actividades.util.PrintReport;
 
 public class QQuejaPublicarC {
 	@Wire Listbox lstQuejas;
@@ -37,6 +40,7 @@ public class QQuejaPublicarC {
 	String textoBuscar;
 	QuejaDAO quejaDAO = new QuejaDAO();
 	EmpleadoDAO empleadoDAO = new EmpleadoDAO();
+	
 	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
@@ -69,8 +73,12 @@ public class QQuejaPublicarC {
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {
 					try {
+						//
+						
 						int contadorQuejas = 0;
 						contadorQuejas = listaQueja.size();
+						enviarCorreoGobernador(contadorQuejas);
+						
 						quejaDAO.getEntityManager().getTransaction().begin();
 						for(Queja queja : listaQueja) {
 							queja.setEstadoQueja(Constantes.QUEJA_PUBLICADA);
@@ -80,9 +88,6 @@ public class QQuejaPublicarC {
 						quejaDAO.getEntityManager().getTransaction().commit();
 						Clients.showNotification("Transaccion ejecutada con exito.");
 						
-						
-						
-						enviarCorreoGobernador(contadorQuejas);
 						// Actualiza la lista
 						BindUtils.postGlobalCommand(null, null, "Queja.buscarPorResponsable", null);
 
@@ -102,7 +107,13 @@ public class QQuejaPublicarC {
 				if(ControllerHelper.validarEmail(gobernador.getPersona().getEmail()) == false) {
 					Clients.showNotification("El Gobernador/a tiene un correo No Válido");
 				}else {
-					String adjunto = "";
+					//crear el archivo adjunto
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("ESTADO_QUEJA", Constantes.QUEJA_REVISION);
+					PrintReport report = new PrintReport();
+					String archivoAdjunto = report.crearArchivo("/reportes/quejas.jasper",empleadoDAO, params);
+					
+					String adjunto = archivoAdjunto;
 					String[] adjuntos = adjunto.split(",");
 					String asunto;
 					String destinatario;

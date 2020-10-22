@@ -96,7 +96,6 @@ public class QRealizarC {
 		ventanaCargar.doModal();
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@GlobalCommand({"Queja.buscarPorResponsableEstadoQuejaAtencion"})
 	@Command
 	@NotifyChange({"listaQueja"})
 	public void cambia() {

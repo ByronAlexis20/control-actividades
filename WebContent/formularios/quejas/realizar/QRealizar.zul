@@ -17,7 +17,7 @@
 						<label value="Seleccionar: "/>
 						<radio label="PENDIENTES" id="rbPendientes"/>
 						<separator orient="vertical" width="15px"/>
-						<radio label="REVISION" id="rbPublicadas"/>
+						<radio label="REVISIÓN" id="rbPublicadas"/>
 						<separator orient="vertical" width="15px"/>
 						<radio label="ATENDIDAS" id="rbAtendidas"/>
 					</radiogroup>
@@ -33,7 +33,7 @@
 					iconSclass="z-icon-trash-o" onClick="@command('eliminarQueja')"
 					zclass="btn btn-outline-danger btn btn-sm"/>
 				<separator orient="vertical" width="10px"></separator>
-				<button label="Pasar a revicion" id="btnPasarRevision"
+				<button label="Pasar a revisión" id="btnPasarRevision"
 					onClick="@command('pasarRevision')"
 					zclass="btn btn-outline-danger btn btn-sm"/>
 			</div>

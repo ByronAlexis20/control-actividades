@@ -60,7 +60,7 @@
 											<tab label="Pendientes" />
 											<tab label="Rechazadas" />
 										</tabs>
-										<tabpanels>
+										<tabpanels height="200px">
 											<tabpanel>
 												<listbox id="lstActividadesPublicadas" model="@load(vm.listaActividadesPublicadas)" mold="paging" hflex="1" vflex="1">
 													<listhead>

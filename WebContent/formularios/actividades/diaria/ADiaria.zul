@@ -80,56 +80,108 @@
 									</div>
 								</vbox>
 							</hbox>
-							
-							<div hflex="1">
-								<button id="btnNuevaActividad" onClick="@command('nuevaActividad')"
-									iconSclass="z-icon-plus" height="20px" width="80px">
-									Nuevo
-								</button>    
-								<button id="btnEditarActividad" onClick="@command('editarActividad')"
-									iconSclass="z-icon-pencil" height="20px" width="80px">
-									Editar
-								</button>
-								<button id="btnEliminarActividad" onClick="@command('eliminarActividad')"
-									iconSclass="z-icon-trash-o" height="20px" width="80px">
-									Eliminar
-								</button>
-							</div>
-							
-							<listbox id="lstActividades" hflex="1" model="@load(vm.listaActividad)" selectedItem="@bind(vm.actividadSeleccionada)"
-								vflex="1" >
-								<listhead>
-									<listheader label="Código" width="10%"/>
-									<listheader label="Actividad" />
-									<listheader label="Fecha" width="10%"/>
-									<listheader label="Estado" width="12%"/>
-									<listheader label="Evidencias" width="11%" align="center"/>
-									<listheader label="Publicar" width="13%" align="center"/>
-								</listhead>
-								<template name="model">
-									<listitem>
-										<listcell label="@load(each.codigo)" style="font-size:10px;font-family: Calibri;font-weight: bold;"
-											sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
-										<listcell label="@load(each.descripcion)" style="font-family: Calibri;"
-											sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
-										<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;"
-											sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
-										<listcell label="@load(each.estadoActividad)" style="font-family: Calibri;"
-											sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
-										<listcell sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')">
-											<div hflex="1" align="center">
-												<button label="Ver" onClick="@command('evidencias',actividad=each)"/>
+							<tabbox hflex="1" vflex="1">
+								<tabs hflex="1">
+									<tab label="Principales" hflex="1"/>
+									<tab label="Internas" />
+								</tabs>
+								<tabpanels>
+									<tabpanel hflex="1">
+										<vlayout hflex="1" vflex="1">
+											<div hflex="1">
+												<button id="btnNuevaActividad" onClick="@command('nuevaActividad')"
+													iconSclass="z-icon-plus" height="20px" width="80px">
+													Nuevo
+												</button>    
+												<button id="btnEditarActividad" onClick="@command('editarActividad')"
+													iconSclass="z-icon-pencil" height="20px" width="80px">
+													Editar
+												</button>
+												<button id="btnEliminarActividad" onClick="@command('eliminarActividad')"
+													iconSclass="z-icon-trash-o" height="20px" width="80px">
+													Eliminar
+												</button>
 											</div>
-										</listcell>
-										<listcell sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')">
-											<div hflex="1" align="center">
-												<button label="@load(each.estadoPublicado eq 'NO PUBLICADO' ? 'Publicar' : 'Publicado')" 
-												onClick="@command('publicar',actividad=each)" disabled="@load(each.estadoPublicado eq 'PUBLICADO')"/>
-												</div>
-										</listcell>
-									</listitem>
-								</template>
-							</listbox>
+											
+											<listbox id="lstActividades" hflex="1" model="@load(vm.listaActividad)" selectedItem="@bind(vm.actividadSeleccionada)"
+												vflex="1" >
+												<listhead>
+													<listheader label="Código" width="10%"/>
+													<listheader label="Actividad" />
+													<listheader label="Fecha" width="10%"/>
+													<listheader label="Estado" width="12%"/>
+													<listheader label="Evidencias" width="11%" align="center"/>
+													<listheader label="Publicar" width="13%" align="center"/>
+												</listhead>
+												<template name="model">
+													<listitem>
+														<listcell label="@load(each.codigo)" style="font-size:10px;font-family: Calibri;font-weight: bold;"
+															sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
+														<listcell label="@load(each.descripcion)" style="font-family: Calibri;"
+															sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
+														<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;"
+															sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
+														<listcell label="@load(each.estadoActividad)" style="font-family: Calibri;"
+															sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
+														<listcell sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')">
+															<div hflex="1" align="center">
+																<button label="Ver" onClick="@command('evidencias',actividad=each)"/>
+															</div>
+														</listcell>
+														<listcell sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')">
+															<div hflex="1" align="center">
+																<button label="@load(each.estadoPublicado eq 'NO PUBLICADO' ? 'Publicar' : 'Publicado')" 
+																onClick="@command('publicar',actividad=each)" disabled="@load(each.estadoPublicado eq 'PUBLICADO')"/>
+																</div>
+														</listcell>
+													</listitem>
+												</template>
+											</listbox>
+										</vlayout>
+									</tabpanel>
+									<tabpanel>
+										<vlayout hflex="1" vflex="1">
+											<div hflex="1">
+												<button id="btnNuevaActividadInterna" onClick="@command('nuevaActividadInterna')"
+													iconSclass="z-icon-plus" height="20px" width="80px">
+													Nuevo
+												</button>    
+												<button id="btnEditarActividadInterna" onClick="@command('editarActividadInterna')"
+													iconSclass="z-icon-pencil" height="20px" width="80px">
+													Editar
+												</button>
+												<button id="btnEliminarActividadInterna" onClick="@command('eliminarActividadInterna')"
+													iconSclass="z-icon-trash-o" height="20px" width="80px">
+													Eliminar
+												</button>
+											</div>
+											<listbox id="lstActividadesInternas" hflex="1" model="@load(vm.listaActividadInterna)" selectedItem="@bind(vm.actividadSeleccionadaInterna)"
+												vflex="1" >
+												<listhead>
+													<listheader label="Código" width="10%"/>
+													<listheader label="Actividad" />
+													<listheader label="Fecha" width="10%"/>
+													<listheader label="Estado" width="12%"/>
+													<listheader label="Evidencias" width="11%" align="center"/>
+												</listhead>
+												<template name="model">
+													<listitem>
+														<listcell label="@load(each.codigo)" style="font-size:10px;font-family: Calibri;font-weight: bold;"/>
+														<listcell label="@load(each.descripcion)" style="font-family: Calibri;"/>
+														<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;"/>
+														<listcell label="@load(each.estadoActividad)" style="font-family: Calibri;"/>
+														<listcell>
+															<div hflex="1" align="center">
+																<button label="Ver" onClick="@command('evidencias',actividad=each)"/>
+															</div>
+														</listcell>
+													</listitem>
+												</template>
+											</listbox>
+										</vlayout>
+									</tabpanel>
+								</tabpanels>
+							</tabbox>
 						</vbox>
 					</groupbox>
 				</vbox>

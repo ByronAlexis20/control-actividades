@@ -38,7 +38,7 @@ import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.util.Constantes;
 import com.actividades.util.SecurityUtil;
 
-public class ARechazadaC {
+public class APendientesC {
 	@Wire private Window winActividades;
 	@Wire private Listbox lstActividades;
 	@Wire private Listbox lstAgenda;
@@ -111,7 +111,7 @@ public class ARechazadaC {
 		List<Actividad> resultado = actividadDAO.obtenerActividad(agendaSeleccionada.getIdAgenda(),Constantes.ID_TIPO_PRIMORDIALES);
 		
 		List<String> estados = new ArrayList<>();
-		estados.add(Constantes.ESTADO_RECHAZADO);
+		estados.add(Constantes.ESTADO_PENDIENTE);
 		for(String est : estados) {
 			for(Actividad act : resultado) {
 				if(est.equals(act.getEstadoActividad())) {

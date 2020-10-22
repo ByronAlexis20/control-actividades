@@ -30,6 +30,8 @@ import com.actividades.modelo.Departamento;
 import com.actividades.modelo.DepartamentoDAO;
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
+import com.actividades.util.Constantes;
+import com.actividades.util.PrintReport;
 
 public class RAActividadesFechaC {
 	@Wire private Listbox lstDepartamento;
@@ -114,7 +116,21 @@ public class RAActividadesFechaC {
 		Window ventanaCargar = (Window) Executions.createComponents("/formularios/reportes/act_fecha/RAActividadDep.zul", null, params);
 		ventanaCargar.doModal();
 	}
-	
+	@Command
+	public void descargarReporte() {
+		if(departamentoSeleccionado == null) {
+			Messagebox.show("Debe seleccionar un departamento!!");
+			return;
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("ID_TIPO_ACTIVIDAD", Constantes.ID_TIPO_PRIMORDIALES);
+		params.put("FECHA_INICIO", dtpFechaInicio.getValue());
+		params.put("FECHA_FIN", dtpFechaFin.getValue());
+		params.put("FECHA_BUSQUEDA", "Fecha de Búsqueda: " + new SimpleDateFormat("dd/MM/yyyy").format(dtpFechaInicio.getValue()) + " - " + new SimpleDateFormat("dd/MM/yyyy").format(dtpFechaFin.getValue()));
+		params.put("ID_EMPLEADO", departamentoSeleccionado.getEmpleado().getIdEmpleado());
+		PrintReport report = new PrintReport();
+		report.crearReporte("/reportes/actividades.jasper",empleadoDAO, params);
+	}
 	public List<DepartamentoResponsable> getListaDepartamentos() {
 		return listaDepartamentos;
 	}

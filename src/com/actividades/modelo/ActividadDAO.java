@@ -8,11 +8,12 @@ import javax.persistence.Query;
 
 public class ActividadDAO extends ClaseDAO{
 	@SuppressWarnings("unchecked")
-	public List<Actividad> obtenerActividad(Integer idAgenda) {
+	public List<Actividad> obtenerActividad(Integer idAgenda,Integer idTipoActividad) {
 		List<Actividad> resultado = new ArrayList<Actividad>(); 
 		Query query = getEntityManager().createNamedQuery("Actividad.buscarPorAgenda");
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setParameter("idAgenda", idAgenda);
+		query.setParameter("idTipoActividad", idTipoActividad);
 		resultado = (List<Actividad>) query.getResultList();
 		return resultado;
 	}
@@ -27,13 +28,14 @@ public class ActividadDAO extends ClaseDAO{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Actividad> buscarPorFecha(Date fechaInicio, Date fechaFin, Integer idEmpleado) {
+	public List<Actividad> buscarPorFecha(Date fechaInicio, Date fechaFin, Integer idEmpleado,Integer idTipoActividad) {
 		List<Actividad> resultado = new ArrayList<Actividad>(); 
 		Query query = getEntityManager().createNamedQuery("Actividad.buscarPorFecha");
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setParameter("fechaInicio", fechaInicio);
 		query.setParameter("fechaFin", fechaFin);
 		query.setParameter("idEmpleado", idEmpleado);
+		query.setParameter("idTipoActividad", idTipoActividad);
 		resultado = (List<Actividad>) query.getResultList();
 		return resultado;
 	}

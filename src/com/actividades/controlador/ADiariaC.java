@@ -41,13 +41,21 @@ import com.actividades.util.SecurityUtil;
 public class ADiariaC {
 	@Wire private Window winActividades;
 	@Wire private Listbox lstActividades;
+	@Wire private Listbox lstActividadesInternas;
 	@Wire private Listbox lstAgenda;
+	
 	@Wire private Textbox txtAgendaSeleccionada;
 	@Wire private Textbox txtFechaInicio;
 	@Wire private Textbox txtFechaFin;
 	@Wire private Button btnNuevaActividad;
 	@Wire private Button btnEditarActividad;
 	@Wire private Button btnEliminarActividad;
+	
+	@Wire private Button btnNuevaActividadInterna;
+	@Wire private Button btnEditarActividadInterna;
+	@Wire private Button btnEliminarActividadInterna;
+	
+	
 	@Wire private Button btnPublicar;
 	
 	@Wire private Button btnNuevoAgenda;
@@ -58,9 +66,11 @@ public class ADiariaC {
 	private Agenda agendaSeleccionada;
 	private List<Agenda> listaAgenda;
 	private List<Actividad> listaActividad;
+	private List<Actividad> listaActividadInterna;
 	private AgendaDAO agendaDAO = new AgendaDAO();
 	private ActividadDAO actividadDAO = new ActividadDAO();
 	private Actividad actividadSeleccionada;
+	private Actividad actividadSeleccionadaInterna;
 
 	private EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	@AfterCompose
@@ -136,9 +146,16 @@ public class ADiariaC {
 		btnEditarActividad.setDisabled(true);
 		btnEliminarActividad.setDisabled(true);
 		btnNuevaActividad.setDisabled(true);
+		btnEditarActividadInterna.setDisabled(true);
+		btnEliminarActividadInterna.setDisabled(true);
+		btnNuevaActividadInterna.setDisabled(true);
+		
 		
 		listaActividad = new ArrayList<>();
 		lstActividades.setModel(new ListModelList(listaActividad));
+		
+		listaActividadInterna = new ArrayList<>();
+		lstActividadesInternas.setModel(new ListModelList(listaActividadInterna));
 	}
 
 	private void habilitarCampos() {
@@ -148,6 +165,10 @@ public class ADiariaC {
 		btnEditarActividad.setDisabled(false);
 		btnEliminarActividad.setDisabled(false);
 		btnNuevaActividad.setDisabled(false);
+		
+		btnEditarActividadInterna.setDisabled(false);
+		btnEliminarActividadInterna.setDisabled(false);
+		btnNuevaActividadInterna.setDisabled(false);
 	}
 
 	@Command
@@ -170,18 +191,35 @@ public class ADiariaC {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GlobalCommand("Actividad.buscarPorAgenda")
 	@Command
-	@NotifyChange({"listaActividad"})
+	@NotifyChange({"listaActividad", "listaActividadInterna"})
 	public void cargarActividades() {
 		if(listaActividad != null)
 			listaActividad = null;
+		if(listaActividadInterna != null)
+			listaActividadInterna = null;
 		
-		List<Actividad> lista = new ArrayList<>();
-		List<Actividad> resultado = actividadDAO.obtenerActividad(agendaSeleccionada.getIdAgenda());
+		
 		
 		List<String> estados = new ArrayList<>();
 		estados.add(Constantes.ESTADO_NO_PUBLICADO);
 		estados.add(Constantes.ESTADO_PUBLICADO);
 		estados.add(Constantes.ESTADO_RECHAZADO);
+		
+		List<Actividad> listaInterna = new ArrayList<>();
+		List<Actividad> resultadoInterno = actividadDAO.obtenerActividad(agendaSeleccionada.getIdAgenda(),Constantes.ID_TIPO_INTERNAS);
+		
+		for(String est : estados) {
+			for(Actividad act : resultadoInterno) {
+				if(est.equals(act.getEstadoPublicado())) {
+					listaInterna.add(act);
+				}
+			}
+		}
+		listaActividadInterna = listaInterna;
+		lstActividadesInternas.setModel(new ListModelList(listaActividadInterna));
+		
+		List<Actividad> lista = new ArrayList<>();
+		List<Actividad> resultado = actividadDAO.obtenerActividad(agendaSeleccionada.getIdAgenda(),Constantes.ID_TIPO_PRIMORDIALES);
 		for(String est : estados) {
 			for(Actividad act : resultado) {
 				if(est.equals(act.getEstadoPublicado())) {
@@ -191,6 +229,7 @@ public class ADiariaC {
 		}
 		listaActividad = lista;
 		lstActividades.setModel(new ListModelList(listaActividad));
+		
 	}
 
 
@@ -245,6 +284,7 @@ public class ADiariaC {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Ventana", this);
 		params.put("Actividad", null);
+		params.put("TipoActividad", "PRINCIPAL");
 		params.put("Agenda", agendaSeleccionada);
 		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", winActividades, params);
 		ventanaCargar.doModal();
@@ -266,6 +306,7 @@ public class ADiariaC {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Ventana", this);
 		params.put("Actividad", actividadSeleccionada);
+		params.put("TipoActividad", "PRINCIPAL");
 		params.put("Agenda", agendaSeleccionada);
 		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", winActividades, params);
 		ventanaCargar.doModal();
@@ -297,6 +338,61 @@ public class ADiariaC {
 		});	
 	}
 
+	@Command
+	public void nuevaActividadInterna() {
+		if (agendaSeleccionada == null) {
+			Messagebox.show("Debe seleccionar una Agenda");
+			return; 
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("Ventana", this);
+		params.put("Actividad", null);
+		params.put("TipoActividad", "INTERNA");
+		params.put("Agenda", agendaSeleccionada);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", winActividades, params);
+		ventanaCargar.doModal();
+	}
+	@Command
+	public void editarActividadInterna() {
+		if (actividadSeleccionadaInterna == null) {
+			Messagebox.show("Debe seleccionar una Actividad");
+			return; 
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("Ventana", this);
+		params.put("Actividad", actividadSeleccionadaInterna);
+		params.put("TipoActividad", "INTERNA");
+		params.put("Agenda", agendaSeleccionada);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", winActividades, params);
+		ventanaCargar.doModal();
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Command
+	public void eliminarActividadInterna() {
+		if (actividadSeleccionadaInterna == null) {
+			Messagebox.show("Debe seleccionar una Actividad");
+			return; 
+		}
+		Messagebox.show("Desea eliminar el registro seleccionado?", "Confirmación de Eliminación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {	
+			@Override
+			public void onEvent(Event event) throws Exception {
+				if (event.getName().equals("onYes")) {
+					try {
+						actividadSeleccionadaInterna.setEstado(Constantes.ESTADO_INACTIVO);
+						actividadDAO.getEntityManager().getTransaction().begin();
+						actividadDAO.getEntityManager().merge(actividadSeleccionadaInterna);
+						actividadDAO.getEntityManager().getTransaction().commit();
+						Messagebox.show("Transaccion ejecutada con exito");
+						BindUtils.postGlobalCommand(null, null, "Actividad.buscarPorAgenda", null);
+					} catch (Exception e) {
+						e.printStackTrace();
+						actividadDAO.getEntityManager().getTransaction().rollback();
+					}
+				}
+			}
+		});	
+	}
+	
 	//evidencias
 	@Command
 	public void evidencias(@BindingParam("actividad") Actividad seleccion){
@@ -371,9 +467,19 @@ public class ADiariaC {
 	public Actividad getActividadSeleccionada() {
 		return actividadSeleccionada;
 	}
-
 	public void setActividadSeleccionada(Actividad actividadSeleccionada) {
 		this.actividadSeleccionada = actividadSeleccionada;
 	}
-
+	public List<Actividad> getListaActividadInterna() {
+		return listaActividadInterna;
+	}
+	public void setListaActividadInterna(List<Actividad> listaActividadInterna) {
+		this.listaActividadInterna = listaActividadInterna;
+	}
+	public Actividad getActividadSeleccionadaInterna() {
+		return actividadSeleccionadaInterna;
+	}
+	public void setActividadSeleccionadaInterna(Actividad actividadSeleccionadaInterna) {
+		this.actividadSeleccionadaInterna = actividadSeleccionadaInterna;
+	}
 }

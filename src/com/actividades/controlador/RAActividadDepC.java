@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -14,6 +16,7 @@ import org.jfree.chart.encoders.ImageFormat;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
@@ -23,6 +26,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -96,7 +100,7 @@ public class RAActividadDepC {
 		List<Actividad> listaRechazadas = new ArrayList<>();
 		List<Actividad> listaPublicadas = new ArrayList<>();
 		
-		List<Actividad> todas = actividadDAO.buscarPorFecha(fechaInicio, fechaFin, empleado.getIdEmpleado());
+		List<Actividad> todas = actividadDAO.buscarPorFecha(fechaInicio, fechaFin, empleado.getIdEmpleado(),Constantes.ID_TIPO_PRIMORDIALES);
 		totalActividades = todas.size();
 		
 		for(Actividad act : todas) {
@@ -155,6 +159,20 @@ public class RAActividadDepC {
 		
 		AImage image = new AImage("Pie Chart", bytes);
 		imGrafico.setContent(image);
+	}
+	
+	@Command
+	public void verEvidencias(@BindingParam("actividad") Actividad seleccion){
+		if(seleccion == null) {
+			Clients.showNotification("Seleccione una opción de la lista.");
+			return;
+		}
+		// Actualiza la instancia antes de enviarla a editar.
+		actividadDAO.getEntityManager().refresh(seleccion);		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("Actividad", seleccion);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/reportes/actividades/RAEvidencia.zul", null, params);
+		ventanaCargar.doModal();
 	}
 	@Command
 	public void salir() {

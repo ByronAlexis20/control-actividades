@@ -11,7 +11,10 @@ import java.util.List;
  */
 @Entity
 @Table(name="tipo_actividad")
-@NamedQuery(name="TipoActividad.findAll", query="SELECT t FROM TipoActividad t")
+@NamedQueries({
+	@NamedQuery(name="TipoActividad.buscarPorId", query="SELECT t FROM TipoActividad t where "
+			+ "t.idTipoActividad = :id and t.estado = 'A'")
+})
 public class TipoActividad implements Serializable {
 	private static final long serialVersionUID = 1L;
 

@@ -95,7 +95,7 @@ public class RAGraficoActC {
 		List<Actividad> listaRechazadas = new ArrayList<>();
 		List<Actividad> listaPublicadas = new ArrayList<>();
 		
-		List<Actividad> todas = actividadDAO.obtenerActividad(agenda.getIdAgenda());
+		List<Actividad> todas = actividadDAO.obtenerActividad(agenda.getIdAgenda(),Constantes.ID_TIPO_PRIMORDIALES);
 		totalActividades = todas.size();
 		
 		for(Actividad act : todas) {

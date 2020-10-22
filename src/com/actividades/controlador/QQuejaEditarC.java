@@ -88,7 +88,7 @@ public class QQuejaEditarC {
 						}			
 						quejaDAO.getEntityManager().getTransaction().commit();
 						Clients.showNotification("Proceso Ejecutado con exito.");
-						BindUtils.postGlobalCommand(null, null, "Queja.buscarPorResponsable", null);
+						BindUtils.postGlobalCommand(null, null, "Queja.buscarPorResponsableEstadoQuejaAtencion", null);
 						salir();						
 					} catch (Exception e) {
 						e.printStackTrace();
