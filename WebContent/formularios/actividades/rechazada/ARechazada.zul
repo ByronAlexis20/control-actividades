@@ -12,8 +12,7 @@
 			<groupbox>
 				<div align="center">
 					<label value="Actividades Rechazadas"
-						style="color:#088A08;font-size:20px"
-						sclass="p-1 text-red font-italic font-weight-bold" />
+						style="color:#088A08;font-size:25px;font-weight: bold;"/>
 				</div>
 			</groupbox>
 			<hbox hflex="1" vflex="1" align="center">
@@ -24,8 +23,8 @@
 							<listbox id="lstAgenda" hflex="1" vflex="1" model="@load(vm.listaAgenda)" 
 								selectedItem="@bind(vm.agendaSeleccionada)" onSelect="@command('seleccionarAgenda')">
 								<listhead>
-									<listheader width="20%"/>
-									<listheader/>
+									<listheader width="20%" label="Codigo" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
+									<listheader label="Agenda" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
 								</listhead>
 								<template name="model">
 									<listitem>
@@ -81,12 +80,12 @@
 							<listbox id="lstActividades" hflex="1" model="@load(vm.listaActividad)" selectedItem="@bind(vm.actividadSeleccionada)"
 								vflex="1" >
 								<listhead>
-									<listheader label="Código" width="10%"/>
-									<listheader label="Actividad" />
-									<listheader label="Fecha" width="10%"/>
-									<listheader label="Estado" width="12%"/>
-									<listheader label="Evidencias" width="11%" align="center"/>
-									<listheader label="Publicar" width="13%" align="center"/>
+									<listheader label="Código" width="10%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
+									<listheader label="Actividad" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
+									<listheader label="Fecha" width="10%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
+									<listheader label="Estado" width="12%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
+									<listheader label="Evidencias" width="11%" align="center" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
+									<listheader label="Publicar" width="13%" align="center" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
 								</listhead>
 								<template name="model">
 									<listitem>

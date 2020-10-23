@@ -25,9 +25,9 @@ import org.zkoss.zul.Button;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
-import org.zkoss.zul.Messagebox.ClickEvent;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
+import org.zkoss.zul.Messagebox.ClickEvent;
 
 import com.actividades.modelo.Actividad;
 import com.actividades.modelo.ActividadDAO;
@@ -38,17 +38,18 @@ import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.util.Constantes;
 import com.actividades.util.SecurityUtil;
 
-public class ADiariaC {
+public class AinternasC {
 	@Wire private Window winActividades;
-	@Wire private Listbox lstActividades;
+	@Wire private Listbox lstActividadesInternas;
 	@Wire private Listbox lstAgenda;
 	
 	@Wire private Textbox txtAgendaSeleccionada;
 	@Wire private Textbox txtFechaInicio;
 	@Wire private Textbox txtFechaFin;
-	@Wire private Button btnNuevaActividad;
-	@Wire private Button btnEditarActividad;
-	@Wire private Button btnEliminarActividad;
+	
+	@Wire private Button btnNuevaActividadInterna;
+	@Wire private Button btnEditarActividadInterna;
+	@Wire private Button btnEliminarActividadInterna;
 	
 	
 	@Wire private Button btnPublicar;
@@ -60,7 +61,7 @@ public class ADiariaC {
 
 	private Agenda agendaSeleccionada;
 	private List<Agenda> listaAgenda;
-	private List<Actividad> listaActividad;
+	private List<Actividad> listaActividadInterna;
 	private AgendaDAO agendaDAO = new AgendaDAO();
 	private ActividadDAO actividadDAO = new ActividadDAO();
 	private Actividad actividadSeleccionada;
@@ -71,7 +72,6 @@ public class ADiariaC {
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
 		listaAgenda = new ArrayList<>();
-		listaActividad = new ArrayList<>();
 
 		cargarAgendas();
 		deshabilitarCampos();
@@ -137,21 +137,22 @@ public class ADiariaC {
 		txtAgendaSeleccionada.setText("");
 		txtFechaFin.setText("");
 		txtFechaInicio.setText("");
-		btnEditarActividad.setDisabled(true);
-		btnEliminarActividad.setDisabled(true);
-		btnNuevaActividad.setDisabled(true);
+		btnEditarActividadInterna.setDisabled(true);
+		btnEliminarActividadInterna.setDisabled(true);
+		btnNuevaActividadInterna.setDisabled(true);
 		
-		listaActividad = new ArrayList<>();
-		lstActividades.setModel(new ListModelList(listaActividad));
+		listaActividadInterna = new ArrayList<>();
+		lstActividadesInternas.setModel(new ListModelList(listaActividadInterna));
 	}
 
 	private void habilitarCampos() {
 		txtAgendaSeleccionada.setText("");
 		txtFechaFin.setText("");
 		txtFechaInicio.setText("");
-		btnEditarActividad.setDisabled(false);
-		btnEliminarActividad.setDisabled(false);
-		btnNuevaActividad.setDisabled(false);
+		
+		btnEditarActividadInterna.setDisabled(false);
+		btnEliminarActividadInterna.setDisabled(false);
+		btnNuevaActividadInterna.setDisabled(false);
 	}
 
 	@Command
@@ -174,10 +175,10 @@ public class ADiariaC {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GlobalCommand("Actividad.buscarPorAgenda")
 	@Command
-	@NotifyChange({"listaActividad", "listaActividadInterna"})
+	@NotifyChange({"listaActividadInterna"})
 	public void cargarActividades() {
-		if(listaActividad != null)
-			listaActividad = null;
+		if(listaActividadInterna != null)
+			listaActividadInterna = null;
 		
 		
 		
@@ -186,17 +187,18 @@ public class ADiariaC {
 		estados.add(Constantes.ESTADO_PUBLICADO);
 		estados.add(Constantes.ESTADO_RECHAZADO);
 		
-		List<Actividad> lista = new ArrayList<>();
-		List<Actividad> resultado = actividadDAO.obtenerActividad(agendaSeleccionada.getIdAgenda(),Constantes.ID_TIPO_PRIMORDIALES);
+		List<Actividad> listaInterna = new ArrayList<>();
+		List<Actividad> resultadoInterno = actividadDAO.obtenerActividad(agendaSeleccionada.getIdAgenda(),Constantes.ID_TIPO_INTERNAS);
+		
 		for(String est : estados) {
-			for(Actividad act : resultado) {
+			for(Actividad act : resultadoInterno) {
 				if(est.equals(act.getEstadoPublicado())) {
-					lista.add(act);
+					listaInterna.add(act);
 				}
 			}
 		}
-		listaActividad = lista;
-		lstActividades.setModel(new ListModelList(listaActividad));
+		listaActividadInterna = listaInterna;
+		lstActividadesInternas.setModel(new ListModelList(listaActividadInterna));
 		
 	}
 
@@ -425,18 +427,18 @@ public class ADiariaC {
 	public void setListaAgenda(List<Agenda> listaAgenda) {
 		this.listaAgenda = listaAgenda;
 	}
-	public List<Actividad> getListaActividad() {
-		return listaActividad;
-	}
-	public void setListaActividad(List<Actividad> listaActividad) {
-		this.listaActividad = listaActividad;
-	}
 
 	public Actividad getActividadSeleccionada() {
 		return actividadSeleccionada;
 	}
 	public void setActividadSeleccionada(Actividad actividadSeleccionada) {
 		this.actividadSeleccionada = actividadSeleccionada;
+	}
+	public List<Actividad> getListaActividadInterna() {
+		return listaActividadInterna;
+	}
+	public void setListaActividadInterna(List<Actividad> listaActividadInterna) {
+		this.listaActividadInterna = listaActividadInterna;
 	}
 	public Actividad getActividadSeleccionadaInterna() {
 		return actividadSeleccionadaInterna;

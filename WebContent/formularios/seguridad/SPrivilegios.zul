@@ -35,11 +35,11 @@
 					</listhead>
 					<template name="model">
 						<listitem>
-							<listcell label="@load(each.empleado.persona.cedula)" />
-							<listcell label="@load(each.empleado.persona.nombre)" />
-							<listcell label="@load(each.empleado.persona.apellido)" />
-							<listcell label="@load(each.empleado.departamento.nombre)" />
-							<listcell label="@load(each.estado)" />
+							<listcell label="@load(each.empleado.persona.cedula)" style="colo:#000000"/>
+							<listcell label="@load(each.empleado.persona.nombre)" style="colo:#000000"/>
+							<listcell label="@load(each.empleado.persona.apellido)" style="colo:#000000"/>
+							<listcell label="@load(each.empleado.departamento.nombre)" style="colo:#000000"/>
+							<listcell label="@load(each.estado)" style="colo:#000000"/>
 						</listitem>
 					</template>
 				</listbox>

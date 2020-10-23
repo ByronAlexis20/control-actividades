@@ -148,7 +148,7 @@ public class APendientesC {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Ventana", this);
 		params.put("Actividad", actividadSeleccionada);
-		params.put("Actividad", "PRINCIPAL");
+		params.put("TipoActividad", "PRINCIPAL");
 		params.put("Agenda", agendaSeleccionada);
 		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", winActividades, params);
 		ventanaCargar.doModal();

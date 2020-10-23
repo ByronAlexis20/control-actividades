@@ -7,8 +7,7 @@
 			<groupbox>
 				<div align="center">
 					<label value="Quejas Pendientes de publicar"
-						style="color:#088A08;font-size:20px"
-						sclass="p-1 text-red font-italic font-weight-bold" />
+						style="color:#088A08;font-size:25px;font-weight: bold;"/>
 				</div>
 			</groupbox>
 			<div>
@@ -22,13 +21,13 @@
 				<listbox id="lstQuejas" model="@load(vm.listaQueja)" autopaging="true" selectedItem="@bind(vm.quejaSeleccionada)"
 					mold="paging" hflex="1" vflex="1">
 					<listhead>
-						<listheader label="Código" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Código" width="10%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
 						<listheader label="Nombre Empleado" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
 						<listheader label="Apellido Empleado" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
 						<listheader label="Departamento" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
 						<listheader label="Problema" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
-						<listheader label="Fecha Envío" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
-						<listheader label="Estado" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Fecha Envío" width="10%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Estado" width="8%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
 					</listhead>
 					<template name="model">
 						<listitem>

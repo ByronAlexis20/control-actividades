@@ -7,8 +7,7 @@
 			<groupbox>
 				<div align="center">
 					<label value="Consulta de actividades"
-						style="color:#088A08;font-size:20px"
-						sclass="p-1 text-red font-italic font-weight-bold" />
+						style="color:#088A08;font-size:25px;font-weight: bold;"/>
 				</div>
 			</groupbox>
 			<hbox hflex="1" vflex="1" align="center">
