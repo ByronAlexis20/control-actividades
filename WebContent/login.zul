@@ -12,7 +12,6 @@
 					<label value="Gobernación de Santa Elena" style="font-family: Berlin Sans FB;font-size: 16pt;color: #FFFFFF;"/>
 				</hbox>
 			</vbox>
-
 		</div>
 		<div width="1px" height="50%"
 			style="border-color: #FFFFFF;border-width: 1px; border-style: solid;">
@@ -31,17 +30,12 @@
 					<!-- Formulario para autenticacion -->
 					<hbox align="center" class="inputWithIcon">
 						<html>
-
-							
 							<![CDATA[ <i class="z-icon-user"
 							aria-hidden="true"></i>]]>
-							
-							
 						</html>
 						<textbox id="u" name="username" width="180px"
 							placeholder="Nombre de usuario" />
 					</hbox>
-
 					<style>
 						input[type="text"] { width: 100%; border:0;
 						border-radius: 5px; margin: 8px 0; outline:
@@ -58,12 +52,8 @@
 					</style>
 					<hbox align="center" class="inputWithIcon">
 						<html>
-
-							
 							<![CDATA[ <i class="z-icon-lock"
 							aria-hidden="true"></i>]]>
-							
-							
 						</html>
 						<textbox id="p" name="password" type="password"
 							width="180px" placeholder="Contraseña"
@@ -81,13 +71,7 @@
 					<separator orient="vertical" width="30px" />
 					<html style="color:white"
 						if="${not empty param.login_error}">
-
-
-						
 						<![CDATA[ Usuario o clave incorrecto!!.]]>
-						
-						
-						
 						</html>
 				</vbox>
 			</h:form>

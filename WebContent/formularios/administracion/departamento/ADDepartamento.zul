@@ -1,6 +1,5 @@
 <?page title="Departamento" contentType="text/html;charset=UTF-8"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./winDepartamento" ?>
-<?link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" ?>
 <zk>
 	<window id="winDepartamento" border="none"
 		apply="com.actividades.controlador.ADDepartamentoC" hflex="1" vflex="1"
@@ -36,17 +35,26 @@
 					selectedItem="@{winDepartamento$composer.departamentoSeleccionado}"
 					mold="paging" hflex="1" vflex="1">
 					<listhead>
-						<listheader label="Código" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Código" width="8%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
 						<listheader label="Departamento" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
 						<listheader label="Descripcion" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
-						<listheader label="Estado" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Estado" width="8%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Acción" width="80px" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
 					</listhead>
 					<template name="model">
 						<listitem>
 							<listcell label="${each.idDepartamento}" />
 							<listcell label="${each.nombre}" />
-							<listcell label="${each.descripcion}" />
+							<listcell label="${each.descripcion}"/>
 							<listcell label="${each.estado}" />
+							<listcell>
+								<button
+									iconSclass="z-icon-pencil"
+									zclass="btn btn-outline-success btn btn-sm"/>
+								<button
+									iconSclass="z-icon-trash-o"
+									zclass="btn btn-outline-danger btn btn-sm"/>
+							</listcell>
 						</listitem>
 					</template>
 				</listbox>
