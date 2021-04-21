@@ -1,4 +1,4 @@
-package com.actividades.controlador;
+package com.actividades.controlador.administracion;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;

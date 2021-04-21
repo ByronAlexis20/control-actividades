@@ -2,7 +2,8 @@
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./winDepartamento" ?>
 <zk>
 	<window id="winDepartamento" border="none"
-		apply="com.actividades.controlador.ADDepartamentoC" hflex="1" vflex="1"
+		apply="org.zkoss.bind.BindComposer" hflex="1" vflex="1"
+		viewModel="@id('vm') @init('com.actividades.controlador.administracion.DepartamentoListaC')"
 		style="padding: 0 0 0 0;background:#FFFFFF;">
 		<vlayout vflex="1">
 			<groupbox>
@@ -13,17 +14,11 @@
 				</div>
 			</groupbox>
 			<div>
-				<button id="btnNuevo" label="Nuevo" iconSclass="z-icon-plus"
+				<button id="btnNuevo" label="Nuevo" iconSclass="z-icon-plus" onClick="@command('nuevo')"
 					zclass="btn btn-outline-primary btn btn-sm"/>
-				<button id="btnEditar" label="Editar"
-					iconSclass="z-icon-pencil"
-					zclass="btn btn-outline-primary btn btn-sm"/>
-				<button id="btnEliminar" label="Eliminar"
-					iconSclass="z-icon-trash-o"
-					zclass="btn btn-outline-danger btn btn-sm"/>
 			</div>
 			<hlayout>
-				<textbox hflex="1" id="txtBuscar"
+				<textbox hflex="1" id="txtBuscar" value="@bind(vm.textoBuscar)" onOK="@command('buscar')"
 					style="text-transform:uppercase" 
 					placeholder="Busqueda por departamento" />
 				<button label="Buscar!" id="btnBuscar" iconSclass="z-icon-search"
@@ -31,8 +26,8 @@
 			</hlayout>
 			<hlayout vflex="1" hflex="1">
 				<listbox autopaging="true" id="ltsDepartamentos"
-					model="@{winDepartamento$composer.departamentoLista}"
-					selectedItem="@{winDepartamento$composer.departamentoSeleccionado}"
+					model="@load(vm.departamentoLista)"
+					selectedItem="@bind(vm.departamentoSeleccionado)"
 					mold="paging" hflex="1" vflex="1">
 					<listhead>
 						<listheader label="Código" width="8%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
@@ -43,15 +38,15 @@
 					</listhead>
 					<template name="model">
 						<listitem>
-							<listcell label="${each.idDepartamento}" />
-							<listcell label="${each.nombre}" />
-							<listcell label="${each.descripcion}"/>
-							<listcell label="${each.estado}" />
+							<listcell label="@load(each.idDepartamento)" />
+							<listcell label="@load(each.nombre)" />
+							<listcell label="@load(each.descripcion)"/>
+							<listcell label="@load(each.estado)" />
 							<listcell>
-								<button
+								<button onClick="@command('editar',departamento=each)"
 									iconSclass="z-icon-pencil"
 									zclass="btn btn-outline-success btn btn-sm"/>
-								<button
+								<button onClick="@command('eliminar',departamento=each)"
 									iconSclass="z-icon-trash-o"
 									zclass="btn btn-outline-danger btn btn-sm"/>
 							</listcell>

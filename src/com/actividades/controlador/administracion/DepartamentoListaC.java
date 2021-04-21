@@ -1,15 +1,22 @@
-package com.actividades.controlador;
+package com.actividades.controlador.administracion;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.GlobalCommand;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.select.SelectorComposer;
-import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -20,25 +27,33 @@ import org.zkoss.zul.Window;
 import com.actividades.modelo.Departamento;
 import com.actividades.modelo.DepartamentoDAO;
 
-@SuppressWarnings("serial")
-public class ADDepartamentoC extends SelectorComposer<Component>{
+public class DepartamentoListaC {
 	@Wire private Window winDepartamento;
 	@Wire private Textbox txtBuscar;
 	@Wire private Listbox ltsDepartamentos;
+	private String textoBuscar = "";
 	
 	
 	DepartamentoDAO departamentoDAO = new DepartamentoDAO();
 	List<Departamento> departamentoLista;
 	private Departamento departamentoSeleccionado;
 	
-	@Override
-	public void doAfterCompose(Component comp) throws Exception {
-		super.doAfterCompose(comp);
+	@AfterCompose
+	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
+		Selectors.wireComponents(view, this, false);
+		textoBuscar="";
 		buscarDepartamento("");
 	}
-	@Listen("onClick=#btnBuscar;onOK=#txtBuscar")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@GlobalCommand("Habitacion.buscarPorPatron")
+	@NotifyChange({"habitacionLista"})
+	@Command
 	public void buscar(){
-		buscarDepartamento(txtBuscar.getText());
+		if (departamentoLista != null)
+			departamentoLista = null; 
+		departamentoLista = departamentoDAO.getListaDepartamentos(textoBuscar);
+		ltsDepartamentos.setModel(new ListModelList(departamentoLista));
+		departamentoSeleccionado = null;
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void buscarDepartamento(String dato) {
@@ -49,35 +64,34 @@ public class ADDepartamentoC extends SelectorComposer<Component>{
 		ltsDepartamentos.setModel(new ListModelList(departamentoLista));
 		departamentoSeleccionado = null;
 	}
-	@Listen("onClick=#btnNuevo")
+	@Command
 	public void nuevo(){
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Departamento", null);
 		params.put("VentanaPadre", this);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/administracion/departamento/ADDepartamentoEditar.zul", winDepartamento, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/administracion/departamento/DepartamentoEditar.zul", winDepartamento, params);
 		ventanaCargar.doModal();
 	}
-	@Listen("onClick=#btnEditar")
-	public void editar(){
-		if (departamentoSeleccionado == null) {
+	@Command
+	public void editar(@BindingParam("departamento") Departamento dep){
+		if (dep == null) {
 			Messagebox.show("Debe seleccionar un tipo departamento para editar!");
 			return; 
 		}
 		// Actualiza la instancia antes de enviarla a editar.
-		departamentoDAO.getEntityManager().refresh(departamentoSeleccionado);
+		departamentoDAO.getEntityManager().refresh(dep);
 
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("Departamento", departamentoSeleccionado);
+		params.put("Departamento", dep);
 		params.put("VentanaPadre", this);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/administracion/departamento/ADDepartamentoEditar.zul", winDepartamento, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/administracion/departamento/DepartamentoEditar.zul", winDepartamento, params);
 		ventanaCargar.doModal();
-
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Listen("onClick=#btnEliminar")
-	public void eliminar(){
-		if (departamentoSeleccionado == null) {
+	@Command
+	public void eliminar(@BindingParam("departamento") Departamento dep){
+		if (dep == null) {
 			Messagebox.show("Debe seleccionar un departamento para eliminar!");
 			return; 
 		}
@@ -86,9 +100,9 @@ public class ADDepartamentoC extends SelectorComposer<Component>{
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {
 					try {
-						departamentoSeleccionado.setEstado("I");
+						dep.setEstado("I");
 						departamentoDAO.getEntityManager().getTransaction().begin();
-						departamentoDAO.getEntityManager().merge(departamentoSeleccionado);
+						departamentoDAO.getEntityManager().merge(dep);
 						departamentoDAO.getEntityManager().getTransaction().commit();
 						Messagebox.show("Transaccion ejecutada con exito");
 						buscar();
@@ -112,5 +126,10 @@ public class ADDepartamentoC extends SelectorComposer<Component>{
 	public void setDepartamentoSeleccionado(Departamento departamentoSeleccionado) {
 		this.departamentoSeleccionado = departamentoSeleccionado;
 	}
-	
+	public String getTextoBuscar() {
+		return textoBuscar;
+	}
+	public void setTextoBuscar(String textoBuscar) {
+		this.textoBuscar = textoBuscar;
+	}
 }

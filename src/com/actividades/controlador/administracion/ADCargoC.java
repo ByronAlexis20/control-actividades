@@ -1,4 +1,4 @@
-package com.actividades.controlador;
+package com.actividades.controlador.administracion;
 
 import java.util.HashMap;
 import java.util.List;
