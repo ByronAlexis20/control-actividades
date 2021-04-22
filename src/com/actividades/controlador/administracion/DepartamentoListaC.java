@@ -33,7 +33,6 @@ public class DepartamentoListaC {
 	@Wire private Listbox ltsDepartamentos;
 	private String textoBuscar = "";
 	
-	
 	DepartamentoDAO departamentoDAO = new DepartamentoDAO();
 	List<Departamento> departamentoLista;
 	private Departamento departamentoSeleccionado;
@@ -42,25 +41,16 @@ public class DepartamentoListaC {
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
 		textoBuscar="";
-		buscarDepartamento("");
+		buscar();
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@GlobalCommand("Habitacion.buscarPorPatron")
-	@NotifyChange({"habitacionLista"})
+	@GlobalCommand("Departamento.buscarPorPatron")
+	@NotifyChange({"departamentoLista"})
 	@Command
 	public void buscar(){
 		if (departamentoLista != null)
 			departamentoLista = null; 
 		departamentoLista = departamentoDAO.getListaDepartamentos(textoBuscar);
-		ltsDepartamentos.setModel(new ListModelList(departamentoLista));
-		departamentoSeleccionado = null;
-	}
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void buscarDepartamento(String dato) {
-		if (departamentoLista != null)
-			departamentoLista = null; 
-		departamentoLista = departamentoDAO.getListaDepartamentos(dato);
-		System.out.println("Tamaño de lista de departamentos: " + departamentoLista.size());
 		ltsDepartamentos.setModel(new ListModelList(departamentoLista));
 		departamentoSeleccionado = null;
 	}

@@ -21,11 +21,13 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Include;
+import org.zkoss.zul.Style;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treecell;
 import org.zkoss.zul.Treechildren;
 import org.zkoss.zul.Treeitem;
 import org.zkoss.zul.Treerow;
+import org.zkoss.zul.Window;
 
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
@@ -38,6 +40,7 @@ import com.actividades.util.SecurityUtil;
 
 public class MenuControlC {
 	@Wire Tree menu;
+	@Wire Window windowRoot;
 	@Wire Include areaContenido;
 	Menu opcionSeleccionado;
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
@@ -79,13 +82,12 @@ public class MenuControlC {
 			if (listaPermisosPadre.size() > 0) { //si tiene permisos el usuario
 				//capturar solo los menus
 				List<Menu> listaMenu = new ArrayList<Menu>();
-				System.out.println("Padres");
 				for(Menu permiso : listaPermisosPadre) {
 					listaMenu.add(permiso);
 				}
 				//ordenar el menu por posiciones
-				System.out.println("Menu ordenado"); 
 				Collections.sort(listaMenu, new Comparator<Menu>() {
+					@SuppressWarnings("deprecation")
 					@Override
 					public int compare(Menu p1, Menu p2) {
 						return new Integer(p1.getPosicion()).compareTo(new Integer(p2.getPosicion()));
@@ -95,7 +97,7 @@ public class MenuControlC {
 			}			
 		}
 	}
-	private Treechildren getTreechildren(List<Menu> listaMenu) {
+	public Treechildren getTreechildren(List<Menu> listaMenu) {
 		Treechildren retorno = new Treechildren();
 		for(Menu opcion : listaMenu) {
 			Treeitem ti = getTreeitem(opcion);
@@ -108,6 +110,7 @@ public class MenuControlC {
 			}
 			if (!listaPadreHijo.isEmpty()) {
 				Collections.sort(listaPadreHijo, new Comparator<Menu>() {
+					@SuppressWarnings("deprecation")
 					@Override
 					public int compare(Menu p1, Menu p2) {
 						return new Integer(p1.getPosicion()).compareTo(new Integer(p2.getPosicion()));
@@ -119,11 +122,10 @@ public class MenuControlC {
 		return retorno;
 	}
 	@SuppressWarnings({ "rawtypes", "deprecation", "unchecked" })
-	private Treeitem getTreeitem(Menu opcion) {
+	public Treeitem getTreeitem(Menu opcion) {
 		Treeitem retorno = new Treeitem();
 		Treerow tr = new Treerow();
 		Treecell tc = new Treecell(opcion.getDescripcion());
-		//System.out.println("titulomenu: " + tc);
 		if (opcion.getIcono() != null) {
 			//tc.setIconSclass(opcion.getImagen());
 			tc.setSrc(opcion.getIcono());

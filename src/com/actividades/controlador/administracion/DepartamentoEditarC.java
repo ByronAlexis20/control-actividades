@@ -1,5 +1,6 @@
 package com.actividades.controlador.administracion;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.EventListener;
@@ -56,7 +57,7 @@ public class DepartamentoEditarC extends SelectorComposer<Component>{
 						}
 						departamentoDAO.getEntityManager().getTransaction().commit();
 						Messagebox.show("Datos grabados con exito");
-						departamentoC.buscarDepartamento("");
+						BindUtils.postGlobalCommand(null, null, "Departamento.buscarPorPatron", null);
 						salir();
 					}
 				}
