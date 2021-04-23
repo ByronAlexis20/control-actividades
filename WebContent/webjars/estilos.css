@@ -1,5 +1,15 @@
-.menu * {
+.fondo-menu {
 	background-color: #1a2226 !important;
 	border: none;
+}
+.menu * {
 	color: white !important;
+}
+
+.user-session * {
+	margin-top: 15px;
+	border-radius: 200px 200px 200px 200px;
+	-moz-border-radius: 200px 200px 200px 200px;
+	-webkit-border-radius: 200px 200px 200px 200px;
+	border: 1px solid #000000;
 }

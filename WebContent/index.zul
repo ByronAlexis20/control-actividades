@@ -10,9 +10,29 @@
 			<include src="/banner.zul" vflex="1" hflex="1" />
 		</north>
 		<west width="230px" border="none" collapsible="true" splittable="true" minsize="200" >
-			<hbox vflex="1" hflex="1">
-				<tree id="menu" vflex="1" hflex="1" sclass="menu"/>
-			</hbox>
+			<vbox vflex="1" hflex="1" sclass="fondo-menu">
+				<div align="center" hflex="1">
+					<div sclass="user-session">
+						<image src="/imagenes/foto.jpg" height="80px" width="80px" />
+					</div>
+					<hbox hflex="1" align="center">
+						<button label="Ver perfil" zclass="btn btn-outline-success btn-sm" />
+						<h:form id="f" name="f"
+							action="j_spring_security_logout" method="POST" xmlns:h="native">
+							<html>
+								<input type="hidden"
+									name="${_csrf.parameterName}" value="${_csrf.token}" />
+							</html>
+							<button label="Salir" type="submit"
+								iconSclass="z-icon-sign-out" zclass="btn btn-outline-danger btn-sm"/>
+						</h:form>
+					</hbox>
+					
+				</div>
+				<div hflex="1" vflex="1" sclass="menu">
+					<tree id="menu" vflex="1" hflex="1" />
+				</div>
+			</vbox>
 		</west>
 		<center id="mainContent" autoscroll="true" style="background-color: transparent;">
 			<include id="areaContenido" hflex="1" vflex="1" />
