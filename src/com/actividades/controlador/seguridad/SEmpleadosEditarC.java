@@ -1,5 +1,6 @@
-package com.actividades.controlador;
+package com.actividades.controlador.seguridad;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
@@ -32,6 +34,7 @@ import com.actividades.modelo.TipoUsuario;
 import com.actividades.modelo.TipoUsuarioDAO;
 import com.actividades.util.Constantes;
 import com.actividades.util.ControllerHelper;
+import com.actividades.util.FileUtil;
 
 public class SEmpleadosEditarC {
 	@Wire private Window winEmpleadoEditar;
@@ -341,14 +344,21 @@ public class SEmpleadosEditarC {
 	public void salir(){
 		winEmpleadoEditar.detach();
 	}
-
 	public Empleado getEmpleado() {
 		return empleado;
 	}
-
 	public void setEmpleado(Empleado empleado) {
 		this.empleado = empleado;
 	}
-
-	
+	public AImage getImagenUsuario() {
+		AImage retorno = null;
+		if (empleado.getFoto() != null) {
+			try {
+				retorno = FileUtil.getImagenTamanoFijo(new AImage(empleado.getFoto()), 100, -1);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return retorno; 
+	}
 }

@@ -5,19 +5,13 @@
 			<vbox pack="start">
 				<separator orient="horizontal" height="3px"/>
 				<label style="font: 120% sans-serif; font-weight: bold; color: white" 
-					value="Sistema de Control de Actividades" />
-				<label style="font: 100% sans-serif;color:white; font-weight: bold"
-					value="Gobernación de Santa Elena" />
+					value="Sistema de Control de Actividades - Gobernación de Santa Elena" />
 			</vbox>
 		</hbox>
 
 		<hbox hflex="1" vflex="1" pack="end" align="center">
 			<vbox vflex="1" pack="center">
-				<label value="Usuario: "
-					style="font: 110% sans-serif;color:white" />
-			</vbox>
-			<vbox vflex="1" pack="center">
-				<label value="@load(vm.nombreUsuario)"
+				<label value="@load(vm.tipoUsuario)"
 					style="font: 100% sans-serif;color:white" />
 			</vbox>
 			<separator orient="horizontal" width="10px"/>
@@ -29,7 +23,7 @@
 							name="${_csrf.parameterName}" value="${_csrf.token}" />
 					</html>
 					<button label="Salir" type="submit"
-						iconSclass="z-icon-sign-out" style="background: red; color:white;  -webkit-border-radius: .5em;    -moz-border-radius: .5em;    border-radius: .5em; font: 85% sans-serif"/>
+						iconSclass="z-icon-sign-out" zclass="btn btn-danger btn-sm"/>
 				</h:form>
 			</vbox>
 		</hbox>

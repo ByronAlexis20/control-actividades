@@ -2,6 +2,20 @@
 	background-color: #1a2226 !important;
 	border: none;
 }
+.contenedor-formulario {
+	background-color: #f2f6fc ;
+	padding: 5px;
+	width: 100%;
+	overflow: hidden;
+	justify-content: inherit;
+}
+.contenido {
+	margin: 1em;
+	padding: 1em;
+	background-color: #ffffff ;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	text-align: justify;
+}
 .menu * {
 	color: white !important;
 }
@@ -12,4 +26,23 @@
 	-moz-border-radius: 200px 200px 200px 200px;
 	-webkit-border-radius: 200px 200px 200px 200px;
 	border: 1px solid #000000;
+}
+.banner-modal {
+	background:#3c8dbc;
+	border-color: #3c8dbc;	
+}
+.letter-modal {
+	text-align: center;
+	color:white;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.lb-listcell *{
+	color: black;
+}
+.lb-listheader *{
+	background: #0078ff;
+	color:#FFFFFF
 }

@@ -158,10 +158,13 @@ public class MenuControlC {
 		
 	}
 	public String getNombreUsuario() {
-		return SecurityUtil.getUser().getUsername();
+		Empleado us = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername());
+		String[] partsNombre = us.getPersona().getNombre().split(" ");
+		String[] partsApellido = us.getPersona().getApellido().split(" ");
+		return partsNombre[0] + " " + partsApellido[0];
 	}
 	public String getTipoUsuario() {
 		Empleado us = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername());
-		return us.getTipoUsuario().getDescripcion();
+		return us.getTipoUsuario().getTipoUsuario();
 	}
 }

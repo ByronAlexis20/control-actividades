@@ -57,6 +57,8 @@ public class Empleado implements Serializable {
 	private String usuario;
 	
 	private String puesto;
+	
+	private String foto;
 
 	//bi-directional many-to-one association to Agenda
 	@OneToMany(mappedBy="empleado")
@@ -264,6 +266,14 @@ public class Empleado implements Serializable {
 
 	public void setPermiso(String permiso) {
 		this.permiso = permiso;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.actividades.controlador;
+package com.actividades.controlador.seguridad;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
@@ -26,7 +27,7 @@ import org.zkoss.zul.Window;
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
 
-public class SEmpleadosC {
+public class EmpleadosListaC {
 	public String textoBuscar;
 	private EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 	private List<Empleado> listaEmpleados;
@@ -54,60 +55,49 @@ public class SEmpleadosC {
 			empleadoSeleccionado = null;
 			btnEditar.setDisabled(false);
 			btnEliminar.setDisabled(false);
-		}		
+		}
 	}
 
 	@Command
 	public void nuevo(){
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/seguridad/SEmpleadosEditar.zul", null, null);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/seguridad/empleado/EmpleadosEditar.zul", null, null);
 		ventanaCargar.doModal();
 	}
 
-	/**
-	 * Edita una persona
-	 */
 	@Command
-	public void editar(){
-		if(empleadoSeleccionado == null) {
+	public void editar(@BindingParam("empleado") Empleado emp){
+		if(emp == null) {
 			Clients.showNotification("Seleccione una opción de la lista.");
 			return;
 		}
 		// Actualiza la instancia antes de enviarla a editar.
-		empleadoDAO.getEntityManager().refresh(empleadoSeleccionado);		
+		empleadoDAO.getEntityManager().refresh(emp);		
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("Empleado", empleadoSeleccionado);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/seguridad/SEmpleadosEditar.zul", null, params);
+		params.put("Empleado", emp);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/seguridad/empleado/EmpleadosEditar.zul", null, params);
 		ventanaCargar.doModal();
 	}
 
-
-	/**
-	 * Borra "logicamente" un registro
-	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
-	public void eliminar(){
+	public void eliminar(@BindingParam("empleado") Empleado emp){
 
-		if (empleadoSeleccionado == null) {
+		if (emp == null) {
 			Clients.showNotification("Seleccione una opción de la lista.");
 			return; 
 		}
-
 		Messagebox.show("Desea eliminar el registro seleccionado?", "Confirmación de Eliminación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
-
 			@Override
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {
 					try {
 						empleadoDAO.getEntityManager().getTransaction().begin();
-						empleadoSeleccionado.setEstado("I");
-						empleadoSeleccionado = empleadoDAO.getEntityManager().merge(empleadoSeleccionado);
+						emp.setEstado("I");
+						empleadoDAO.getEntityManager().merge(emp);
 						empleadoDAO.getEntityManager().getTransaction().commit();;
 						Clients.showNotification("Transaccion ejecutada con exito.");
-
 						// Actualiza la lista
 						BindUtils.postGlobalCommand(null, null, "Empleado.buscarEmpleado", null);
-
 					} catch (Exception e) {
 						e.printStackTrace();
 						empleadoDAO.getEntityManager().getTransaction().rollback();
@@ -123,23 +113,16 @@ public class SEmpleadosC {
 	public void setTextoBuscar(String textoBuscar) {
 		this.textoBuscar = textoBuscar;
 	}
-
 	public List<Empleado> getListaEmpleados() {
 		return listaEmpleados = empleadoDAO.buscarEmpleados("");
 	}
-
 	public void setListaEmpleados(List<Empleado> listaEmpleados) {
 		this.listaEmpleados = listaEmpleados;
 	}
-
 	public Empleado getEmpleadoSeleccionado() {
 		return empleadoSeleccionado;
 	}
-
 	public void setEmpleadoSeleccionado(Empleado empleadoSeleccionado) {
 		this.empleadoSeleccionado = empleadoSeleccionado;
 	}
-	
-	
-	
 }

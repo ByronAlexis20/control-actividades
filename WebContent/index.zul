@@ -5,40 +5,34 @@
 <zk>
 	<borderlayout hflex="1" vflex="1" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('com.actividades.controlador.MenuControlC')">
-		<north height="60px" border="none"
+		<north height="40px" border="none"
 			style="background: url(imagenes/banner.jpg) no-repeat center top fixed;  background-size: cover; " hflex="1" flex="false">
 			<include src="/banner.zul" vflex="1" hflex="1" />
 		</north>
 		<west width="230px" border="none" collapsible="true" splittable="true" minsize="200" >
 			<vbox vflex="1" hflex="1" sclass="fondo-menu">
-				<div align="center" hflex="1">
-					<div sclass="user-session">
-						<image src="/imagenes/foto.jpg" height="80px" width="80px" />
-					</div>
-					<hbox hflex="1" align="center">
-						<button label="Ver perfil" zclass="btn btn-outline-success btn-sm" />
-						<h:form id="f" name="f"
-							action="j_spring_security_logout" method="POST" xmlns:h="native">
-							<html>
-								<input type="hidden"
-									name="${_csrf.parameterName}" value="${_csrf.token}" />
-							</html>
-							<button label="Salir" type="submit"
-								iconSclass="z-icon-sign-out" zclass="btn btn-outline-danger btn-sm"/>
-						</h:form>
+				<div hflex="1">
+					<hbox hflex="1" align="center" style="margin-right: 10px;">
+						<div sclass="user-session">
+							<image src="/imagenes/foto.jpg" height="70px" width="70px" />
+						</div>
+						<div hflex="1">
+							<label value="@load(vm.nombreUsuario)" style="font: 12px sans-serif;color:white" />
+							<hbox align="center" hflex="1">
+								<image src="/imagenes/punto_verde.png" height="8px" width="8px" />
+								<separator width="4px"></separator>
+								<label value="Conectado" style="font: 10px sans-serif;color:white" />	
+							</hbox>
+						</div>
 					</hbox>
-					
 				</div>
 				<div hflex="1" vflex="1" sclass="menu">
 					<tree id="menu" vflex="1" hflex="1" />
 				</div>
 			</vbox>
 		</west>
-		<center id="mainContent" autoscroll="true" style="background-color: transparent;">
+		<center id="mainContent" autoscroll="true">
 			<include id="areaContenido" hflex="1" vflex="1" />
 		</center>
-		<south height="45px" border="none" style="background-color: transparent;">
-			<include src="/footer.zul" vflex="1" hflex="1" />
-		</south>
 	</borderlayout>
 </zk>
