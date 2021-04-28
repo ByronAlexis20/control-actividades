@@ -21,7 +21,7 @@ import com.actividades.modelo.Cargo;
 import com.actividades.modelo.CargoDAO;
 
 @SuppressWarnings("serial")
-public class ADCargoC extends SelectorComposer<Component>{
+public class CargoListaC extends SelectorComposer<Component>{
 	@Wire private Window winCargo;
 	@Wire private Textbox txtBuscar;
 	@Wire private Listbox ltsCargos;

@@ -1,8 +1,15 @@
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./winOpcionPerfilEditar" ?>
-<zk>
-	<window id="winOpcionPerfilEditar" border="none" hflex="1" vflex="1"
-		apply="com.actividades.controlador.SPermisosC">
-		<vlayout hflex="1" vflex="1">
+<zk xmlns:n="native">
+	<div id="winOpcionPerfilEditar" hflex="1" vflex="1" class="contenedor-formulario"
+		apply="com.actividades.controlador.seguridad.PermisosC">
+		<vlayout hflex="1" vflex="1" zclass="contenido">
+			<groupbox hflex="1">
+				<div align="center">
+					<label value="Permisos por Perfil"
+						style="color:#088A08;font-size:20px"
+						sclass="p-1 text-red font-italic font-weight-bold" />
+				</div>
+			</groupbox>
 			<groupbox>
 				<hlayout>
 					<div>
@@ -22,11 +29,11 @@
 					autopaging="true" mold="paging"
 					hflex="1" vflex="1">
 					<listhead>
-						<listheader label="Opciones Disponible" />
+						<listheader label="Opciones Disponible" sclass="lb-listheader"/>
 					</listhead>
 					<template name="model">
 						<listitem>
-							<listcell label="${each.presentacion}" />
+							<listcell label="${each.presentacion}" sclass="lb-listcell"/>
 						</listitem>
 					</template>
 				</listbox>
@@ -40,15 +47,15 @@
 					autopaging="true" mold="paging"
 					hflex="1" vflex="1">
 					<listhead>
-						<listheader label="Opciones Asignadas" />
+						<listheader label="Opciones Asignadas" sclass="lb-listheader"/>
 					</listhead>
 					<template name="model">
 						<listitem>
-							<listcell label="${each.menu.presentacion}" />
+							<listcell label="${each.menu.presentacion}" sclass="lb-listcell"/>
 						</listitem>
 					</template>
 				</listbox>
 			</hbox>
 		</vlayout>
-	</window>
+	</div>
 </zk>	

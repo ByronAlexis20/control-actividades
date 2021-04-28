@@ -1,4 +1,4 @@
-package com.actividades.controlador;
+package com.actividades.controlador.seguridad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.util.Constantes;
 import com.actividades.util.SecurityUtil;
 
-public class SPrivilegiosC {
+public class PrivilegiosC {
 	@Wire Listbox lstEmpleados;
 	List<EmpleadosPresentar> listaEmpleados;
 	EmpleadosPresentar empleadoSeleccionado;

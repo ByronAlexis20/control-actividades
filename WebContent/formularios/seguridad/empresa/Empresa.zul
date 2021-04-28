@@ -1,8 +1,9 @@
-<zk>
-	<window id="winEmpresa" vflex="1" hflex="1" 
-		apply="org.zkoss.bind.BindComposer" 
-        viewModel="@id('vm') @init('com.actividades.controlador.SEmpresaC')">
-		<hbox vflex="1" hflex="1" align="center" pack="center">
+<?page title="Empresa" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:n="native">
+	<div id="winEmpresa" vflex="1" hflex="1" 
+		apply="org.zkoss.bind.BindComposer" class="contenedor-formulario"
+        viewModel="@id('vm') @init('com.actividades.controlador.seguridad.EmpresaC')">
+		<hbox vflex="1" hflex="1" align="center" pack="center" zclass="contenido">
 			<vbox width="40%" align="center" pack="center">
 				<groupbox hflex="1" vflex="min">
 					<vlayout hflex="1" vflex="1">
@@ -59,13 +60,14 @@
 							</rows>
 						</grid>
 						<hbox>
-							<button id="btnGrabar" label="Grabar" onClick="@command('grabar')" iconSclass="z-icon-save"  />
+							<button id="btnGrabar" label="Grabar" onClick="@command('grabar')" iconSclass="z-icon-save"  
+							zclass="btn btn-primary btn btn-sm"/>
 						</hbox>
 					</vlayout>
 				</groupbox>
 			</vbox>
 		</hbox>
-	</window>
+	</div>
 </zk>
 
 

@@ -1,4 +1,4 @@
-package com.actividades.controlador;
+package com.actividades.controlador.administracion;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +22,7 @@ import com.actividades.modelo.TipoEvidenciaDAO;
 
 
 @SuppressWarnings("serial")
-public class ADTipoEvidenciaC extends SelectorComposer<Component>{
+public class TEvidenciaListaC extends SelectorComposer<Component>{
 	@Wire private Window winTipoEvidencia;
 	@Wire private Textbox txtBuscar;
 	@Wire private Listbox ltsTipoEvidencia;

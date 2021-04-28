@@ -17,19 +17,19 @@ import com.actividades.modelo.CargoDAO;
 
 
 @SuppressWarnings("serial")
-public class ADCargoEditarC extends SelectorComposer<Component>{
+public class CargoEditarC extends SelectorComposer<Component>{
 	@Wire private Window winCargoEditar;
 	@Wire private Textbox txtDescripcion;
 	
 	CargoDAO cargoDAO = new CargoDAO();
-	ADCargoC cargoC;
+	CargoListaC cargoC;
 	Cargo cargo;
 	
 	@Override
 	public void doAfterCompose(Component comp) throws Exception{
 		super.doAfterCompose(comp);
 		try {
-			cargoC = (ADCargoC)Executions.getCurrent().getArg().get("VentanaPadre");
+			cargoC = (CargoListaC)Executions.getCurrent().getArg().get("VentanaPadre");
 			cargo = null;	
 			if (Executions.getCurrent().getArg().get("Cargo") != null) {
 				cargo = (Cargo) Executions.getCurrent().getArg().get("Cargo");
