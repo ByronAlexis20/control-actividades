@@ -1,4 +1,4 @@
-package com.actividades.controlador;
+package com.actividades.controlador.actividades;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -6,18 +6,21 @@ import java.util.Date;
 import java.util.List;
 
 import org.zkoss.bind.BindUtils;
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.select.SelectorComposer;
-import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Messagebox.ClickEvent;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
-import org.zkoss.zul.Messagebox.ClickEvent;
 
 import com.actividades.modelo.Agenda;
 import com.actividades.modelo.AgendaDAO;
@@ -26,23 +29,19 @@ import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.util.Constantes;
 import com.actividades.util.SecurityUtil;
 
-@SuppressWarnings("serial")
-public class ANuevaAgendaC extends SelectorComposer<Component>{
+public class NuevaAgendaC {
 	@Wire private Window winAgendaEditar;
 	@Wire private Textbox txtDescripcion;
 	@Wire private Datebox dtpFechaInicio;
 	@Wire private Datebox dtpFechaFin;
 	
-	ADiariaC aDiaria;
 	private Agenda agenda;
 	private AgendaDAO agendaDAO = new AgendaDAO();
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	
-	@Override
-	public void doAfterCompose(Component comp) throws Exception {
-		// TODO Auto-generated method stub
-		super.doAfterCompose(comp);
-		aDiaria = (ADiariaC) Executions.getCurrent().getArg().get("Ventana");
+	@AfterCompose
+	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
+		Selectors.wireComponents(view, this, false);
 		if(Executions.getCurrent().getArg().get("Agenda") != null) {
 			agenda = (Agenda) Executions.getCurrent().getArg().get("Agenda");
 			txtDescripcion.setText(agenda.getDescripcion());
@@ -57,7 +56,8 @@ public class ANuevaAgendaC extends SelectorComposer<Component>{
 			dtpFechaFin.setDisabled(true);
 		}
 	}
-	@Listen("onClick=#btnGrabar")
+	
+	@Command
 	public void grabar(){
 		if(validarDatos() == true) {
 			EventListener<ClickEvent> clickListener = new EventListener<Messagebox.ClickEvent>() {
@@ -134,7 +134,7 @@ public class ANuevaAgendaC extends SelectorComposer<Component>{
 		}
 	}
 	
-	@Listen("onChange=#dtpFechaInicio")
+	@Command
 	public void cambioFecha() {
 		try {
 			System.out.println("cambio de fecha");
@@ -158,7 +158,7 @@ public class ANuevaAgendaC extends SelectorComposer<Component>{
 			return false;
 		}
 	}
-	@Listen("onClick=#btnSalir")
+	@Command
 	public void salir(){
 		winAgendaEditar.detach();
 	}

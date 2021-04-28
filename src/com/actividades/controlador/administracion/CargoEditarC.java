@@ -1,47 +1,43 @@
 package com.actividades.controlador.administracion;
 
+import org.zkoss.bind.BindUtils;
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.select.SelectorComposer;
-import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Messagebox.ClickEvent;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
-import org.zkoss.zul.Messagebox.ClickEvent;
 
 import com.actividades.modelo.Cargo;
 import com.actividades.modelo.CargoDAO;
 
-
-@SuppressWarnings("serial")
-public class CargoEditarC extends SelectorComposer<Component>{
+public class CargoEditarC {
 	@Wire private Window winCargoEditar;
 	@Wire private Textbox txtDescripcion;
 	
 	CargoDAO cargoDAO = new CargoDAO();
-	CargoListaC cargoC;
 	Cargo cargo;
 	
-	@Override
-	public void doAfterCompose(Component comp) throws Exception{
-		super.doAfterCompose(comp);
-		try {
-			cargoC = (CargoListaC)Executions.getCurrent().getArg().get("VentanaPadre");
-			cargo = null;	
-			if (Executions.getCurrent().getArg().get("Cargo") != null) {
-				cargo = (Cargo) Executions.getCurrent().getArg().get("Cargo");
-			}else {
-				cargo = new Cargo();
-				cargo.setEstado("A");
-			}
-		}catch(Exception ex) {
-			System.out.println(ex.getMessage());
-		}
+	@AfterCompose
+	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
+		Selectors.wireComponents(view, this, false);
+		// Recupera el objeto pasado como parametro. 
+		cargo = (Cargo) Executions.getCurrent().getArg().get("Cargo");
+		if (cargo == null) {
+			cargo = new Cargo();
+			cargo.setEstado("A");
+		} 
 	}
-	@Listen("onClick=#btnGrabar")
+	
+	@Command
 	public void grabar(){
 		if(validarDatos() == true) {
 			EventListener<ClickEvent> clickListener = new EventListener<Messagebox.ClickEvent>() {
@@ -56,7 +52,7 @@ public class CargoEditarC extends SelectorComposer<Component>{
 						}
 						cargoDAO.getEntityManager().getTransaction().commit();
 						Messagebox.show("Datos grabados con exito");
-						cargoC.buscarCargo("");
+						BindUtils.postGlobalCommand(null, null, "Cargo.buscarPorPatron", null);
 						salir();
 					}
 				}
@@ -73,7 +69,7 @@ public class CargoEditarC extends SelectorComposer<Component>{
 		}
 		return true;
 	}
-	@Listen("onClick=#btnSalir")
+	@Command
 	public void salir(){
 		winCargoEditar.detach();
 	}

@@ -1,11 +1,10 @@
 <?page title="Departamento" contentType="text/html;charset=UTF-8"?>
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./winDepartamento" ?>
 <zk>
-	<window id="winDepartamento" border="none"
+	<div id="winDepartamento" 
 		apply="org.zkoss.bind.BindComposer" hflex="1" vflex="1"
 		viewModel="@id('vm') @init('com.actividades.controlador.administracion.DepartamentoListaC')"
-		style="padding: 0 0 0 0;background:#FFFFFF;">
-		<vlayout vflex="1">
+		class="contenedor-formulario">
+		<vlayout vflex="1" zclass="contenido" hflex="1">
 			<groupbox>
 				<div align="center">
 					<label value="Departamentos"
@@ -30,18 +29,18 @@
 					selectedItem="@bind(vm.departamentoSeleccionado)"
 					mold="paging" hflex="1" vflex="1">
 					<listhead>
-						<listheader label="Código" width="8%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
-						<listheader label="Departamento" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
-						<listheader label="Descripcion" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
-						<listheader label="Estado" width="8%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
-						<listheader label="Acción" width="80px" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Código" width="8%" sclass="lb-listheader"/>
+						<listheader label="Departamento" sclass="lb-listheader"/>
+						<listheader label="Descripcion" sclass="lb-listheader"/>
+						<listheader label="Estado" width="8%" sclass="lb-listheader"/>
+						<listheader label="Acción" width="80px" sclass="lb-listheader"/>
 					</listhead>
 					<template name="model">
 						<listitem>
-							<listcell label="@load(each.idDepartamento)" />
-							<listcell label="@load(each.nombre)" />
-							<listcell label="@load(each.descripcion)"/>
-							<listcell label="@load(each.estado)" />
+							<listcell label="@load(each.idDepartamento)" sclass="lb-listcell"/>
+							<listcell label="@load(each.nombre)" sclass="lb-listcell"/>
+							<listcell label="@load(each.descripcion)" sclass="lb-listcell"/>
+							<listcell label="@load(each.estado)" sclass="lb-listcell"/>
 							<listcell>
 								<button onClick="@command('editar',departamento=each)"
 									iconSclass="z-icon-pencil"
@@ -55,5 +54,5 @@
 				</listbox>
 			</hlayout>
 		</vlayout>
-	</window>
+	</div>
 </zk>

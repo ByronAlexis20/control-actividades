@@ -1,12 +1,14 @@
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./winCargoEditar" ?>
-<?script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js" ?>
-<?link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" ?>
+<?page title="Cargos" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<window id="winCargoEditar" border="normal"  width="30%"
-		 apply="com.actividades.controlador.ADCargoEditarC">
-		<caption sclass="fn-caption"
-			label="Cargos" />
+		apply="org.zkoss.bind.BindComposer" position="center"
+		viewModel="@id('vm') @init('com.actividades.controlador.administracion.CargoEditarC')">
 		<vlayout>
+			<vbox hflex="1" align="center" sclass="banner-modal" height="35px" pack="center">
+				<div hflex="1" align="center">
+					<label value="Ingrese Datos" sclass="letter-modal"/>
+				</div>
+			</vbox>
 			<grid hflex="1">
 				<columns>
 					<column align="right" hflex="min" />
@@ -19,27 +21,31 @@
 							<textbox
 								class="form-control form-control-sm" placeholder="Código"
 								hflex="1" disabled="true"
-								value="@{winCargoEditar$composer.cargo.idCargo}" />
+								value="@bind(vm.cargo.idCargo)" />
 						</cell>
 					</row>
-					
 					<row>
 						<cell>Descripción:</cell>
 						<cell>
 							<textbox
 								class="form-control form-control-sm" placeholder="Descripción del cargo"
 								id="txtDescripcion" hflex="1"
-								value="@{winCargoEditar$composer.cargo.descripcion}" />
+								value="@bind(vm.cargo.descripcion)" />
 						</cell>
 					</row>
 				</rows>
 			</grid>
-			<hlayout hflex="1" height="1">
-				<div align="center" hflex="1">
-					<button id="btnGrabar" label="Grabar"/>
-					<button id="btnSalir" label="Salir"/>			
+			<!-- Los iconos listados con iconSclass son de: http://fontawesome.io/icons/ -->
+			<vbox hflex="1" align="center" height="35px" pack="center">
+				<div hflex="1" align="center">
+					<button id="grabar" label="Grabar"
+						iconSclass="z-icon-save" zclass="btn btn-primary btn btn-sm"
+						onClick="@command('grabar')" />
+					<button id="salir" label="Salir"
+						iconSclass="z-icon-sign-out" zclass="btn btn-danger btn btn-sm"
+						onClick="@command('salir')" />
 				</div>
-			</hlayout>
+			</vbox>
 		</vlayout>
 	</window>
 </zk>

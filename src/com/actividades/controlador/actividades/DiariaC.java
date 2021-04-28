@@ -1,4 +1,4 @@
-package com.actividades.controlador;
+package com.actividades.controlador.actividades;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -38,7 +38,7 @@ import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.util.Constantes;
 import com.actividades.util.SecurityUtil;
 
-public class ADiariaC {
+public class DiariaC {
 	@Wire private Window winActividades;
 	@Wire private Listbox lstActividades;
 	@Wire private Listbox lstAgenda;
@@ -80,9 +80,8 @@ public class ADiariaC {
 	@Command
 	public void nuevaAgenda() {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("Ventana", this);
 		params.put("Agenda", null);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaAgenda.zul", winActividades, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/NuevaAgenda.zul", winActividades, params);
 		ventanaCargar.doModal();
 	}
 
@@ -97,7 +96,7 @@ public class ADiariaC {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Ventana", this);
 		params.put("Agenda", agendaSeleccionada);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaAgenda.zul", winActividades, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/NuevaAgenda.zul", winActividades, params);
 		ventanaCargar.doModal();
 	}
 
@@ -250,11 +249,10 @@ public class ADiariaC {
 			return; 
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("Ventana", this);
 		params.put("Actividad", null);
 		params.put("TipoActividad", "PRINCIPAL");
 		params.put("Agenda", agendaSeleccionada);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", winActividades, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", null, params);
 		ventanaCargar.doModal();
 	}
 	@Command
@@ -372,7 +370,7 @@ public class ADiariaC {
 		actividadDAO.getEntityManager().refresh(seleccion);		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Actividad", seleccion);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/AEvidenciaLista.zul", null, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/EvidenciaLista.zul", null, params);
 		ventanaCargar.doModal();
 	}
 

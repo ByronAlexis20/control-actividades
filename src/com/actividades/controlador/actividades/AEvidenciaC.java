@@ -1,4 +1,4 @@
-package com.actividades.controlador;
+package com.actividades.controlador.actividades;
 
 import java.util.ArrayList;
 import java.util.List;

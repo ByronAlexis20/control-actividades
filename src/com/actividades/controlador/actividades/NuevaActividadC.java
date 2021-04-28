@@ -1,15 +1,18 @@
-package com.actividades.controlador;
+package com.actividades.controlador.actividades;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.zkoss.bind.BindUtils;
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.select.SelectorComposer;
-import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Datebox;
@@ -29,8 +32,7 @@ import com.actividades.modelo.TipoActividadDAO;
 import com.actividades.util.Constantes;
 import com.actividades.util.SecurityUtil;
 
-@SuppressWarnings("serial")
-public class ANuevaActividadC extends SelectorComposer<Component>{
+public class NuevaActividadC {
 	@Wire private Window winActividadEditar;
 	@Wire private Textbox txtDescripcion;
 	@Wire private Datebox dtpFecha;
@@ -41,16 +43,15 @@ public class ANuevaActividadC extends SelectorComposer<Component>{
 	@Wire private Radio rbPrincipal;
 	@Wire private Radio rbInterna;
 	
-	
 	private Agenda agenda;
 	private Actividad actividad;
 	ActividadDAO actividadDAO = new ActividadDAO();
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	TipoActividadDAO tipoActividadDAO = new TipoActividadDAO();
 	String tipoActividad = "";
-	@Override
-	public void doAfterCompose(Component comp) throws Exception {
-		super.doAfterCompose(comp);
+	@AfterCompose
+	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
+		Selectors.wireComponents(view, this, false);
 		agenda = (Agenda) Executions.getCurrent().getArg().get("Agenda");
 		actividad = (Actividad) Executions.getCurrent().getArg().get("Actividad");
 		tipoActividad = (String) Executions.getCurrent().getArg().get("TipoActividad");
@@ -104,7 +105,8 @@ public class ANuevaActividadC extends SelectorComposer<Component>{
 			rbPrincipal.setChecked(true);
 		}
 	}
-	@Listen("onClick=#btnGrabar")
+
+	@Command
 	public void grabar(){
 		if(validarDatos() == true) {
 			EventListener<ClickEvent> clickListener = new EventListener<Messagebox.ClickEvent>() {
@@ -203,7 +205,7 @@ public class ANuevaActividadC extends SelectorComposer<Component>{
 			return false;
 		}
 	}
-	@Listen("onClick=#btnSalir")
+	@Command
 	public void salir(){
 		BindUtils.postGlobalCommand(null, null, "Actividad.buscarPorAgenda", null);
 		winActividadEditar.detach();

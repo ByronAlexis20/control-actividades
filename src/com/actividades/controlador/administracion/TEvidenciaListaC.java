@@ -1,17 +1,25 @@
 package com.actividades.controlador.administracion;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.zkoss.bind.BindUtils;
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.GlobalCommand;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.select.SelectorComposer;
-import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.ListModelList;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
@@ -20,9 +28,8 @@ import org.zkoss.zul.Window;
 import com.actividades.modelo.TipoEvidencia;
 import com.actividades.modelo.TipoEvidenciaDAO;
 
-
-@SuppressWarnings("serial")
-public class TEvidenciaListaC extends SelectorComposer<Component>{
+public class TEvidenciaListaC {
+	public String textoBuscar;
 	@Wire private Window winTipoEvidencia;
 	@Wire private Textbox txtBuscar;
 	@Wire private Listbox ltsTipoEvidencia;
@@ -32,52 +39,52 @@ public class TEvidenciaListaC extends SelectorComposer<Component>{
 	List<TipoEvidencia> tipoEvidenciaLista;
 	private TipoEvidencia tipoEvidenciaSeleccionado;
 	
-	@Override
-	public void doAfterCompose(Component comp) throws Exception {
-		super.doAfterCompose(comp);
-		buscarTipoEvidencia("");
+	@AfterCompose
+	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
+		Selectors.wireComponents(view, this, false);
+		textoBuscar="";
+		buscar();
 	}
-	@Listen("onClick=#btnBuscar;onOK=#txtBuscar")
+	
+	@GlobalCommand("TipoEvidencia.buscarPorPatron")
+	@NotifyChange({"tipoEvidenciaLista", "tipoEvidenciaSeleccionado"})
+	@Command
 	public void buscar(){
-		buscarTipoEvidencia(txtBuscar.getText());
-	}
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void buscarTipoEvidencia(String dato) {
 		if (tipoEvidenciaLista != null)
 			tipoEvidenciaLista = null; 
-		tipoEvidenciaLista = tipoEvidenciaDAO.getListaTiposEvidencia(dato);
-		ltsTipoEvidencia.setModel(new ListModelList(tipoEvidenciaLista));
-		tipoEvidenciaSeleccionado = null;
+		tipoEvidenciaLista = tipoEvidenciaDAO.getListaTiposEvidencia(textoBuscar);
+		if(tipoEvidenciaLista.size() == 0) {
+			Clients.showNotification("No hay datos para mostrar.!!");
+		}else {
+			tipoEvidenciaSeleccionado = null;
+		}
 	}
-	@Listen("onClick=#btnNuevo")
+	
+	@Command
 	public void nuevo(){
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("TipoEvidencia", null);
-		params.put("VentanaPadre", this);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/administracion/tipo_evidencia/ADTipoEvidenciaEditar.zul", winTipoEvidencia, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/administracion/tipo_evidencia/TipoEvidenciaEditar.zul", null, null);
 		ventanaCargar.doModal();
 	}
-	@Listen("onClick=#btnEditar")
-	public void editar(){
-		if (tipoEvidenciaSeleccionado == null) {
+	@Command
+	public void editar(@BindingParam("tevidencia") TipoEvidencia tip){
+		if (tip == null) {
 			Messagebox.show("Debe seleccionar un tipo de evidencia para editar!");
 			return; 
 		}
 		// Actualiza la instancia antes de enviarla a editar.
-		tipoEvidenciaDAO.getEntityManager().refresh(tipoEvidenciaSeleccionado);
+		tipoEvidenciaDAO.getEntityManager().refresh(tip);
 
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("TipoEvidencia", tipoEvidenciaSeleccionado);
-		params.put("VentanaPadre", this);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/administracion/tipo_evidencia/ADTipoEvidenciaEditar.zul", winTipoEvidencia, params);
+		params.put("TipoEvidencia", tip);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/administracion/tipo_evidencia/TipoEvidenciaEditar.zul", winTipoEvidencia, params);
 		ventanaCargar.doModal();
 
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Listen("onClick=#btnEliminar")
-	public void eliminar(){
-		if (tipoEvidenciaSeleccionado == null) {
+	@Command
+	public void eliminar(@BindingParam("tevidencia") TipoEvidencia tip){
+		if (tip == null) {
 			Messagebox.show("Debe seleccionar un tipo de evidencia para eliminar!");
 			return; 
 		}
@@ -86,12 +93,12 @@ public class TEvidenciaListaC extends SelectorComposer<Component>{
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {
 					try {
-						tipoEvidenciaSeleccionado.setEstado("I");
+						tip.setEstado("I");
 						tipoEvidenciaDAO.getEntityManager().getTransaction().begin();
-						tipoEvidenciaDAO.getEntityManager().merge(tipoEvidenciaSeleccionado);
+						tipoEvidenciaDAO.getEntityManager().merge(tip);
 						tipoEvidenciaDAO.getEntityManager().getTransaction().commit();
 						Messagebox.show("Transaccion ejecutada con exito");
-						buscar();
+						BindUtils.postGlobalCommand(null, null, "TipoEvidencia.buscarPorPatron", null);
 					} catch (Exception e) {
 						e.printStackTrace();
 						tipoEvidenciaDAO.getEntityManager().getTransaction().rollback();
@@ -111,5 +118,11 @@ public class TEvidenciaListaC extends SelectorComposer<Component>{
 	}
 	public void setTipoEvidenciaSeleccionado(TipoEvidencia tipoEvidenciaSeleccionado) {
 		this.tipoEvidenciaSeleccionado = tipoEvidenciaSeleccionado;
+	}
+	public String getTextoBuscar() {
+		return textoBuscar;
+	}
+	public void setTextoBuscar(String textoBuscar) {
+		this.textoBuscar = textoBuscar;
 	}
 }

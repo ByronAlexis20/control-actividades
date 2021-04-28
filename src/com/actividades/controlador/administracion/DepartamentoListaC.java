@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -18,7 +19,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.ListModelList;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
@@ -43,23 +44,23 @@ public class DepartamentoListaC {
 		textoBuscar="";
 		buscar();
 	}
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+
 	@GlobalCommand("Departamento.buscarPorPatron")
-	@NotifyChange({"departamentoLista"})
+	@NotifyChange({"departamentoLista","departamentoSeleccionado"})
 	@Command
 	public void buscar(){
 		if (departamentoLista != null)
 			departamentoLista = null; 
 		departamentoLista = departamentoDAO.getListaDepartamentos(textoBuscar);
-		ltsDepartamentos.setModel(new ListModelList(departamentoLista));
-		departamentoSeleccionado = null;
+		if(departamentoLista.size() == 0) {
+			Clients.showNotification("No hay datos para mostrar.!!");
+		}else {
+			departamentoSeleccionado = null;
+		}
 	}
 	@Command
 	public void nuevo(){
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("Departamento", null);
-		params.put("VentanaPadre", this);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/administracion/departamento/DepartamentoEditar.zul", winDepartamento, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/administracion/departamento/DepartamentoEditar.zul", null, null);
 		ventanaCargar.doModal();
 	}
 	@Command
@@ -73,8 +74,7 @@ public class DepartamentoListaC {
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Departamento", dep);
-		params.put("VentanaPadre", this);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/administracion/departamento/DepartamentoEditar.zul", winDepartamento, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/administracion/departamento/DepartamentoEditar.zul", null, params);
 		ventanaCargar.doModal();
 	}
 
@@ -95,7 +95,7 @@ public class DepartamentoListaC {
 						departamentoDAO.getEntityManager().merge(dep);
 						departamentoDAO.getEntityManager().getTransaction().commit();
 						Messagebox.show("Transaccion ejecutada con exito");
-						buscar();
+						BindUtils.postGlobalCommand(null, null, "Departamento.buscarPorPatron", null);
 					} catch (Exception e) {
 						e.printStackTrace();
 						departamentoDAO.getEntityManager().getTransaction().rollback();

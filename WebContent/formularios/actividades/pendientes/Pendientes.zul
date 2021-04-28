@@ -5,10 +5,10 @@
 			background-color: #8397FA;
 		}
 	</style>
-	<window apply="org.zkoss.bind.BindComposer" border="none"
+	<div apply="org.zkoss.bind.BindComposer" class="contenedor-formulario"
 		viewModel="@id('vm') @init('com.actividades.controlador.APendientesC')"
 		hflex="1" vflex="1">
-		<vlayout hflex="1" vflex="1">
+		<vlayout hflex="1" zclass="contenido" vflex="1">
 			<groupbox>
 				<div align="center">
 					<label value="Actividades Pendientes"
@@ -80,12 +80,12 @@
 							<listbox id="lstActividades" hflex="1" model="@load(vm.listaActividad)" selectedItem="@bind(vm.actividadSeleccionada)"
 								vflex="1" >
 								<listhead>
-									<listheader label="Código" width="10%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
-									<listheader label="Actividad" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
-									<listheader label="Fecha" width="10%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
-									<listheader label="Estado" width="12%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
-									<listheader label="Evidencias" width="11%" align="center" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
-									<listheader label="Publicar" width="13%" align="center" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
+									<listheader label="Código" width="10%" sclass="lb-listheader"/>
+									<listheader label="Actividad" sclass="lb-listheader"/>
+									<listheader label="Fecha" width="10%" sclass="lb-listheader"/>
+									<listheader label="Estado" width="12%" sclass="lb-listheader"/>
+									<listheader label="Evidencias" width="11%" align="center" sclass="lb-listheader"/>
+									<listheader label="Publicar" width="13%" align="center" sclass="lb-listheader"/>
 								</listhead>
 								<template name="model">
 									<listitem>
@@ -116,5 +116,5 @@
 				</vbox>
 			</hbox>
 		</vlayout>
-	</window>
+	</div>
 </zk>

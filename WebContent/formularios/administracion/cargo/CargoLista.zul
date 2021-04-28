@@ -1,11 +1,9 @@
 <?page title="Cargo" contentType="text/html;charset=UTF-8"?>
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./winCargo" ?>
-<?link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" ?>
 <zk>
-	<window id="winCargo" border="none"
-		apply="com.actividades.controlador.ADCargoC" hflex="1" vflex="1"
-		style="padding: 0 0 0 0;background:#FFFFFF;">
-		<vlayout vflex="1">
+	<div apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('com.actividades.controlador.administracion.CargoListaC')" 
+		class="contenedor-formulario" hflex="1" vflex="1">
+		<vlayout vflex="1" zclass="contenido" hflex="1">
 			<groupbox>
 				<div align="center">
 					<label value="Cargos"
@@ -14,41 +12,44 @@
 				</div>
 			</groupbox>
 			<div>
-				<button id="btnNuevo" label="Nuevo" iconSclass="z-icon-plus"
+				<button id="btnNuevo" label="Nuevo cargo" iconSclass="z-icon-plus" onClick="@command('nuevo')"
 					zclass="btn btn-outline-primary btn btn-sm"/>
-				<button id="btnEditar" label="Editar"
-					iconSclass="z-icon-pencil"
-					zclass="btn btn-outline-primary btn btn-sm"/>
-				<button id="btnEliminar" label="Eliminar"
-					iconSclass="z-icon-trash-o"
-					zclass="btn btn-outline-danger btn btn-sm"/>
 			</div>
 			<hlayout>
-				<textbox hflex="1" id="txtBuscar"
-					style="text-transform:uppercase" 
+				<textbox hflex="1" id="txtBuscar" value="@bind(vm.textoBuscar)" 
+					style="text-transform:uppercase" onOK="@command('buscar')"
 					placeholder="Busqueda por cargo" />
 				<button label="Buscar!" id="btnBuscar" iconSclass="z-icon-search"
-					zclass="btn btn-outline-primary btn btn-sm"/>
+					zclass="btn btn-outline-primary btn btn-sm" onClick="@command('buscar')"/>
 			</hlayout>
 			<hlayout vflex="1" hflex="1">
 				<listbox autopaging="true" id="ltsCargos"
-					model="@{winCargo$composer.cargoLista}"
-					selectedItem="@{winCargo$composer.cargoSeleccionado}"
+					model="@load(vm.cargoLista)"
+					selectedItem="@bind(vm.cargoSeleccionado)"
 					mold="paging" hflex="1" vflex="1">
 					<listhead>
-						<listheader label="Código" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
-						<listheader label="Cargo" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
-						<listheader label="Estado" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Código" width="20%" sclass="lb-listheader"/>
+						<listheader label="Cargo" sclass="lb-listheader"/>
+						<listheader label="Estado" width="20%" sclass="lb-listheader"/>
+						<listheader label="Acción" width="80px" sclass="lb-listheader"/>
 					</listhead>
 					<template name="model">
 						<listitem>
-							<listcell label="${each.idCargo}" />
-							<listcell label="${each.descripcion}" />
-							<listcell label="${each.estado}" />
+							<listcell label="@load(each.idCargo)" sclass="lb-listcell"/>
+							<listcell label="@load(each.descripcion)" sclass="lb-listcell"/>
+							<listcell label="@load(each.estado)" sclass="lb-listcell"/>
+							<listcell>
+								<button onClick="@command('editar',cargo=each)"
+									iconSclass="z-icon-pencil"
+									zclass="btn btn-outline-success btn btn-sm"/>
+								<button onClick="@command('eliminar',cargo=each)"
+									iconSclass="z-icon-trash-o"
+									zclass="btn btn-outline-danger btn btn-sm"/>
+							</listcell>
 						</listitem>
 					</template>
 				</listbox>
 			</hlayout>
 		</vlayout>
-	</window>
+	</div>
 </zk>

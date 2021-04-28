@@ -35,6 +35,7 @@ public class EmpleadosListaC {
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
 		textoBuscar="";
+		buscar();
 	}
 	
 	@GlobalCommand("Empleado.buscarEmpleado")

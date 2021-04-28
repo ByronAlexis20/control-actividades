@@ -1,82 +1,84 @@
 package com.actividades.controlador.administracion;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.zkoss.bind.BindUtils;
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.GlobalCommand;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.select.SelectorComposer;
-import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.ListModelList;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
-import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
 import com.actividades.modelo.Cargo;
 import com.actividades.modelo.CargoDAO;
 
-@SuppressWarnings("serial")
-public class CargoListaC extends SelectorComposer<Component>{
-	@Wire private Window winCargo;
-	@Wire private Textbox txtBuscar;
+public class CargoListaC {
+	public String textoBuscar;
 	@Wire private Listbox ltsCargos;
-	
 	
 	CargoDAO cargoDAO = new CargoDAO();
 	List<Cargo> cargoLista;
 	private Cargo cargoSeleccionado;
 	
-	@Override
-	public void doAfterCompose(Component comp) throws Exception {
-		super.doAfterCompose(comp);
-		buscarCargo("");
+	@AfterCompose
+	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
+		Selectors.wireComponents(view, this, false);
+		textoBuscar="";
+		buscar();
 	}
-	@Listen("onClick=#btnBuscar;onOK=#txtBuscar")
+	
+	@GlobalCommand("Cargo.buscarPorPatron")
+	@NotifyChange({"cargoLista", "cargoSeleccionado"})
+	@Command
 	public void buscar(){
-		buscarCargo(txtBuscar.getText());
-	}
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void buscarCargo(String dato) {
 		if (cargoLista != null)
 			cargoLista = null; 
-		cargoLista = cargoDAO.getListaCargos(dato);
-		ltsCargos.setModel(new ListModelList(cargoLista));
-		cargoSeleccionado = null;
+		cargoLista = cargoDAO.getListaCargos(textoBuscar);
+		if(cargoLista.size() == 0) {
+			Clients.showNotification("No hay datos para mostrar.!!");
+		}else {
+			cargoSeleccionado = null;
+		}
 	}
-	@Listen("onClick=#btnNuevo")
+	
+	@Command
 	public void nuevo(){
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("Cargo", null);
-		params.put("VentanaPadre", this);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/administracion/cargo/ADCargoEditar.zul", winCargo, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/administracion/cargo/CargoEditar.zul", null, null);
 		ventanaCargar.doModal();
 	}
-	@Listen("onClick=#btnEditar")
-	public void editar(){
-		if (cargoSeleccionado == null) {
-			Messagebox.show("Debe seleccionar un cargo para editar!");
-			return; 
+	@Command
+	public void editar(@BindingParam("cargo") Cargo car){
+		if(car == null) {
+			Clients.showNotification("Seleccione una opción de la lista.");
+			return;
 		}
-		// Actualiza la instancia antes de enviarla a editar.
-		cargoDAO.getEntityManager().refresh(cargoSeleccionado);
-
+		cargoDAO.getEntityManager().refresh(car);		
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("Cargo", cargoSeleccionado);
-		params.put("VentanaPadre", this);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/administracion/cargo/ADCargoEditar.zul", winCargo, params);
+		params.put("Cargo", car);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/administracion/cargo/CargoEditar.zul", null, params);
 		ventanaCargar.doModal();
 
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Listen("onClick=#btnEliminar")
-	public void eliminar(){
-		if (cargoSeleccionado == null) {
+	@Command
+	public void eliminar(@BindingParam("cargo") Cargo car){
+		if (car == null) {
 			Messagebox.show("Debe seleccionar un cargo para eliminar!");
 			return; 
 		}
@@ -85,12 +87,12 @@ public class CargoListaC extends SelectorComposer<Component>{
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {
 					try {
-						cargoSeleccionado.setEstado("I");
+						car.setEstado("I");
 						cargoDAO.getEntityManager().getTransaction().begin();
-						cargoDAO.getEntityManager().merge(cargoSeleccionado);
+						cargoDAO.getEntityManager().merge(car);
 						cargoDAO.getEntityManager().getTransaction().commit();
 						Messagebox.show("Transaccion ejecutada con exito");
-						buscar();
+						BindUtils.postGlobalCommand(null, null, "Cargo.buscarPorPatron", null);
 					} catch (Exception e) {
 						e.printStackTrace();
 						cargoDAO.getEntityManager().getTransaction().rollback();
@@ -111,4 +113,13 @@ public class CargoListaC extends SelectorComposer<Component>{
 	public void setCargoSeleccionado(Cargo cargoSeleccionado) {
 		this.cargoSeleccionado = cargoSeleccionado;
 	}
+
+	public String getTextoBuscar() {
+		return textoBuscar;
+	}
+
+	public void setTextoBuscar(String textoBuscar) {
+		this.textoBuscar = textoBuscar;
+	}
+	
 }

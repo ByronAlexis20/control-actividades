@@ -1,8 +1,8 @@
-<?page title="Departtamentos" contentType="text/html;charset=UTF-8"?>
+<?page title="Agenda" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window id="winDepartamentoEditar" border="normal"  width="30%"
+	<window id="winAgendaEditar" border="normal" width="37%" 
 		apply="org.zkoss.bind.BindComposer" position="center"
-		viewModel="@id('vm') @init('com.actividades.controlador.administracion.DepartamentoEditarC')">
+		viewModel="@id('vm') @init('com.actividades.controlador.actividades.NuevaAgendaC')">
 		<vlayout>
 			<vbox hflex="1" align="center" sclass="banner-modal" height="35px" pack="center">
 				<div hflex="1" align="center">
@@ -15,31 +15,22 @@
 					<column/>
 				</columns>
 				<rows>
-					<row>
-						<cell>Código:</cell>
-						<cell>
-							<textbox
-								class="form-control form-control-sm" placeholder="Código"
-								hflex="1" disabled="true"
-								value="@bind(vm.departamento.idDepartamento)" />
-						</cell>
-					</row>
-					<row>
-						<cell>Nombre:</cell>
-						<cell>
-							<textbox
-								class="form-control form-control-sm" placeholder="Nombre del departamento"
-								id="txtNombre" hflex="1"
-								value="@bind(vm.departamento.nombre)" />
-						</cell>
-					</row>
-					<row>
+					<row hflex="1">
 						<cell>Descripción:</cell>
+						<cell hflex="1">
+							<textbox multiline="true" class="form-control form-control-sm" placeholder="Nombre" id="txtDescripcion" height="100px" hflex="1"/>
+						</cell>
+					</row>
+					<row>
+						<cell sclass="row-title">Fecha Inicio:</cell>
 						<cell>
-							<textbox multiline="true"  rows="6"
-								class="form-control form-control-sm" placeholder="Descripción del departamento"
-								id="txtDescripcion" hflex="1"
-								value="@bind(vm.departamento.descripcion)" />
+							<datebox id="dtpFechaInicio" onChange="" width="50%" onChanging="@command('cambioFecha')"/>
+						</cell>
+					</row>
+					<row>
+						<cell sclass="row-title">Fecha Fin:</cell>
+						<cell>
+							<datebox id="dtpFechaFin" width="50%"/>
 						</cell>
 					</row>
 				</rows>

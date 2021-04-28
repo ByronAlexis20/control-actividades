@@ -18,7 +18,7 @@
 			</div>
 			<hlayout>
 				<textbox value="@bind(vm.textoBuscar)" hflex="1"
-					style="text-transform:uppercase" 
+					style="text-transform:uppercase" onOK="@command('buscar')"
 					placeholder="Busqueda por nombres o apellidoss" />
 				<button label="Buscar!" iconSclass="z-icon-search"
 					zclass="btn btn-outline-primary btn btn-sm"

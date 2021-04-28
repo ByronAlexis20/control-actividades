@@ -9,8 +9,7 @@
 					<label value="Ingrese Datos" sclass="letter-modal"/>
 				</div>
 			</vbox>
-			
-			<grid hflex="1" style="overflow-x: hidden">
+			<grid hflex="1" >
 				<columns hflex="1">
 					<column align="right" hflex="min"/>
 					<column align="left" hflex="1" />

@@ -1,12 +1,14 @@
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./winTipoEvidenciaEditar" ?>
-<?script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js" ?>
-<?link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" ?>
+<?page title="Tipo de evidencia" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<window id="winTipoEvidenciaEditar" border="normal"  width="30%"
-		 apply="com.actividades.controlador.ADTipoEvidenciaEditarC">
-		<caption sclass="fn-caption"
-			label="Tipo de Evidencia" />
+		apply="org.zkoss.bind.BindComposer" position="center"
+		viewModel="@id('vm') @init('com.actividades.controlador.administracion.TEvidenciaEditarC')">
 		<vlayout>
+			<vbox hflex="1" align="center" sclass="banner-modal" height="35px" pack="center">
+				<div hflex="1" align="center">
+					<label value="Ingrese Datos" sclass="letter-modal"/>
+				</div>
+			</vbox>
 			<grid hflex="1">
 				<columns>
 					<column align="right" hflex="min" />
@@ -19,7 +21,7 @@
 							<textbox
 								class="form-control form-control-sm" placeholder="Código"
 								hflex="1" disabled="true"
-								value="@{winTipoEvidenciaEditar$composer.tipoEvidencia.idTipoEvidencia}" />
+								value="@bind(vm.tipoEvidencia.idTipoEvidencia)" />
 						</cell>
 					</row>
 					<row>
@@ -28,7 +30,7 @@
 							<textbox
 								class="form-control form-control-sm" placeholder="Tipo de evidencia"
 								id="txtTipoEvidencia" hflex="1"
-								value="@{winTipoEvidenciaEditar$composer.tipoEvidencia.descripcion}" />
+								value="@bind(vm.tipoEvidencia.descripcion)" />
 						</cell>
 					</row>
 					<row>
@@ -37,17 +39,22 @@
 							<textbox hflex="1"
 								class="form-control form-control-sm" id="txtFormato"
 								placeholder="Ejemplo: .pdf, .jpg, .png, etx"
-								value="@{winTipoEvidenciaEditar$composer.tipoEvidencia.formato}" />
+								value="@bind(vm.tipoEvidencia.formato)" />
 						</cell>
 					</row>
 				</rows>
 			</grid>
-			<hlayout hflex="1" height="1">
-				<div align="center" hflex="1">
-					<button id="btnGrabar" label="Grabar"/>
-					<button id="btnSalir" label="Salir"/>			
+			<!-- Los iconos listados con iconSclass son de: http://fontawesome.io/icons/ -->
+			<vbox hflex="1" align="center" height="35px" pack="center">
+				<div hflex="1" align="center">
+					<button id="grabar" label="Grabar"
+						iconSclass="z-icon-save" zclass="btn btn-primary btn btn-sm"
+						onClick="@command('grabar')" />
+					<button id="salir" label="Salir"
+						iconSclass="z-icon-sign-out" zclass="btn btn-danger btn btn-sm"
+						onClick="@command('salir')" />
 				</div>
-			</hlayout>
+			</vbox>
 		</vlayout>
 	</window>
 </zk>

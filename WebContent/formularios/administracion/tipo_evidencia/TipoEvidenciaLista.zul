@@ -1,11 +1,9 @@
 <?page title="Tipo de evidencia" contentType="text/html;charset=UTF-8"?>
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./winTipoEvidencia" ?>
-<?link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" ?>
 <zk>
-	<window id="winTipoEvidencia" border="none"
-		apply="com.actividades.controlador.ADTipoEvidenciaC" hflex="1" vflex="1"
-		style="padding: 0 0 0 0;background:#FFFFFF;">
-		<vlayout vflex="1">
+	<div id="winTipoEvidencia" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('com.actividades.controlador.administracion.TEvidenciaListaC')"
+		hflex="1" vflex="1" class="contenedor-formulario">
+		<vlayout vflex="1" zclass="contenido" hflex="1">
 			<groupbox>
 				<div align="center">
 					<label value="Listado Tipos de evidencia"
@@ -14,43 +12,46 @@
 				</div>
 			</groupbox>
 			<div>
-				<button id="btnNuevo" label="Nuevo" iconSclass="z-icon-plus"
+				<button id="btnNuevo" label="Nuevo Tipo de evidencia" iconSclass="z-icon-plus"
 					zclass="btn btn-outline-primary btn btn-sm"/>
-				<button id="btnEditar" label="Editar"
-					iconSclass="z-icon-pencil"
-					zclass="btn btn-outline-primary btn btn-sm"/>
-				<button id="btnEliminar" label="Eliminar"
-					iconSclass="z-icon-trash-o"
-					zclass="btn btn-outline-danger btn btn-sm"/>
 			</div>
 			<hlayout>
-				<textbox hflex="1" id="txtBuscar"
-					style="text-transform:uppercase" 
+				<textbox hflex="1" id="txtBuscar" value="@bind(vm.textoBuscar)"
+					style="text-transform:uppercase" onOK="@command('buscar')"
 					placeholder="Busqueda por tipo de evidencia" />
 				<button label="Buscar!" id="btnBuscar" iconSclass="z-icon-search"
-					zclass="btn btn-outline-primary btn btn-sm"/>
+					zclass="btn btn-outline-primary btn btn-sm" onClick="@command('buscar')"/>
 			</hlayout>
 			<hlayout vflex="1" hflex="1">
 				<listbox autopaging="true" id="ltsTipoEvidencia"
-					model="@{winTipoEvidencia$composer.tipoEvidenciaLista}"
-					selectedItem="@{winTipoEvidencia$composer.tipoEvidenciaSeleccionado}"
+					model="@load(vm.tipoEvidenciaLista)"
+					selectedItem="@bind(vm.tipoEvidenciaSeleccionado)"
 					mold="paging" hflex="1" vflex="1">
 					<listhead>
-						<listheader label="Código" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
-						<listheader label="Tipo de evidencia" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
-						<listheader label="Formato" width="10%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
-						<listheader label="Estado" width="20%" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF" />
+						<listheader label="Código" width="20%" sclass="lb-listheader"/>
+						<listheader label="Tipo de evidencia" sclass="lb-listheader"/>
+						<listheader label="Formato" width="10%" sclass="lb-listheader"/>
+						<listheader label="Estado" width="20%" sclass="lb-listheader"/>
+						<listheader label="Acción" width="80px" sclass="lb-listheader"/>
 					</listhead>
 					<template name="model">
 						<listitem>
-							<listcell label="${each.idTipoEvidencia}" />
-							<listcell label="${each.descripcion}" />
-							<listcell label="${each.formato}" />
-							<listcell label="${each.estado}" />
+							<listcell label="@load(each.idTipoEvidencia)" sclass="lb-listcell"/>
+							<listcell label="@load(each.descripcion)" sclass="lb-listcell"/>
+							<listcell label="@load(each.formato)" sclass="lb-listcell"/>
+							<listcell label="@load(each.estado)" sclass="lb-listcell"/>
+							<listcell>
+								<button onClick="@command('editar',tevidencia=each)"
+									iconSclass="z-icon-pencil"
+									zclass="btn btn-outline-success btn btn-sm"/>
+								<button onClick="@command('eliminar',tevidencia=each)"
+									iconSclass="z-icon-trash-o"
+									zclass="btn btn-outline-danger btn btn-sm"/>
+							</listcell>
 						</listitem>
 					</template>
 				</listbox>
 			</hlayout>
 		</vlayout>
-	</window>
+	</div>
 </zk>
