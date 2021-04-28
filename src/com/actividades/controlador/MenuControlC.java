@@ -12,6 +12,7 @@ import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
@@ -20,6 +21,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Image;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treecell;
@@ -34,6 +36,7 @@ import com.actividades.modelo.Menu;
 import com.actividades.modelo.MenuDAO;
 import com.actividades.modelo.Permiso;
 import com.actividades.modelo.PermisoDAO;
+import com.actividades.util.FileUtil;
 import com.actividades.util.SecurityUtil;
 
 
@@ -41,6 +44,7 @@ public class MenuControlC {
 	@Wire Tree menu;
 	@Wire Window windowRoot;
 	@Wire Include areaContenido;
+	@Wire Image fotoUsuario;
 	Menu opcionSeleccionado;
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	PermisoDAO permisoDAO = new PermisoDAO();
@@ -52,6 +56,7 @@ public class MenuControlC {
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException, MessagingException{
 		Selectors.wireComponents(view, this, false);
 		loadTree();
+		cargarFotoUsuario();
 		//startLongOperation();
 	}
 	
@@ -156,6 +161,30 @@ public class MenuControlC {
 			areaContenido.setSrc(opcion.getUri());
 		}	
 		
+	}
+	public void cargarFotoUsuario() {
+		Empleado us = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername());
+		if(us != null) {
+			if(us.getFoto() != null) {
+				fotoUsuario.setContent(getImagenUsuario(us));
+				System.out.println(us.getFoto().replace("\\", "/"));
+			}else {
+				fotoUsuario.setSrc( "/imagenes/foto.png");
+			}
+		}else {
+			fotoUsuario.setSrc("/imagenes/foto.png");
+		}
+	}
+	public AImage getImagenUsuario(Empleado emp) {
+		AImage retorno = null;
+		if (emp.getFoto() != null) {
+			try {
+				retorno = FileUtil.getImagenTamanoFijo(new AImage(emp.getFoto()), 100, -1);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return retorno; 
 	}
 	public String getNombreUsuario() {
 		Empleado us = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername());

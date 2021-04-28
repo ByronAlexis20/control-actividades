@@ -18,9 +18,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
-import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zul.Button;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
@@ -32,7 +30,6 @@ public class EmpleadosListaC {
 	private EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 	private List<Empleado> listaEmpleados;
 	private Empleado empleadoSeleccionado;
-	@Wire Button btnEditar,btnEliminar;
 	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
@@ -51,10 +48,7 @@ public class EmpleadosListaC {
 		if(listaEmpleados.size() == 0) {
 			Clients.showNotification("No hay datos para mostrar.!!");
 		}else {
-			
 			empleadoSeleccionado = null;
-			btnEditar.setDisabled(false);
-			btnEliminar.setDisabled(false);
 		}
 	}
 

@@ -14,7 +14,7 @@
 				<div hflex="1">
 					<hbox hflex="1" align="center" style="margin-right: 10px;">
 						<div sclass="user-session">
-							<image src="/imagenes/foto.jpg" height="70px" width="70px" />
+							<image id="fotoUsuario" height="70px" width="70px" />
 						</div>
 						<div hflex="1">
 							<label value="@load(vm.nombreUsuario)" style="font: 12px sans-serif;color:white" />

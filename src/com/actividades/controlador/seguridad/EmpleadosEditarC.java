@@ -4,16 +4,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.zkoss.bind.BindContext;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
@@ -36,7 +39,7 @@ import com.actividades.util.Constantes;
 import com.actividades.util.ControllerHelper;
 import com.actividades.util.FileUtil;
 
-public class SEmpleadosEditarC {
+public class EmpleadosEditarC {
 	@Wire private Window winEmpleadoEditar;
 	@Wire private Textbox txtCedula;
 	@Wire private Textbox txtNombres;
@@ -339,7 +342,20 @@ public class SEmpleadosEditarC {
 			return false;
 		}
 	}
-	
+	@Command
+	@NotifyChange("imagenUsuario")
+	public void subir(@ContextParam(ContextType.BIND_CONTEXT) BindContext contexto) {
+		String pathRetornado; 
+		UploadEvent eventoCarga = (UploadEvent) contexto.getTriggerEvent();
+		pathRetornado = FileUtil.cargaArchivo(eventoCarga.getMedia());
+		empleado.setFoto(pathRetornado);
+	}
+	@Command
+	public void descargar() {
+		if (empleado.getFoto() != null) {
+			FileUtil.descargaArchivo(empleado.getFoto());
+		}
+	}
 	@Command
 	public void salir(){
 		winEmpleadoEditar.detach();

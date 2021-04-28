@@ -1,5 +1,7 @@
 package com.actividades.util;
 
+import org.zkoss.zk.ui.Executions;
+
 public class Constantes {
 	public static String ESTADO_ACTIVO = "A";
 	public static String ESTADO_INACTIVO = "I";
@@ -42,4 +44,7 @@ public class Constantes {
 	public static Integer ID_TIPO_PRIMORDIALES = 1;
 	public static Integer ID_TIPO_INTERNAS = 2;
 	
+	public static String PATH_ARCHIVOS_SISTEMA = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/") + "temp\\";
+	public static String PATH_IMAGENES = "img\\";
+	public static String PATH_REPORTE = "rpt\\";
 }
