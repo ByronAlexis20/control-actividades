@@ -1,4 +1,4 @@
-package com.actividades.controlador;
+package com.actividades.controlador.seguridad;
 
 import java.io.IOException;
 
@@ -23,7 +23,7 @@ import com.actividades.modelo.Empresa;
 import com.actividades.modelo.EmpresaDAO;
 import com.actividades.util.FileUtil;
 
-public class SEmpresaC {
+public class EmpresaC {
 	@Wire private Window winEmpresa;
 
 	private Empresa empresa;

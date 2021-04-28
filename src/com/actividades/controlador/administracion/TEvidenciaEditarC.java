@@ -1,4 +1,4 @@
-package com.actividades.controlador;
+package com.actividades.controlador.administracion;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -17,20 +17,20 @@ import com.actividades.modelo.TipoEvidenciaDAO;
 import org.zkoss.zul.Messagebox.ClickEvent;
 
 @SuppressWarnings("serial")
-public class ADTipoEvidenciaEditarC extends SelectorComposer<Component>{
+public class TEvidenciaEditarC extends SelectorComposer<Component>{
 	@Wire private Window winTipoEvidenciaEditar;
 	@Wire private Textbox txtTipoEvidencia;
 	@Wire private Textbox txtFormato;
 	
 	TipoEvidenciaDAO companiaDAO = new TipoEvidenciaDAO();
-	ADTipoEvidenciaC tipoEvidenciaC;
+	TEvidenciaListaC tipoEvidenciaC;
 	TipoEvidencia tipoEvidencia;
 	
 	@Override
 	public void doAfterCompose(Component comp) throws Exception{
 		super.doAfterCompose(comp);
 		try {
-			tipoEvidenciaC = (ADTipoEvidenciaC)Executions.getCurrent().getArg().get("VentanaPadre");
+			tipoEvidenciaC = (TEvidenciaListaC)Executions.getCurrent().getArg().get("VentanaPadre");
 			tipoEvidencia = null;	
 			if (Executions.getCurrent().getArg().get("TipoEvidencia") != null) {
 				tipoEvidencia = (TipoEvidencia) Executions.getCurrent().getArg().get("TipoEvidencia");

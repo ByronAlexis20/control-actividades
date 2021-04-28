@@ -1,11 +1,9 @@
 <?page title="Lista de Categorías" contentType="text/html;charset=UTF-8"?>
-<?script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js" ?>
-<?link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" ?>
 <zk>
-	<window apply="org.zkoss.bind.BindComposer" border="none"
-		viewModel="@id('vm') @init('com.actividades.controlador.SPrivilegiosC')"
-		hflex="1" vflex="1" style="padding: 0 0 0 0;background:#FFFFFF;">
-		<vlayout vflex="1">
+	<div apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('com.actividades.controlador.seguridad.PrivilegiosC')"
+		hflex="1" vflex="1" class="contenedor-formulario">
+		<vlayout vflex="1" zclass="contenido">
 			<groupbox>
 				<div align="center">
 					<label value="Listado de Empleados del Departamento"
@@ -19,7 +17,7 @@
 					onClick="@command('permitir')" />
 				<button id="btnEditar" label="Quitar Permiso"
 					iconSclass="z-icon-pencil"
-					zclass="btn btn-outline-primary btn btn-sm"
+					zclass="btn btn-outline-danger btn btn-sm"
 					onClick="@command('quitarPermiso')"/>
 			</div>
 			<hlayout vflex="1" hflex="1">
@@ -45,5 +43,5 @@
 				</listbox>
 			</hlayout>
 		</vlayout>
-	</window>
+	</div>
 </zk>

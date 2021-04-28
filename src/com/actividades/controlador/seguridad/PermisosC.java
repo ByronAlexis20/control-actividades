@@ -1,4 +1,4 @@
-package com.actividades.controlador;
+package com.actividades.controlador.seguridad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import com.actividades.modelo.TipoUsuarioDAO;
 
 
 @SuppressWarnings("serial")
-public class SPermisosC extends SelectorComposer<Component>{
+public class PermisosC extends SelectorComposer<Component>{
 	TipoUsuarioDAO tipoUsuarioDAO = new TipoUsuarioDAO();
 	@Wire private Combobox cboPerfiles;
 	MenuDAO menuDAO = new MenuDAO();

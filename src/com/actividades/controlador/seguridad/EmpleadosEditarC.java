@@ -36,7 +36,7 @@ import com.actividades.util.Constantes;
 import com.actividades.util.ControllerHelper;
 import com.actividades.util.FileUtil;
 
-public class SEmpleadosEditarC {
+public class EmpleadosEditarC {
 	@Wire private Window winEmpleadoEditar;
 	@Wire private Textbox txtCedula;
 	@Wire private Textbox txtNombres;
