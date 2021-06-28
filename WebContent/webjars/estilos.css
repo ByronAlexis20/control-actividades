@@ -46,3 +46,86 @@
 	background: #0078ff;
 	color:#FFFFFF
 }
+.btn-size {
+    padding: 0 10 0 10;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: .2rem
+}
+
+/*boton editar*/
+.btn-editar {
+    color: #fff;
+    background-color: #3c8dbc;
+    border-color: #3c8dbc
+}
+
+.btn-editar:hover {
+    color: #fff;
+    background-color: #0069d9;
+    border-color: #0062cc
+}
+
+.btn-editar.focus,
+.btn-editar:focus {
+    box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .5)
+}
+
+.btn-editar.disabled,
+.btn-editar:disabled {
+    color: #fff;
+    background-color: #3c8dbc;
+    border-color: #3c8dbc
+}
+
+.btn-editar:not(:disabled):not(.disabled).active,
+.btn-editar:not(:disabled):not(.disabled):active,
+.show>.btn-editar.dropdown-toggle {
+    color: #fff;
+    background-color: #0062cc;
+    border-color: #005cbf
+}
+
+.btn-editar:not(:disabled):not(.disabled).active:focus,
+.btn-editar:not(:disabled):not(.disabled):active:focus,
+.show>.btn-editar.dropdown-toggle:focus {
+    box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .5)
+}
+/*boton publicar*/
+.btn-publicar {
+    color: #fff;
+    background-color: #00AD00;
+    border-color: #3c8dbc
+}
+
+.btn-publicar:hover {
+    color: #fff;
+    background-color: #3CD83C;
+    border-color: #0062cc
+}
+
+.btn-publicar.focus,
+.btn-publicar:focus {
+    box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .5)
+}
+
+.btn-publicar.disabled,
+.btn-publicar:disabled {
+    color: #fff;
+    background-color: #3c8dbc;
+    border-color: #3c8dbc
+}
+
+.btn-publicar:not(:disabled):not(.disabled).active,
+.btn-publicar:not(:disabled):not(.disabled):active,
+.show>.btn-publicar.dropdown-toggle {
+    color: #fff;
+    background-color: #0062cc;
+    border-color: #005cbf
+}
+
+.btn-publicar:not(:disabled):not(.disabled).active:focus,
+.btn-publicar:not(:disabled):not(.disabled):active:focus,
+.show>.btn-publicar.dropdown-toggle:focus {
+    box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .5)
+}

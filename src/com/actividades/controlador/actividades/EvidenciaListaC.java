@@ -110,6 +110,7 @@ public class EvidenciaListaC {
 	}
 	@Command
 	public void salir() {
+		BindUtils.postGlobalCommand(null, null, "Actividad.buscarPorAgenda", null);
 		winEvidenciaLista.detach();
 	}
 	

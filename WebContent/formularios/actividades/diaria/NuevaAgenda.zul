@@ -1,6 +1,6 @@
 <?page title="Agenda" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window id="winAgendaEditar" border="normal" width="37%" 
+	<window id="winAgendaEditar" border="none" width="37%" 
 		apply="org.zkoss.bind.BindComposer" position="center"
 		viewModel="@id('vm') @init('com.actividades.controlador.actividades.NuevaAgendaC')">
 		<vlayout>

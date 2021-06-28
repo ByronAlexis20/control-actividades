@@ -27,6 +27,7 @@ import com.actividades.modelo.Actividad;
 import com.actividades.modelo.Evidencia;
 import com.actividades.modelo.TipoEvidencia;
 import com.actividades.modelo.TipoEvidenciaDAO;
+import com.actividades.util.Constantes;
 import com.actividades.util.FileUtil;
 
 public class EvidenciaRegistroC {
@@ -82,8 +83,9 @@ public class EvidenciaRegistroC {
 						if(actividad.getIdActividad() == null) {
 							tipoEvidenciaDAO.getEntityManager().persist(actividad);
 						}else {
-							
 							tipoEvidenciaDAO.getEntityManager().merge(evidencia);
+							actividad.setEstadoActividad(Constantes.ESTADO_REALIZADO);
+							tipoEvidenciaDAO.getEntityManager().merge(actividad);
 						}
 
 						tipoEvidenciaDAO.getEntityManager().getTransaction().commit();

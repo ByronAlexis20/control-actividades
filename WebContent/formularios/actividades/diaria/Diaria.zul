@@ -2,7 +2,7 @@
 <zk>
 	<style>
 		.listCellStyle {
-			background-color: #8397FA;
+			background-color: #F3FF00;
 		}
 	</style>
 	<div apply="org.zkoss.bind.BindComposer" class="contenedor-formulario"
@@ -26,11 +26,11 @@
 									Nuevo
 								</button>
 								<button id="btnEditarAgenda" onClick="@command('editarAgenda')"
-									iconSclass="z-icon-pencil" width="80px" zclass="btn btn-outline-primary btn btn-sm">
+									iconSclass="z-icon-pencil" width="80px" zclass="btn btn-outline-success btn-sm">
 									Editar
 								</button>
 								<button id="btnEliminarAgenda" onClick="@command('eliminarAgenda')"
-									iconSclass="z-icon-trash-o" width="100px" zclass="btn btn-outline-primary btn btn-sm">
+									iconSclass="z-icon-trash-o" width="100px" zclass="btn btn-outline-danger btn btn-sm">
 									Eliminar
 								</button>
 							</div>
@@ -86,12 +86,21 @@
 										Nuevo
 									</button>    
 									<button id="btnEditarActividad" onClick="@command('editarActividad')"
-										iconSclass="z-icon-pencil" width="80px" zclass="btn btn-outline-primary btn btn-sm">
+										iconSclass="z-icon-pencil" width="80px" zclass="btn btn-outline-success btn btn-sm">
 										Editar
 									</button>
 									<button id="btnEliminarActividad" onClick="@command('eliminarActividad')"
-										iconSclass="z-icon-trash-o" width="100px" zclass="btn btn-outline-primary btn btn-sm">
+										iconSclass="z-icon-trash-o" width="100px" zclass="btn btn-outline-danger btn-sm">
 										Eliminar
+									</button>
+									<separator width="20px" orient="vertical"></separator>
+									<button id="btnMarcarRealizado" onClick="@command('marcarRealizado')"
+										zclass="btn btn-outline-dark btn-sm">
+										Marcar realizado
+									</button>
+									<button id="btnMarcarPendiente" onClick="@command('marcarPendiente')"
+										zclass="btn btn-outline-dark btn-sm">
+										Marcar pendiente
 									</button>
 								</div>
 								
@@ -117,12 +126,12 @@
 												sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
 											<listcell sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')">
 												<div hflex="1" align="center">
-													<button label="Ver" onClick="@command('evidencias',actividad=each)"/>
+													<button label="Ver" onClick="@command('evidencias',actividad=each)" zclass="btn-editar btn-size"/>
 												</div>
 											</listcell>
 											<listcell sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')">
 												<div hflex="1" align="center">
-													<button label="@load(each.estadoPublicado eq 'NO PUBLICADO' ? 'Publicar' : 'Publicado')" 
+													<button label="@load(each.estadoPublicado eq 'NO PUBLICADO' ? 'Publicar' : 'Publicado')" zclass="btn-publicar btn-size"
 													onClick="@command('publicar',actividad=each)" disabled="@load(each.estadoPublicado eq 'PUBLICADO')"/>
 													</div>
 											</listcell>

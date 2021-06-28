@@ -1,6 +1,6 @@
 <?page title="Actividad" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window id="winActividadEditar" border="normal" width="37%" 
+	<window id="winActividadEditar" border="none" width="37%" 
 		apply="org.zkoss.bind.BindComposer" position="center"
 		viewModel="@id('vm') @init('com.actividades.controlador.actividades.NuevaActividadC')">
 		<vlayout>
@@ -37,18 +37,6 @@
 						<cell sclass="row-title">Fecha:</cell>
 						<cell>
 							<datebox id="dtpFecha" width="50%"/>
-						</cell>
-					</row>
-					<row>
-						<cell sclass="row-title">Estado:</cell>
-						<cell>
-							<radiogroup >
-					            <radio id="rbPendiente" label="PENDIENTE" />
-					            <separator orient="vertical" width="10px"/>
-								<radio id="rbProceso" label="EN PROCESO" />
-								<separator orient="vertical" width="10px"/>
-								<radio id="rbRealizado" label="REALIZADO" />
-					        </radiogroup>
 						</cell>
 					</row>
 				</rows>

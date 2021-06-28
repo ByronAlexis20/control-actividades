@@ -64,7 +64,6 @@ public class DiariaC {
 	private AgendaDAO agendaDAO = new AgendaDAO();
 	private ActividadDAO actividadDAO = new ActividadDAO();
 	private Actividad actividadSeleccionada;
-	private Actividad actividadSeleccionadaInterna;
 
 	private EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	@AfterCompose
@@ -320,13 +319,13 @@ public class DiariaC {
 	}
 	@Command
 	public void editarActividadInterna() {
-		if (actividadSeleccionadaInterna == null) {
+		if (actividadSeleccionada == null) {
 			Messagebox.show("Debe seleccionar una Actividad");
 			return; 
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Ventana", this);
-		params.put("Actividad", actividadSeleccionadaInterna);
+		params.put("Actividad", actividadSeleccionada);
 		params.put("TipoActividad", "INTERNA");
 		params.put("Agenda", agendaSeleccionada);
 		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/NuevaActividad.zul", winActividades, params);
@@ -335,7 +334,7 @@ public class DiariaC {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
 	public void eliminarActividadInterna() {
-		if (actividadSeleccionadaInterna == null) {
+		if (actividadSeleccionada == null) {
 			Messagebox.show("Debe seleccionar una Actividad");
 			return; 
 		}
@@ -344,9 +343,9 @@ public class DiariaC {
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {
 					try {
-						actividadSeleccionadaInterna.setEstado(Constantes.ESTADO_INACTIVO);
+						actividadSeleccionada.setEstado(Constantes.ESTADO_INACTIVO);
 						actividadDAO.getEntityManager().getTransaction().begin();
-						actividadDAO.getEntityManager().merge(actividadSeleccionadaInterna);
+						actividadDAO.getEntityManager().merge(actividadSeleccionada);
 						actividadDAO.getEntityManager().getTransaction().commit();
 						Messagebox.show("Transaccion ejecutada con exito");
 						BindUtils.postGlobalCommand(null, null, "Actividad.buscarPorAgenda", null);
@@ -356,9 +355,68 @@ public class DiariaC {
 					}
 				}
 			}
-		});	
+		});
 	}
-	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Command
+	public void marcarRealizado() {
+		if (actividadSeleccionada == null) {
+			Messagebox.show("Debe seleccionar una Actividad");
+			return; 
+		}
+		if(actividadSeleccionada.getEstadoActividad().equals(Constantes.ESTADO_REALIZADO) || actividadSeleccionada.getEstadoPublicado().equals(Constantes.ESTADO_PUBLICADO)) {
+			Messagebox.show("La actividad se encuentra REALIZADA o PUBLICADA");
+			return;
+		}
+		Messagebox.show("Desea marcar como realizado la actividad", "Confirmación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {	
+			@Override
+			public void onEvent(Event event) throws Exception {
+				if (event.getName().equals("onYes")) {
+					try {
+						actividadSeleccionada.setEstadoActividad(Constantes.ESTADO_REALIZADO);
+						actividadDAO.getEntityManager().getTransaction().begin();
+						actividadDAO.getEntityManager().merge(actividadSeleccionada);
+						actividadDAO.getEntityManager().getTransaction().commit();
+						Messagebox.show("Transaccion ejecutada con exito");
+						BindUtils.postGlobalCommand(null, null, "Actividad.buscarPorAgenda", null);
+					} catch (Exception e) {
+						e.printStackTrace();
+						actividadDAO.getEntityManager().getTransaction().rollback();
+					}
+				}
+			}
+		});
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Command
+	public void marcarPendiente() {
+		if (actividadSeleccionada == null) {
+			Messagebox.show("Debe seleccionar una Actividad");
+			return; 
+		}
+		if(actividadSeleccionada.getEstadoPublicado().equals(Constantes.ESTADO_PUBLICADO)) {
+			Messagebox.show("La actividad se encuentra PUBLICADA");
+			return;
+		}
+		Messagebox.show("Desea marcar como realizado la actividad", "Confirmación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {	
+			@Override
+			public void onEvent(Event event) throws Exception {
+				if (event.getName().equals("onYes")) {
+					try {
+						actividadSeleccionada.setEstadoActividad(Constantes.ESTADO_PENDIENTE);
+						actividadDAO.getEntityManager().getTransaction().begin();
+						actividadDAO.getEntityManager().merge(actividadSeleccionada);
+						actividadDAO.getEntityManager().getTransaction().commit();
+						Messagebox.show("Transaccion ejecutada con exito");
+						BindUtils.postGlobalCommand(null, null, "Actividad.buscarPorAgenda", null);
+					} catch (Exception e) {
+						e.printStackTrace();
+						actividadDAO.getEntityManager().getTransaction().rollback();
+					}
+				}
+			}
+		});
+	}
 	//evidencias
 	@Command
 	public void evidencias(@BindingParam("actividad") Actividad seleccion){
@@ -435,11 +493,5 @@ public class DiariaC {
 	}
 	public void setActividadSeleccionada(Actividad actividadSeleccionada) {
 		this.actividadSeleccionada = actividadSeleccionada;
-	}
-	public Actividad getActividadSeleccionadaInterna() {
-		return actividadSeleccionadaInterna;
-	}
-	public void setActividadSeleccionadaInterna(Actividad actividadSeleccionadaInterna) {
-		this.actividadSeleccionadaInterna = actividadSeleccionadaInterna;
 	}
 }

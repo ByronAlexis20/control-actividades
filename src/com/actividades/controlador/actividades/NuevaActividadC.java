@@ -36,9 +36,6 @@ public class NuevaActividadC {
 	@Wire private Window winActividadEditar;
 	@Wire private Textbox txtDescripcion;
 	@Wire private Datebox dtpFecha;
-	@Wire private Radio rbPendiente;
-	@Wire private Radio rbProceso;
-	@Wire private Radio rbRealizado;
 	
 	@Wire private Radio rbPrincipal;
 	@Wire private Radio rbInterna;
@@ -66,23 +63,10 @@ public class NuevaActividadC {
 		if(actividad == null) {
 			actividad = new Actividad();
 			actividad.setIdActividad(null);
-			rbPendiente.setSelected(true);
 			rbPrincipal.setSelected(true);
 		}else {
 			txtDescripcion.setText(actividad.getDescripcion());
 			dtpFecha.setValue(actividad.getFecha());
-			//seleccionar estado de actividad
-			if(actividad.getEstadoActividad().equals(Constantes.ESTADO_PENDIENTE))
-				rbPendiente.setSelected(true);
-			else if(actividad.getEstadoActividad().equals(Constantes.ESTADO_EN_PROCESO))
-				rbProceso.setSelected(true);
-			else if(actividad.getEstadoActividad().equals(Constantes.ESTADO_REALIZADO))
-				rbRealizado.setSelected(true);
-			else if(actividad.getEstadoActividad().equals(Constantes.ESTADO_RECHAZADO)) {
-				rbPendiente.setDisabled(true);
-				rbProceso.setDisabled(true);
-				rbRealizado.setSelected(true);
-			}
 			//seleccionar tipo de actividad
 			if(actividad.getTipoActividad() != null) {
 				if(actividad.getTipoActividad().getIdTipoActividad() == Constantes.ID_TIPO_PRIMORDIALES) {
@@ -142,12 +126,7 @@ public class NuevaActividadC {
 		actividad.setEstadoPublicado(Constantes.ESTADO_NO_PUBLICADO);
 		actividad.setFecha(dtpFecha.getValue());
 		//el estado de la actividad depende de los radios
-		if(rbPendiente.isChecked())
-			actividad.setEstadoActividad(Constantes.ESTADO_PENDIENTE);
-		else if(rbProceso.isChecked())
-			actividad.setEstadoActividad(Constantes.ESTADO_EN_PROCESO);
-		else if(rbRealizado.isChecked())
-			actividad.setEstadoActividad(Constantes.ESTADO_REALIZADO);
+		actividad.setEstadoActividad(Constantes.ESTADO_EN_PROCESO);
 		
 		//cargar el tipo de actividad
 		
