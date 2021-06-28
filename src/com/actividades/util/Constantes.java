@@ -20,8 +20,6 @@ public class Constantes {
 	public static String QUEJA_ATENDIDA = "ATENDIDA";
 	public static String QUEJA_NO_ATENDIDA = "NO ATENDIDA";
 	
-	public static Integer ID_DEPARTAMENTO_GOBERNACION = 7;
-	
 	public static Integer ID_JEFE_AREA = 2;
 	public static Integer ID_ADMINISTRADOR_SISTEMAS = 1;
 	public static Integer ID_ADMINISTRACION_COMUNICACION = 3;
@@ -31,6 +29,11 @@ public class Constantes {
 	
 	public static String CODIGO_AGENDA = "AG-";
 	public static String CODIGO_ACTIVIDAD = "ACT-";
+	
+	/*codigos de departamentos*/
+	public static Integer ID_DEPARTAMENTO_SISTEMAS = 1;
+	public static Integer ID_DEPARTAMENTO_COMUNICACIONES = 2;
+	public static Integer ID_DEPARTAMENTO_GOBERNACION = 7;
 	
 	
 	public static String USUARIO_PERMITIDO = "PERMITIDO";

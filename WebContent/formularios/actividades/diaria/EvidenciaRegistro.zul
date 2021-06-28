@@ -1,9 +1,12 @@
 <zk>
 	<window id="winEvidencia" border="normal" width="30%" apply="org.zkoss.bind.BindComposer" 
-        viewModel="@id('vm') @init('com.actividades.controlador.AEvidenciaC')">
-		<caption sclass="fn-caption"
-			label="Evidencia" />
+        viewModel="@id('vm') @init('com.actividades.controlador.actividades.EvidenciaRegistroC')">
 		<vlayout>
+			<vbox hflex="1" align="center" sclass="banner-modal" height="35px" pack="center">
+				<div hflex="1" align="center">
+					<label value="Ingrese Datos" sclass="letter-modal"/>
+				</div>
+			</vbox>
 			<grid hflex="1">
 				<columns>
 					<column align="right" hflex="min" />
@@ -34,8 +37,8 @@
 			
 			<hlayout hflex="1" height="1">
 				<div align="center" hflex="1">
-					<button id="btnAgregar" onClick="@command('grabar')" label="Agregar"/>
-					<button id="btnSalir" onClick="@command('salir')" label="Salir"/>			
+					<button id="btnAgregar" onClick="@command('grabar')" label="Agregar" iconSclass="z-icon-save" zclass="btn btn-primary btn btn-sm"/>
+					<button id="btnSalir" onClick="@command('salir')" label="Salir" iconSclass="z-icon-sign-out" zclass="btn btn-danger btn btn-sm"/>		
 				</div>
 			</hlayout>
 		</vlayout>

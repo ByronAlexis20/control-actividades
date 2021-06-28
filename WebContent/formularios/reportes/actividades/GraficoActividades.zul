@@ -1,8 +1,12 @@
 <zk>
 	<window id="winGraficoAct" border="normal" width="70%"
 		apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('com.actividades.controlador.RAGraficoActC')">
-		<caption sclass="fn-caption" label="Actividades" />
+		viewModel="@id('vm') @init('com.actividades.controlador.reportes.GraficoActividadesC')">
+		<vbox hflex="1" align="center" sclass="banner-modal" height="35px" pack="center">
+			<div hflex="1" align="center">
+				<label value="Actividades" sclass="letter-modal"/>
+			</div>
+		</vbox>
 		<groupbox closable="false" hflex="1">
 			<caption label="Agenda Seleccionada" />
 			<vbox hflex="1" vflex="1">
@@ -140,7 +144,7 @@
 				</groupbox>
 				
 				<div hflex="1" align="center">
-					<button label="Salir" onClick="@command('salir')" />
+					<button label="Salir" onClick="@command('salir')" iconSclass="z-icon-sign-out" zclass="btn btn-danger btn btn-sm"/>
 				</div>
 			</vbox>
 		</groupbox>

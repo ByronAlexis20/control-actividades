@@ -1,4 +1,4 @@
-package com.actividades.controlador;
+package com.actividades.controlador.actividades;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -38,7 +38,7 @@ import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.util.Constantes;
 import com.actividades.util.SecurityUtil;
 
-public class AinternasC {
+public class InternasC {
 	@Wire private Window winActividades;
 	@Wire private Listbox lstActividadesInternas;
 	@Wire private Listbox lstAgenda;

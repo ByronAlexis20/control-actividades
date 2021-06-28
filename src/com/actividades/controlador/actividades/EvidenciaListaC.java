@@ -31,7 +31,7 @@ import com.actividades.modelo.EvidenciaDAO;
 import com.actividades.util.Constantes;
 import com.actividades.util.FileUtil;
 
-public class AEvidenciaListaC {
+public class EvidenciaListaC {
 	@Wire Window winEvidenciaLista;
 	@Wire Listbox lstEvidencia;
 	@Wire Button btnAnadirEvidencia;
@@ -72,7 +72,7 @@ public class AEvidenciaListaC {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Ventana", this);
 		params.put("Actividad", actividad);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/AEvidencia.zul", winEvidenciaLista, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/EvidenciaRegistro.zul", winEvidenciaLista, params);
 		ventanaCargar.doModal();
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })

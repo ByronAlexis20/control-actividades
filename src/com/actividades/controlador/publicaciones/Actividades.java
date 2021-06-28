@@ -1,15 +1,14 @@
-package com.actividades.controlador;
+package com.actividades.controlador.publicaciones;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
@@ -19,42 +18,52 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.Datebox;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+import com.actividades.modelo.Agenda;
+import com.actividades.modelo.AgendaDAO;
 import com.actividades.modelo.Departamento;
 import com.actividades.modelo.DepartamentoDAO;
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
-import com.actividades.util.Constantes;
-import com.actividades.util.PrintReport;
 
-public class RAActividadesFechaC {
+public class Actividades {
 	@Wire private Listbox lstDepartamento;
-	private List<DepartamentoResponsable> listaDepartamentos;
-	private DepartamentoResponsable departamentoSeleccionado;
+	@Wire private Listbox lstAgendas;
 	@Wire private Textbox txtDepartamento;
 	@Wire private Textbox txtJefe;
-	@Wire private Datebox dtpFechaInicio;
-	@Wire private Datebox dtpFechaFin;
-	
 	String textoBuscar;
+	
+	private List<DepartamentoResponsable> listaDepartamentos;
+	private DepartamentoResponsable departamentoSeleccionado;
+	private List<Agenda> listaAgendas;
+	
 	DepartamentoDAO departamentoDAO = new DepartamentoDAO();
 	EmpleadoDAO empleadoDAO = new EmpleadoDAO();
-	
+	AgendaDAO agendaDAO = new AgendaDAO();
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
 		listaDepartamentos = new ArrayList<>();
+		listaAgendas = new ArrayList<>();
 		textoBuscar="";
 		buscar();
-		dtpFechaInicio.setValue(new Date());
-		dtpFechaFin.setValue(new Date());
-		dtpFechaFin.setConstraint("after " + new SimpleDateFormat("yyyyMMdd").format(new Date()));
+		limpiarCampos();
+		
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void limpiarCampos() {
+		txtDepartamento.setText("");
+		txtJefe.setText("");
+		
+		listaAgendas = new ArrayList<>();
+		lstAgendas.setModel(new ListModelList(listaAgendas));
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -80,7 +89,9 @@ public class RAActividadesFechaC {
 		listaDepartamentos = lista;
 		lstDepartamento.setModel(new ListModelList(listaDepartamentos));
 	}
-	@Command
+	
+	
+	@Command	
 	public void seleccionarDepartamento() {
 		try {
 			if(departamentoSeleccionado == null) {
@@ -96,59 +107,57 @@ public class RAActividadesFechaC {
 		}
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@GlobalCommand("Agenda.buscarPorEmpleadoLogeado")
 	@Command
-	public void seleccionaFechaFin() {
-		System.out.println(new SimpleDateFormat("yyyyMMdd").format(dtpFechaInicio.getValue()));
-		dtpFechaFin.setConstraint("after " + new SimpleDateFormat("yyyyMMdd").format(dtpFechaInicio.getValue()));
-		dtpFechaFin.setValue(dtpFechaInicio.getValue());
+	@NotifyChange({"listaAgendas"})
+	public void cargarAgenda() {
+		if(listaAgendas != null)
+			listaAgendas = null;
+		
+		listaAgendas = agendaDAO.obtenerAgendaActiva(departamentoSeleccionado.getEmpleado().getIdEmpleado());
+		lstAgendas.setModel(new ListModelList(listaAgendas));
 	}
 	
+	
 	@Command
-	public void cargarActividades() {
-		if(departamentoSeleccionado == null) {
-			Messagebox.show("Debe seleccionar un departamento!!");
+	public void verActividades(@BindingParam("agenda") Agenda seleccion){
+		if(seleccion == null) {
+			Clients.showNotification("Seleccione una opción de la lista.");
 			return;
 		}
+		// Actualiza la instancia antes de enviarla a editar.
+		agendaDAO.getEntityManager().refresh(seleccion);		
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("Empleado", departamentoSeleccionado.getEmpleado());
-		params.put("FechaInicio", dtpFechaInicio.getValue());
-		params.put("FechaFin", dtpFechaFin.getValue());
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/reportes/act_fecha/RAActividadDep.zul", null, params);
+		params.put("Agenda", seleccion);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/publicaciones/actividades/ActividadesLista.zul", null, params);
 		ventanaCargar.doModal();
 	}
-	@Command
-	public void descargarReporte() {
-		if(departamentoSeleccionado == null) {
-			Messagebox.show("Debe seleccionar un departamento!!");
-			return;
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("ID_TIPO_ACTIVIDAD", Constantes.ID_TIPO_PRIMORDIALES);
-		params.put("FECHA_INICIO", dtpFechaInicio.getValue());
-		params.put("FECHA_FIN", dtpFechaFin.getValue());
-		params.put("FECHA_BUSQUEDA", "Fecha de Búsqueda: " + new SimpleDateFormat("dd/MM/yyyy").format(dtpFechaInicio.getValue()) + " - " + new SimpleDateFormat("dd/MM/yyyy").format(dtpFechaFin.getValue()));
-		params.put("ID_EMPLEADO", departamentoSeleccionado.getEmpleado().getIdEmpleado());
-		PrintReport report = new PrintReport();
-		report.crearReporte("/reportes/actividades.jasper",empleadoDAO, params);
-	}
+	
 	public List<DepartamentoResponsable> getListaDepartamentos() {
 		return listaDepartamentos;
 	}
 	public void setListaDepartamentos(List<DepartamentoResponsable> listaDepartamentos) {
 		this.listaDepartamentos = listaDepartamentos;
 	}
-
-	public String getTextoBuscar() {
-		return textoBuscar;
-	}
-	public void setTextoBuscar(String textoBuscar) {
-		this.textoBuscar = textoBuscar;
-	}
 	public DepartamentoResponsable getDepartamentoSeleccionado() {
 		return departamentoSeleccionado;
 	}
 	public void setDepartamentoSeleccionado(DepartamentoResponsable departamentoSeleccionado) {
 		this.departamentoSeleccionado = departamentoSeleccionado;
+	}
+	public List<Agenda> getListaAgendas() {
+		return listaAgendas;
+	}
+	public void setListaAgendas(List<Agenda> listaAgendas) {
+		this.listaAgendas = listaAgendas;
+	}
+	public String getTextoBuscar() {
+		return textoBuscar;
+	}
+
+	public void setTextoBuscar(String textoBuscar) {
+		this.textoBuscar = textoBuscar;
 	}
 
 	public class DepartamentoResponsable {

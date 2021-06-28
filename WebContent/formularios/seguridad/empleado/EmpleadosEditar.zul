@@ -1,6 +1,6 @@
 <?page title="Empleados" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window id="winEmpleadoEditar" width="600px" vflex="1"
+	<window id="winEmpleadoEditar" width="600px" vflex="1" hflex="1"
 		apply="org.zkoss.bind.BindComposer" border="none" position="center"
 		viewModel="@id('vm') @init('com.actividades.controlador.seguridad.EmpleadosEditarC')">
 		<vlayout>
@@ -9,38 +9,42 @@
 					<label value="Ingrese Datos" sclass="letter-modal"/>
 				</div>
 			</vbox>
-			<grid hflex="1" >
+			<grid hflex="1" vflex="1"  style="overflow-y:hidden">
 				<columns hflex="1">
-					<column align="right" hflex="min"/>
+					<column align="left" hflex="min"/>
 					<column align="left" hflex="1" />
-					<column align="right" hflex="min" />
+					<column align="left" hflex="min" />
 					<column align="left" hflex="1" />
 				</columns>
 				<rows hflex="1">
 					<row>
-						<label value="Cédula: *" sclass="font-weight-bold col-form-label"/>
-						<textbox id="txtCedula"  maxlength="15" hflex="1" xmlns:w="client">
-							<attribute w:name="doKeyPress_">
-								function(evt){ if(this.getValue().length
-								> 0 ){ if (!this._shallIgnore(evt,
-								"0123456789")) this.$doKeyPress_(evt);
-								}else{ if (!this._shallIgnore(evt,
-								"0123456789")) this.$doKeyPress_(evt); }
-								}
-							</attribute>
-						</textbox>
-						<cell colspan="2" rowspan="6" hflex="1" vflex="1">
+						<cell>
+							<label value="Cédula: *" sclass="font-weight-bold col-form-label"/>
+						</cell>
+						<cell>
+							<textbox id="txtCedula"  maxlength="15" hflex="1" xmlns:w="client">
+								<attribute w:name="doKeyPress_">
+									function(evt){ if(this.getValue().length
+									> 0 ){ if (!this._shallIgnore(evt,
+									"0123456789")) this.$doKeyPress_(evt);
+									}else{ if (!this._shallIgnore(evt,
+									"0123456789")) this.$doKeyPress_(evt); }
+									}
+								</attribute>
+							</textbox>
+						</cell>
+						<cell colspan="2" rowspan="6" hflex="1" align="center">
 							<vbox pack="center" hflex="1" vflex="1">
-								<div align="center" hflex="1">
-									<label value="Foto Usuario"/>
+								<div align="center">
+									<label value="Foto Usuario" sclass="font-weight-bold col-form-label"/>
 								</div>
 								<div align="center" hflex="1">
 									<image id="imgFoto" width="130px" height="130px"
-									content="@load(vm.imagenUsuario)"
-	       							onClick="@command('descargar')"  
-									style="border:1px #cccccc solid; " />
+										content="@load(vm.imagenUsuario)"
+		       							onClick="@command('descargar')"  
+										style="border:1px #cccccc solid; " />
 								</div>
-								<div align="center" hflex="1">
+								<div align="center"	>
 									<button id="btnUpload" label="Cargar..."
 										upload="true,accept=.jpg" onUpload="@command('subir', upEvent=event)"
 										iconSclass="z-icon-upload" />
@@ -49,29 +53,43 @@
 						</cell>
 					</row>
 					<row>
-						<label value="Teléfono: " sclass="font-weight-bold col-form-label"/>
-						<textbox id="txtTelefono" hflex="1" maxlength="13" xmlns:w="client">
-							<attribute w:name="doKeyPress_">
-								function(evt){ if(this.getValue().length
-								> 0 ){ if (!this._shallIgnore(evt,
-								"0123456789")) this.$doKeyPress_(evt);
-								}else{ if (!this._shallIgnore(evt,
-								"0123456789")) this.$doKeyPress_(evt); }
-								}
-							</attribute>
-						</textbox>
+						<cell>
+							<label value="Teléfono: " sclass="font-weight-bold col-form-label"/>
+						</cell>
+						<cell>
+							<textbox id="txtTelefono" hflex="1" maxlength="13" xmlns:w="client">
+								<attribute w:name="doKeyPress_">
+									function(evt){ if(this.getValue().length
+									> 0 ){ if (!this._shallIgnore(evt,
+									"0123456789")) this.$doKeyPress_(evt);
+									}else{ if (!this._shallIgnore(evt,
+									"0123456789")) this.$doKeyPress_(evt); }
+									}
+								</attribute>
+							</textbox>
+						</cell>
 					</row>
 					<row>
-						<label value="Nombres: *" sclass="font-weight-bold col-form-label"/>
-						<textbox id="txtNombres" hflex="1" maxlength="60"/>
+						<cell>
+							<label value="Nombres: *" sclass="font-weight-bold col-form-label"/>
+						</cell>
+						<cell>
+							<textbox id="txtNombres" hflex="1" maxlength="60"/>
+						</cell>
 					</row>
 					<row>
-						<label value="Apellidos: *" sclass="font-weight-bold col-form-label"/>
-						<textbox id="txtApellidos" hflex="1" maxlength="60"/>
+						<cell>
+							<label value="Apellidos: *" sclass="font-weight-bold col-form-label"/>
+						</cell>
+						<cell>
+							<textbox id="txtApellidos" hflex="1" maxlength="60"/>
+						</cell>
 					</row>
 					<row>
 						<label value="Dirección: " sclass="font-weight-bold col-form-label"/>
 						<textbox id="txtDireccion" hflex="1" maxlength="250"/>
+					</row>
+					<row>
 						<label value="Email: " sclass="font-weight-bold col-form-label"/>
 						<textbox id="txtEmail" constraint="/.+@.+\.[a-z]+/: No es una dirección email."
 							hflex="1" maxlength="250"/>
@@ -81,22 +99,36 @@
 						<combobox id="cboTipoUsuario" model="@load(vm.tipoUsuario)" onChange="@command('cambiarUsuario')"
 							placeholder="Tipo de usuario" hflex="1">
 						</combobox>
-					</row>
-					<row>
-						<label value="Departamento: *" sclass="font-weight-bold col-form-label" />
-						<combobox id="cboDepartamento"
-							model="@load(vm.departamento)" placeholder="Departamento" hflex="1">
-						</combobox>
 						<label value="Cargo " sclass="font-weight-bold col-form-label"/>
 						<combobox id="cboCargo"
 							model="@load(vm.cargos)" placeholder="Cargo" hflex="1">
 						</combobox>
 					</row>
 					<row>
+						<label value="Departamento: *" sclass="font-weight-bold col-form-label" />
+						<cell colspan="3">
+							<combobox id="cboDepartamento"
+								model="@load(vm.departamento)" placeholder="Departamento" hflex="1">
+							</combobox>
+						</cell>
+					</row>
+					<row>
 						<label value="Usuario: *" sclass="font-weight-bold col-form-label"/>
 						<textbox id="txtUsuario" value="@bind(vm.empleado.usuario)" hflex="1" maxlength="13"/>
 						<label value="Clave: *" sclass="font-weight-bold col-form-label"/>
 						<textbox id="txtClave" type="password" hflex="1" maxlength="13"/>
+					</row>
+					<row>
+						<label value=" "></label>
+						<label></label>
+						<label></label>
+						<label></label>
+					</row>
+					<row>
+						<label value=" "></label>
+						<label></label>
+						<label></label>
+						<label></label>
 					</row>
 				</rows>
 			</grid>

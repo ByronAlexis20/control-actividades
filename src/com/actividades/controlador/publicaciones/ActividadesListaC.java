@@ -1,4 +1,4 @@
-package com.actividades.controlador;
+package com.actividades.controlador.publicaciones;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -41,7 +41,7 @@ import com.actividades.modelo.ActividadDAO;
 import com.actividades.modelo.Agenda;
 import com.actividades.util.Constantes;
 
-public class PAListaActC {
+public class ActividadesListaC {
 	@Wire Window winGraficoAct;
 	@Wire Listbox lstActividades;
 	@Wire Textbox txtAgenda;
@@ -153,7 +153,7 @@ public class PAListaActC {
 		actividadDAO.getEntityManager().refresh(seleccion);		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Actividad", seleccion);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/reportes/actividades/RAEvidencia.zul", null, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/reportes/actividades/Evidencia.zul", null, params);
 		ventanaCargar.doModal();
 	}
 	@Command

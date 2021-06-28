@@ -1,4 +1,4 @@
-package com.actividades.controlador;
+package com.actividades.controlador.actividades;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -38,7 +38,7 @@ import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.util.Constantes;
 import com.actividades.util.SecurityUtil;
 
-public class ARechazadaC {
+public class PendientesC {
 	@Wire private Window winActividades;
 	@Wire private Listbox lstActividades;
 	@Wire private Listbox lstAgenda;
@@ -111,7 +111,7 @@ public class ARechazadaC {
 		List<Actividad> resultado = actividadDAO.obtenerActividad(agendaSeleccionada.getIdAgenda(),Constantes.ID_TIPO_PRIMORDIALES);
 		
 		List<String> estados = new ArrayList<>();
-		estados.add(Constantes.ESTADO_RECHAZADO);
+		estados.add(Constantes.ESTADO_PENDIENTE);
 		for(String est : estados) {
 			for(Actividad act : resultado) {
 				if(est.equals(act.getEstadoActividad())) {
@@ -148,7 +148,7 @@ public class ARechazadaC {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Ventana", this);
 		params.put("Actividad", actividadSeleccionada);
-		params.put("Actividad", "PRINCIPAL");
+		params.put("TipoActividad", "PRINCIPAL");
 		params.put("Agenda", agendaSeleccionada);
 		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", winActividades, params);
 		ventanaCargar.doModal();

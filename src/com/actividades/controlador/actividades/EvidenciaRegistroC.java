@@ -29,7 +29,7 @@ import com.actividades.modelo.TipoEvidencia;
 import com.actividades.modelo.TipoEvidenciaDAO;
 import com.actividades.util.FileUtil;
 
-public class AEvidenciaC {
+public class EvidenciaRegistroC {
 	@Wire private Window winEvidencia;
 	@Wire private Button btnAnadirArchivo;
 	@Wire private Combobox cboTipoEvidencia;

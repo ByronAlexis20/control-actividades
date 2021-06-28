@@ -96,7 +96,14 @@ public class EmpleadosEditarC {
 	}
 
 	public List<Departamento> getDepartamento() {		
-		return departamentoDAO.getDepartamentosActivos();
+		List<Departamento> list = departamentoDAO.getDepartamentosActivos();
+		List<Departamento> listado = new ArrayList<>();
+		for(Departamento d : list) {
+			if(d.getIdDepartamento() != Constantes.ID_AUTORIDAD_MAXIMA && d.getIdDepartamento() != Constantes.ID_ADMINISTRACION_COMUNICACION && d.getIdDepartamento() != Constantes.ID_ADMINISTRADOR_SISTEMAS) {
+				listado.add(d);
+			}
+		}
+		return listado;
 	}
 	public List<Cargo> getCargos() {
 		return cargos;
@@ -289,6 +296,7 @@ public class EmpleadosEditarC {
 				if(emp.size() > 0)
 					bandera = true;
 			}
+			
 		}
 		return bandera;
 	}
@@ -308,6 +316,38 @@ public class EmpleadosEditarC {
 			cargos = cargoDAO.cargoSinJefe(Constantes.ID_CARGO_JEFE);
 			cboCargo.setModel(new ListModelList(cargos));
 			cboCargo.setText("");
+		}
+		cboDepartamento.setDisabled(false);
+		cboDepartamento.setText("");
+		if(tipo.getIdTipoUsuario().equals(Constantes.ID_ADMINISTRADOR_SISTEMAS)) {
+			List<Departamento> dep = departamentoDAO.getDepartamentoPorId(Constantes.ID_DEPARTAMENTO_SISTEMAS);
+			cboDepartamento.setText(dep.get(0).getNombre());
+			cboDepartamento.setDisabled(true);
+			cboDepartamento.setModel(new ListModelList(dep));
+		}else {
+			if(tipo.getIdTipoUsuario().equals(Constantes.ID_ADMINISTRACION_COMUNICACION)) {
+				List<Departamento> dep = departamentoDAO.getDepartamentoPorId(Constantes.ID_DEPARTAMENTO_COMUNICACIONES);
+				cboDepartamento.setText(dep.get(0).getNombre());
+				cboDepartamento.setDisabled(true);
+				cboDepartamento.setModel(new ListModelList(dep));
+			}else {
+				if(tipo.getIdTipoUsuario().equals(Constantes.ID_AUTORIDAD_MAXIMA)) {
+					List<Departamento> dep = departamentoDAO.getDepartamentoPorId(Constantes.ID_DEPARTAMENTO_GOBERNACION);
+					cboDepartamento.setText(dep.get(0).getNombre());
+					cboDepartamento.setDisabled(true);
+					cboDepartamento.setModel(new ListModelList(dep));
+				}
+			}
+		}
+		if(!tipo.getIdTipoUsuario().equals(Constantes.ID_AUTORIDAD_MAXIMA) && !tipo.getIdTipoUsuario().equals(Constantes.ID_ADMINISTRACION_COMUNICACION) && !tipo.getIdTipoUsuario().equals(Constantes.ID_ADMINISTRADOR_SISTEMAS)) {
+			List<Departamento> list = departamentoDAO.getDepartamentosActivos();
+			List<Departamento> listado = new ArrayList<>();
+			for(Departamento d : list) {
+				if(d.getIdDepartamento() != Constantes.ID_AUTORIDAD_MAXIMA && d.getIdDepartamento() != Constantes.ID_ADMINISTRACION_COMUNICACION && d.getIdDepartamento() != Constantes.ID_ADMINISTRADOR_SISTEMAS) {
+					listado.add(d);
+				}
+			}
+			cboDepartamento.setModel(new ListModelList(listado));
 		}
 	}
 	private boolean validarUsuarioRegistradp() {

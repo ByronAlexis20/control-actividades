@@ -37,8 +37,8 @@
 							<listbox id="lstAgenda" hflex="1" vflex="1" model="@load(vm.listaAgenda)" 
 								selectedItem="@bind(vm.agendaSeleccionada)" onSelect="@command('seleccionarAgenda')">
 								<listhead>
-									<listheader width="20%" label="Codigo" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
-									<listheader label="Agenda" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
+									<listheader width="20%" label="Codigo" sclass="lb-listheader"/>
+									<listheader label="Agenda" sclass="lb-listheader"/>
 								</listhead>
 								<template name="model">
 									<listitem>

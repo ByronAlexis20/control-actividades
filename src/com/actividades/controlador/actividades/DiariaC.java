@@ -252,7 +252,7 @@ public class DiariaC {
 		params.put("Actividad", null);
 		params.put("TipoActividad", "PRINCIPAL");
 		params.put("Agenda", agendaSeleccionada);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", null, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/NuevaActividad.zul", null, params);
 		ventanaCargar.doModal();
 	}
 	@Command
@@ -274,7 +274,7 @@ public class DiariaC {
 		params.put("Actividad", actividadSeleccionada);
 		params.put("TipoActividad", "PRINCIPAL");
 		params.put("Agenda", agendaSeleccionada);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", winActividades, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/NuevaActividad.zul", winActividades, params);
 		ventanaCargar.doModal();
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -315,7 +315,7 @@ public class DiariaC {
 		params.put("Actividad", null);
 		params.put("TipoActividad", "INTERNA");
 		params.put("Agenda", agendaSeleccionada);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", winActividades, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/NuevaActividad.zul", winActividades, params);
 		ventanaCargar.doModal();
 	}
 	@Command
@@ -329,7 +329,7 @@ public class DiariaC {
 		params.put("Actividad", actividadSeleccionadaInterna);
 		params.put("TipoActividad", "INTERNA");
 		params.put("Agenda", agendaSeleccionada);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", winActividades, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/NuevaActividad.zul", winActividades, params);
 		ventanaCargar.doModal();
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })

@@ -1,4 +1,4 @@
-package com.actividades.controlador;
+package com.actividades.controlador.reportes;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ import com.actividades.modelo.DepartamentoDAO;
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
 
-public class PAActividades {
+public class ActividadesC {
 	@Wire private Listbox lstDepartamento;
 	@Wire private Listbox lstAgendas;
 	@Wire private Textbox txtDepartamento;
@@ -46,6 +46,7 @@ public class PAActividades {
 	DepartamentoDAO departamentoDAO = new DepartamentoDAO();
 	EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 	AgendaDAO agendaDAO = new AgendaDAO();
+	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
@@ -65,7 +66,6 @@ public class PAActividades {
 		listaAgendas = new ArrayList<>();
 		lstAgendas.setModel(new ListModelList(listaAgendas));
 	}
-	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GlobalCommand("Departamento.buscarActivosReporte")
 	@Command
@@ -90,8 +90,7 @@ public class PAActividades {
 		lstDepartamento.setModel(new ListModelList(listaDepartamentos));
 	}
 	
-	
-	@Command	
+	@Command
 	public void seleccionarDepartamento() {
 		try {
 			if(departamentoSeleccionado == null) {
@@ -130,7 +129,7 @@ public class PAActividades {
 		agendaDAO.getEntityManager().refresh(seleccion);		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Agenda", seleccion);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/publicaciones/actividades/PAListaAct.zul", null, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/reportes/actividades/GraficoActividades.zul", null, params);
 		ventanaCargar.doModal();
 	}
 	
@@ -155,7 +154,6 @@ public class PAActividades {
 	public String getTextoBuscar() {
 		return textoBuscar;
 	}
-
 	public void setTextoBuscar(String textoBuscar) {
 		this.textoBuscar = textoBuscar;
 	}

@@ -1,10 +1,9 @@
-package com.actividades.controlador;
+package com.actividades.controlador.reportes;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +20,7 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.GlobalCommand;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -35,52 +35,47 @@ import org.zkoss.zul.Window;
 
 import com.actividades.modelo.Actividad;
 import com.actividades.modelo.ActividadDAO;
-import com.actividades.modelo.Empleado;
+import com.actividades.modelo.Agenda;
 import com.actividades.util.Constantes;
 
-public class RAActividadDepC {
-	@Wire private Window winActividadDep;
-	@Wire private Textbox txtDepartamento;
-	@Wire private Textbox txtJefe;
-	@Wire private Textbox txtFechaInicio;
-	@Wire private Textbox txtFechaFin;
+public class GraficoActividadesC {
+	@Wire Window winGraficoAct;
+	@Wire Textbox txtAgenda;
+	@Wire Textbox txtNoActividades;
+	@Wire Textbox txtNoPublicadas;
+	@Wire Textbox txtFechaInicio;
+	@Wire Textbox txtFechaFin;
+	@Wire Textbox txtRechazadas;
+	@Wire Image imGrafico;
 	
 	@Wire private Listbox lstActividadesPublicadas;
 	@Wire private Listbox lstActividadesPendientes;
 	@Wire private Listbox lstActividadesRechazadas;
 	
-	@Wire Image imGrafico;
-	
 	List<Actividad> listaActividadesPendientes;
 	List<Actividad> listaActividadesRechazadas;
 	List<Actividad> listaActividadesPublicadas;
 	
-	private Empleado empleado;
+	Agenda agenda;
 	ActividadDAO actividadDAO = new ActividadDAO();
-	Date fechaInicio;
-	Date fechaFin;
 	
 	@AfterCompose
-	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
-		// Permite enlazar los componentes que se asocian con la anotacion @Wire
+	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
-		
-		empleado = (Empleado) Executions.getCurrent().getArg().get("Empleado");
-		fechaInicio = (Date) Executions.getCurrent().getArg().get("FechaInicio");
-		fechaFin = (Date) Executions.getCurrent().getArg().get("FechaFin");
-		
-		if(empleado != null) {
-			txtDepartamento.setText(empleado.getDepartamento().getNombre());
-			txtJefe.setText(empleado.getPersona().getNombre() + " " + empleado.getPersona().getApellido());
-			txtFechaInicio.setText(new SimpleDateFormat("dd/MM/yyyy").format(fechaInicio));
-			txtFechaFin.setText(new SimpleDateFormat("dd/MM/yyyy").format(fechaFin));
+		agenda = (Agenda) Executions.getCurrent().getArg().get("Agenda");
+		if(agenda != null) {
+			txtAgenda.setText(agenda.getDescripcion());
+			txtFechaInicio.setText(new SimpleDateFormat("dd/MM/yyyy").format(agenda.getFechaInicio()));
+			txtFechaFin.setText(new SimpleDateFormat("dd/MM/yyyy").format(agenda.getFechaFin()));
 			cargarActividades();
 		}
+			
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@GlobalCommand("Actividad.buscarPorFecha")
+	@GlobalCommand("Departamento.buscarActivosReporte")
 	@Command
+	@NotifyChange({"listaDepartamentos"})
 	public void cargarActividades() {
 		if(listaActividadesPendientes != null)
 			listaActividadesPendientes = null;
@@ -100,7 +95,7 @@ public class RAActividadDepC {
 		List<Actividad> listaRechazadas = new ArrayList<>();
 		List<Actividad> listaPublicadas = new ArrayList<>();
 		
-		List<Actividad> todas = actividadDAO.buscarPorFecha(fechaInicio, fechaFin, empleado.getIdEmpleado(),Constantes.ID_TIPO_PRIMORDIALES);
+		List<Actividad> todas = actividadDAO.obtenerActividad(agenda.getIdAgenda(),Constantes.ID_TIPO_PRIMORDIALES);
 		totalActividades = todas.size();
 		
 		for(Actividad act : todas) {
@@ -119,11 +114,16 @@ public class RAActividadDepC {
 			}
 		}
 		
+		txtNoActividades.setText(String.valueOf(totalActividades) + " Actividades Programadas");
+		txtNoPublicadas.setText(String.valueOf(cantidadPublicadas) + " Actividades Publicadas");
+		txtRechazadas.setText(String.valueOf(cantidadRechazadas) + " Actividades Rechazadas");
+		
 		try {
 			realizarGrafica(totalActividades,cantidadPublicadas,cantidadRechazadas,cantidadPendientes);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		listaActividadesPendientes = listaPendientes; 
 		System.out.println("Pendientes " + listaActividadesPendientes.size());
 		listaActividadesRechazadas = listaRechazadas;
@@ -133,8 +133,8 @@ public class RAActividadDepC {
 		lstActividadesPublicadas.setModel(new ListModelList(listaActividadesPublicadas));
 		lstActividadesPendientes.setModel(new ListModelList(listaActividadesPendientes));
 		lstActividadesRechazadas.setModel(new ListModelList(listaActividadesRechazadas));
-		
 	}
+	
 	private void realizarGrafica(int totalActividades,int cantidadPublicadas,int cantidadRechazadas,int cantidadPendientes) throws IOException {
 		double tPendiente  = 100.0;
 		double tRechazadas = 0.0;
@@ -160,7 +160,6 @@ public class RAActividadDepC {
 		AImage image = new AImage("Pie Chart", bytes);
 		imGrafico.setContent(image);
 	}
-	
 	@Command
 	public void verEvidencias(@BindingParam("actividad") Actividad seleccion){
 		if(seleccion == null) {
@@ -171,18 +170,12 @@ public class RAActividadDepC {
 		actividadDAO.getEntityManager().refresh(seleccion);		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Actividad", seleccion);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/reportes/actividades/RAEvidencia.zul", null, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/reportes/actividades/Evidencia.zul", null, params);
 		ventanaCargar.doModal();
 	}
 	@Command
 	public void salir() {
-		winActividadDep.detach();
-	}
-	public Empleado getEmpleado() {
-		return empleado;
-	}
-	public void setEmpleado(Empleado empleado) {
-		this.empleado = empleado;
+		winGraficoAct.detach();
 	}
 	public List<Actividad> getListaActividadesPendientes() {
 		return listaActividadesPendientes;
@@ -201,5 +194,11 @@ public class RAActividadDepC {
 	}
 	public void setListaActividadesPublicadas(List<Actividad> listaActividadesPublicadas) {
 		this.listaActividadesPublicadas = listaActividadesPublicadas;
+	}
+	public Agenda getAgenda() {
+		return agenda;
+	}
+	public void setAgenda(Agenda agenda) {
+		this.agenda = agenda;
 	}
 }

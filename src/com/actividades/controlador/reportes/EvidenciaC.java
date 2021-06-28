@@ -1,4 +1,4 @@
-package com.actividades.controlador;
+package com.actividades.controlador.reportes;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,7 +23,7 @@ import com.actividades.modelo.Evidencia;
 import com.actividades.modelo.EvidenciaDAO;
 import com.actividades.util.FileUtil;
 
-public class RAEvidenciaC {
+public class EvidenciaC {
 	@Wire Window winEvidenciaReporte;
 	@Wire Listbox lstEvidencia;
 	

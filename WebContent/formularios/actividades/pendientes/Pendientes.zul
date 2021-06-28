@@ -1,4 +1,4 @@
-<?page title="Actividades diarias" contentType="text/html;charset=UTF-8"?>
+<?page title="Actividades pendientes" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<style>
 		.listCellStyle {
@@ -6,7 +6,7 @@
 		}
 	</style>
 	<div apply="org.zkoss.bind.BindComposer" class="contenedor-formulario"
-		viewModel="@id('vm') @init('com.actividades.controlador.APendientesC')"
+		viewModel="@id('vm') @init('com.actividades.controlador.actividades.PendientesC')"
 		hflex="1" vflex="1">
 		<vlayout hflex="1" zclass="contenido" vflex="1">
 			<groupbox>
@@ -23,8 +23,8 @@
 							<listbox id="lstAgenda" hflex="1" vflex="1" model="@load(vm.listaAgenda)" 
 								selectedItem="@bind(vm.agendaSeleccionada)" onSelect="@command('seleccionarAgenda')">
 								<listhead>
-									<listheader width="20%" label="Codigo" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
-									<listheader label="Agenda" style="background:#0489B1;text-transform:uppercase;color:#FFFFFF"/>
+									<listheader width="20%" label="Codigo" sclass="lb-listheader"/>
+									<listheader label="Agenda" sclass="lb-listheader"/>
 								</listhead>
 								<template name="model">
 									<listitem>
@@ -68,11 +68,11 @@
 							
 							<div hflex="1">
 								<button id="btnEditarActividad" onClick="@command('editarActividad')"
-									iconSclass="z-icon-pencil" width="80px" zclass="btn btn-outline-primary btn btn-sm">
+									iconSclass="z-icon-pencil" zclass="btn btn-outline-primary btn btn-sm">
 									Editar
 								</button>
 								<button id="btnEliminarActividad" onClick="@command('eliminarActividad')"
-									iconSclass="z-icon-trash-o" width="100px" zclass="btn btn-outline-primary btn btn-sm">
+									iconSclass="z-icon-trash-o" zclass="btn btn-outline-primary btn btn-sm">
 									Eliminar
 								</button>
 							</div>

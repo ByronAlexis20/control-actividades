@@ -1,7 +1,11 @@
 <zk>
 	<window id="winEvidenciaReporte" border="normal" width="50%" apply="org.zkoss.bind.BindComposer" 
-        viewModel="@id('vm') @init('com.actividades.controlador.RAEvidenciaC')">
-		<caption sclass="fn-caption" label="Evidencias" />
+        viewModel="@id('vm') @init('com.actividades.controlador.reportes.EvidenciaC')">
+		<vbox hflex="1" align="center" sclass="banner-modal" height="35px" pack="center">
+			<div hflex="1" align="center">
+				<label value="Evidencias" sclass="letter-modal"/>
+			</div>
+		</vbox>
 		<groupbox closable="false" hflex="1">
 				<caption label="Evidencias"/>
 				<vbox hflex="1" vflex="1">
@@ -9,9 +13,9 @@
 						<listbox id="lstEvidencia" model="@load(vm.listaEvidencia)" autopaging="true" 
 							mold="paging" height="200px" vflex="1">
 							<listhead>
-								<listheader label="Tipo" width="20%"/>
-								<listheader label="Nombre" />
-								<listheader label="Descargar" width="17%"/>
+								<listheader label="Tipo" width="20%" sclass="lb-listheader"/>
+								<listheader label="Nombre" sclass="lb-listheader"/>
+								<listheader label="Descargar" width="17%" sclass="lb-listheader"/>
 							</listhead>
 							<template name="model">
 								<listitem>
@@ -25,7 +29,7 @@
 						</listbox>
 					</hbox>
 					<div hflex="1" align="center">
-						<button label="Salir" onClick="@command('salir')"/>
+						<button label="Salir" onClick="@command('salir')" iconSclass="z-icon-sign-out" zclass="btn btn-danger btn btn-sm"/>
 					</div>
 				</vbox>
 			</groupbox>

@@ -167,7 +167,6 @@ public class MenuControlC {
 		if(us != null) {
 			if(us.getFoto() != null) {
 				fotoUsuario.setContent(getImagenUsuario(us));
-				System.out.println(us.getFoto().replace("\\", "/"));
 			}else {
 				fotoUsuario.setSrc( "/imagenes/foto.png");
 			}

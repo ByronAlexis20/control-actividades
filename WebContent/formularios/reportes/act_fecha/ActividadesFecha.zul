@@ -1,9 +1,9 @@
 <?page title="Actividades diarias" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window apply="org.zkoss.bind.BindComposer" border="none"
-		viewModel="@id('vm') @init('com.actividades.controlador.RAActividadesFechaC')"
-		hflex="1" vflex="1">
-		<vlayout hflex="1" vflex="1">
+	<div apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('com.actividades.controlador.reportes.ActividadesFechaC')"
+		class="contenedor-formulario" hflex="1" vflex="1">
+		<vlayout vflex="1" zclass="contenido" hflex="1">
 			<groupbox>
 				<div align="center">
 					<label value="Consulta de actividades"
@@ -25,8 +25,8 @@
 								selectedItem="@bind(vm.departamentoSeleccionado)"
 								onSelect="@command('seleccionarDepartamento')">
 								<listhead>
-									<listheader label="Departamento"/>
-									<listheader label="Responsable"/>
+									<listheader label="Departamento" sclass="lb-listheader"/>
+									<listheader label="Responsable" sclass="lb-listheader"/>
 								</listhead>
 								<template name="model">
 									<listitem>
@@ -85,5 +85,5 @@
 				</vbox>
 			</hbox>
 		</vlayout>
-	</window>
+	</div>
 </zk>

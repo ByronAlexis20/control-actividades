@@ -1,9 +1,9 @@
 <?page title="Actividades diarias" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window apply="org.zkoss.bind.BindComposer" border="none"
-		viewModel="@id('vm') @init('com.actividades.controlador.RAActividadesC')"
+	<div apply="org.zkoss.bind.BindComposer" class="contenedor-formulario"
+		viewModel="@id('vm') @init('com.actividades.controlador.reportes.ActividadesC')"
 		hflex="1" vflex="1">
-		<vlayout hflex="1" vflex="1">
+		<vlayout hflex="1" vflex="1" zclass="contenido">
 			<groupbox>
 				<div align="center">
 					<label value="Control de actividades"
@@ -25,13 +25,13 @@
 								selectedItem="@bind(vm.departamentoSeleccionado)"
 								onSelect="@command('seleccionarDepartamento')">
 								<listhead>
-									<listheader label="Departamento"/>
-									<listheader label="Responsable"/>
+									<listheader label="Departamento" sclass="lb-listheader"/>
+									<listheader label="Responsable" sclass="lb-listheader"/>
 								</listhead>
 								<template name="model">
 									<listitem>
-										<listcell label="@load(each.departamento.nombre)" />
-										<listcell label="@load(each.nombreJefe)" />
+										<listcell label="@load(each.departamento.nombre)" sclass="lb-listcell"/>
+										<listcell label="@load(each.nombreJefe)" sclass="lb-listcell"/>
 									</listitem>
 								</template>
 							</listbox>
@@ -73,11 +73,11 @@
 								<listbox id="lstAgendas" hflex="1" vflex="1"
 									model="@load(vm.listaAgendas)">
 									<listhead>
-										<listheader label="Codigo" width="10%"/>
-										<listheader label="Agenda"/>
-										<listheader label="F. Inicio" width="10%"/>
-										<listheader label="F. Fin" width="10%"/>
-										<listheader label="Actividades" width="15%" align="center"/>
+										<listheader label="Codigo" width="10%" sclass="lb-listheader"/>
+										<listheader label="Agenda" sclass="lb-listheader"/>
+										<listheader label="F. Inicio" width="10%" sclass="lb-listheader"/>
+										<listheader label="F. Fin" width="10%" sclass="lb-listheader"/>
+										<listheader label="Actividades" width="15%" align="center" sclass="lb-listheader"/>
 									</listhead>
 									<template name="model">
 										<listitem>
@@ -100,5 +100,5 @@
 				</vbox>
 			</hbox>
 		</vlayout>
-	</window>
+	</div>
 </zk>

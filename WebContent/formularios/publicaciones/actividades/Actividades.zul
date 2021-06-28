@@ -1,9 +1,9 @@
 <?page title="Actividades diarias" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window apply="org.zkoss.bind.BindComposer" border="none"
-		viewModel="@id('vm') @init('com.actividades.controlador.PAActividades')"
-		hflex="1" vflex="1">
-		<vlayout hflex="1" vflex="1">
+	<div apply="org.zkoss.bind.BindComposer" 
+		viewModel="@id('vm') @init('com.actividades.controlador.publicaciones.Actividades')"
+		class="contenedor-formulario" hflex="1" vflex="1">
+		<vlayout vflex="1" zclass="contenido" hflex="1">
 			<groupbox>
 				<div align="center">
 					<label value="Actividades de los departamentos"
@@ -26,8 +26,8 @@
 								selectedItem="@bind(vm.departamentoSeleccionado)"
 								onSelect="@command('seleccionarDepartamento')">
 								<listhead>
-									<listheader label="Departamento"/>
-									<listheader label="Responsable"/>
+									<listheader label="Departamento" sclass="lb-listheader"/>
+									<listheader label="Responsable" sclass="lb-listheader"/>
 								</listhead>
 								<template name="model">
 									<listitem>
@@ -74,11 +74,11 @@
 								<listbox id="lstAgendas" hflex="1" vflex="1"
 									model="@load(vm.listaAgendas)">
 									<listhead>
-										<listheader label="Codigo" width="10%"/>
-										<listheader label="Agenda"/>
-										<listheader label="F. Inicio" width="10%"/>
-										<listheader label="F. Fin" width="10%"/>
-										<listheader label="Actividades" width="15%" align="center"/>
+										<listheader label="Codigo" width="10%" sclass="lb-listheader"/>
+										<listheader label="Agenda" sclass="lb-listheader"/>
+										<listheader label="F. Inicio" width="10%" sclass="lb-listheader"/>
+										<listheader label="F. Fin" width="10%" sclass="lb-listheader"/>
+										<listheader label="Actividades" width="15%" align="center" sclass="lb-listheader"/>
 									</listhead>
 									<template name="model">
 										<listitem>
@@ -101,5 +101,5 @@
 				</vbox>
 			</hbox>
 		</vlayout>
-	</window>
+	</div>
 </zk>
