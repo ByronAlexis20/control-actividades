@@ -72,7 +72,7 @@
 									Editar
 								</button>
 								<button id="btnEliminarActividad" onClick="@command('eliminarActividad')"
-									iconSclass="z-icon-trash-o" zclass="btn btn-outline-primary btn btn-sm">
+									iconSclass="z-icon-trash-o" zclass="btn btn-outline-danger btn btn-sm">
 									Eliminar
 								</button>
 							</div>
@@ -99,12 +99,12 @@
 											sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
 										<listcell sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')">
 											<div hflex="1" align="center">
-												<button label="Ver" onClick="@command('evidencias',actividad=each)"/>
+												<button label="Ver" onClick="@command('evidencias',actividad=each)" zclass="btn-editar btn-size"/>
 											</div>
 										</listcell>
 										<listcell sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')">
 											<div hflex="1" align="center">
-												<button label="Publicar" 
+												<button label="Publicar" zclass="btn-publicar btn-size"
 												onClick="@command('publicar',actividad=each)" />
 												</div>
 										</listcell>

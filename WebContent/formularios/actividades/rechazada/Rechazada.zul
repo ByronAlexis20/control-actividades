@@ -2,7 +2,7 @@
 <zk>
 	<style>
 		.listCellStyle {
-			background-color: #8397FA;
+			background-color: #FF4D4D;
 		}
 	</style>
 	<div apply="org.zkoss.bind.BindComposer" class="contenedor-formulario"
@@ -72,7 +72,7 @@
 									Editar
 								</button>
 								<button id="btnEliminarActividad" onClick="@command('eliminarActividad')"
-									iconSclass="z-icon-trash-o" zclass="btn btn-outline-primary btn btn-sm">
+									iconSclass="z-icon-trash-o" zclass="btn btn-outline-danger btn btn-sm">
 									Eliminar
 								</button>
 							</div>
@@ -89,24 +89,24 @@
 								</listhead>
 								<template name="model">
 									<listitem>
-										<listcell label="@load(each.codigo)" style="font-size:10px;font-family: Calibri;font-weight: bold;"
+										<listcell label="@load(each.codigo)" style="font-size:10px;font-family: Calibri;font-weight: bold; color: black;"
 											sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
-										<listcell label="@load(each.descripcion)" style="font-family: Calibri;"
+										<listcell label="@load(each.descripcion)" style="font-size:10px;font-family: Calibri;font-weight: bold; color: black;"
 											sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
-										<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;"
+										<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" style="font-size:10px;font-family: Calibri;font-weight: bold; color: black;"
 											sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
-										<listcell label="@load(each.estadoActividad)" style="font-family: Calibri;"
+										<listcell label="@load(each.estadoActividad)" style="font-size:10px;font-family: Calibri;font-weight: bold; color: black;"
 											sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')"/>
 										<listcell sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')">
 											<div hflex="1" align="center">
-												<button label="Ver" onClick="@command('evidencias',actividad=each)"/>
+												<button label="Ver" onClick="@command('evidencias',actividad=each)" zclass="btn-editar btn-size"/>
 											</div>
 										</listcell>
 										<listcell sclass="@load(each.estadoPublicado eq 'PUBLICADO' ? 'listCellStyle' : '')">
 											<div hflex="1" align="center">
-												<button label="Publicar" 
-												onClick="@command('publicar',actividad=each)" />
-												</div>
+												<button label="Publicar" zclass="btn-publicar btn-size"
+													onClick="@command('publicar',actividad=each)" />
+											</div>
 										</listcell>
 									</listitem>
 								</template>

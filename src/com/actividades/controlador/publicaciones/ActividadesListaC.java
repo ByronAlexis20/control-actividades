@@ -14,6 +14,7 @@ import org.jfree.chart.encoders.EncoderUtil;
 import org.jfree.chart.encoders.ImageFormat;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -70,10 +71,9 @@ public class ActividadesListaC {
 			
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@GlobalCommand("Departamento.buscarActivosReporte")
+	@GlobalCommand("Actividad.buscarPorAgenda")
 	@Command
-	@NotifyChange({"listaDepartamentos"})
+	@NotifyChange({"listaActividades"})
 	public void cargarActividades() {
 		if(listaActividades != null)
 			listaActividades = null;
@@ -101,9 +101,9 @@ public class ActividadesListaC {
 				listaAgregar.add(act);
 			}
 		}
-		txtNoActividades.setText(String.valueOf(cantidadActividades) + " Actividades Programadas");
-		txtNoPublicadas.setText(String.valueOf(cantidadPublicadas) + " Actividades Publicadas");
-		txtRechazadas.setText(String.valueOf(cantidadRechazadas) + " Actividades Rechazadas");
+		txtNoActividades.setText(String.valueOf(cantidadActividades));
+		txtNoPublicadas.setText(String.valueOf(cantidadPublicadas));
+		txtRechazadas.setText(String.valueOf(cantidadRechazadas));
 		
 		try {
 			realizarGrafica(cantidadActividades,cantidadPublicadas,cantidadRechazadas);
@@ -112,7 +112,7 @@ public class ActividadesListaC {
 		}
 		
 		listaActividades = listaAgregar;
-		lstActividades.setModel(new ListModelList(listaActividades));
+		//lstActividades.setModel(new ListModelList(listaActividades));
 	}
 	
 	private void realizarGrafica(int totalActividades, int totalPublicadas, int totalRechazadas) throws IOException {
@@ -173,7 +173,7 @@ public class ActividadesListaC {
 					seleccion.setEstadoActividad(Constantes.ESTADO_RECHAZADO);
 					actividadDAO.getEntityManager().getTransaction().commit();
 					Messagebox.show("Datos grabados con exito");
-					cargarActividades();
+					BindUtils.postGlobalCommand(null, null, "Actividad.buscarPorAgenda", null);
 				}
 			}
 		};

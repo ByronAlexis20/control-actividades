@@ -1,112 +1,100 @@
 <zk>
-	<window id="winGraficoAct" border="normal" width="70%"
-		apply="org.zkoss.bind.BindComposer"
+	<window id="winGraficoAct" border="none" width="70%"
+		apply="org.zkoss.bind.BindComposer" hflex="1" vflex="1"
 		viewModel="@id('vm') @init('com.actividades.controlador.publicaciones.ActividadesListaC')">
-		<vbox hflex="1" align="center" sclass="banner-modal" height="35px" pack="center">
-			<div hflex="1" align="center">
-				<label value="Actividades" sclass="letter-modal"/>
-			</div>
-		</vbox>
-		<groupbox closable="false" hflex="1">
-			<caption label="Actividades Publicadas" />
-			<vbox hflex="1" vflex="1">
-				<grid hflex="1">
-					<columns>
-						<column align="right" hflex="min" />
-						<column/>
-						<column align="right" hflex="min" />
-						<column/>
-						<column align="right" hflex="min" />
-						<column/>
-					</columns>
-					<rows>
-						<row>
-							<cell>Agenda: </cell>
-							<cell colspan="5">
-								<textbox id="txtAgenda" multiline="true" hflex="1" placeholder="Agenda" height="50px" readonly="true"/>
-							</cell>
-						</row>
-						<row>
-							<cell>Fecha de Inicio:</cell>
-							<cell colspan="2">
-								<textbox id="txtFechaInicio" placeholder="Fecha de Inicio" hflex="1" readonly="true"/>
-							</cell>
-							<cell>Fecha Fin:</cell>
-							<cell colspan="2">
-								<textbox id="txtFechaFin" placeholder="Fecha Fin" hflex="1" readonly="true"/>
-							</cell>
-						</row>
-						<row>
-							<cell>No. Actividades:</cell>
-							<cell>
-								<textbox id="txtNoActividades" placeholder="Cantidad de actividades" hflex="1" readonly="true"/>
-							</cell>
-							<cell>No. Publicadas:</cell>
-							<cell>
-								<textbox id="txtNoPublicadas" placeholder="Cantidad de actividades" hflex="1" readonly="true"/>
-							</cell>
-							<cell>Rechazadas:</cell>
-							<cell>
-								<textbox id="txtRechazadas" placeholder="Cantidad de actividades" hflex="1" readonly="true"/>
-							</cell>
-						</row>
-					</rows>
-				</grid>
-				<groupbox hflex="1" height="300px">
-					<caption label="Actividades Publicadas"/>
-					<hbox hflex="1" vflex="1">
-						<grid hflex="1" vflex="1">
+		<vlayout>
+			<vbox hflex="1" align="center" sclass="banner-modal" height="35px" width="100%">
+				<div hflex="1" align="center">
+					<label value="Actividades" sclass="letter-modal"/>
+				</div>
+			</vbox>
+			<hlayout>
+				<groupbox closable="false" hflex="1">
+					<caption label="Actividades Publicadas" />
+					<vbox hflex="1" vflex="1">
+						<grid hflex="1">
 							<columns>
-								<column width="60%"></column>
-								<column width="40%"></column>
+								<column align="right" hflex="min" />
+								<column/>
+								<column align="right" hflex="min" />
+								<column/>
+								<column align="right" hflex="min" />
+								<column/>
 							</columns>
 							<rows>
-								<row hflex="1"  vflex="1">
-									<cell vflex="1">
-										<listbox id="lstActividades"
-											model="@load(vm.listaActividades)"
-											mold="paging" hflex="1" vflex="1">
-											<listhead>
-												<listheader label="Código" width="15%" sclass="lb-listheader"/>
-												<listheader label="Actividad" sclass="lb-listheader"/>
-												<listheader label="Fecha" width="15%" sclass="lb-listheader"/>
-												<listheader label="Evidencias" width="15%" sclass="lb-listheader"/>
-												<listheader label="Dar de Baja" width="15%" sclass="lb-listheader"/>
-											</listhead>
-											<template name="model">
-												<listitem>
-													<listcell label="@load(each.codigo)" style="font-size:10px;font-family: Calibri;font-weight: bold;"/>
-													<listcell label="@load(each.descripcion)" style="font-family: Calibri;"/>
-													<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;"/>
-													<listcell>
-														<button onClick="@command('verEvidencias',actividad=each)">
-															Ver
-														</button>
-													</listcell>
-													<listcell>
-														<button onClick="@command('darBaja',actividad=each)">
-															Baja
-														</button>
-													</listcell>
-												</listitem>
-											</template>
-										</listbox>
+								<row>
+									<cell>Agenda: </cell>
+									<cell colspan="5">
+										<textbox id="txtAgenda" multiline="true" hflex="1" placeholder="Agenda" height="50px" readonly="true"/>
 									</cell>
-									<cell height="250px">
-										<image id="imGrafico" vflex="1" hflex="1"></image>
+								</row>
+								<row>
+									<cell>Fecha de Inicio:</cell>
+									<cell colspan="2">
+										<textbox id="txtFechaInicio" placeholder="Fecha de Inicio" hflex="1" readonly="true"/>
+									</cell>
+									<cell>Fecha Fin:</cell>
+									<cell colspan="2">
+										<textbox id="txtFechaFin" placeholder="Fecha Fin" hflex="1" readonly="true"/>
+									</cell>
+								</row>
+								<row>
+									<cell>No. Actividades:</cell>
+									<cell>
+										<textbox id="txtNoActividades" placeholder="Cantidad de actividades" hflex="1" readonly="true"/>
+									</cell>
+									<cell>Actividades Publicadas:</cell>
+									<cell>
+										<textbox id="txtNoPublicadas" placeholder="Cantidad de actividades" hflex="1" readonly="true"/>
+									</cell>
+									<cell>Actividades Rechazadas:</cell>
+									<cell>
+										<textbox id="txtRechazadas" placeholder="Cantidad de actividades" hflex="1" readonly="true"/>
 									</cell>
 								</row>
 							</rows>
 						</grid>
-					
-					</hbox>
+						<groupbox hflex="1" height="300px">
+							<caption label="Actividades Publicadas"/>
+							<listbox id="lstActividades"
+								model="@load(vm.listaActividades)"
+								mold="paging" hflex="1" vflex="1">
+								<listhead>
+									<listheader label="Código" width="15%" sclass="lb-listheader"/>
+									<listheader label="Actividad" sclass="lb-listheader"/>
+									<listheader label="Fecha" width="15%" sclass="lb-listheader"/>
+									<listheader label="Evidencias" width="15%" sclass="lb-listheader"/>
+									<listheader label="Dar de Baja" width="15%" sclass="lb-listheader"/>
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell label="@load(each.codigo)" style="font-size:10px;font-family: Calibri;font-weight: bold;"/>
+										<listcell label="@load(each.descripcion)" style="font-family: Calibri;"/>
+										<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;"/>
+										<listcell>
+											<button onClick="@command('verEvidencias',actividad=each)" zclass="btn-editar btn-size">
+												Ver
+											</button>
+										</listcell>
+										<listcell>
+											<button onClick="@command('darBaja',actividad=each)" zclass="btn-editar btn-size" zclass="btn-publicar btn-size">
+												Baja
+											</button>
+										</listcell>
+									</listitem>
+								</template>
+							</listbox>
+						</groupbox>
+						<div hflex="1" align="center">
+							<button label="Salir" onClick="@command('salir')" iconSclass="z-icon-sign-out" zclass="btn btn-danger btn btn-sm" />
+						</div>
+					</vbox>
 				</groupbox>
-				
-				<div hflex="1" align="center">
-					<button label="Salir" onClick="@command('salir')" iconSclass="z-icon-sign-out" zclass="btn btn-danger btn btn-sm" />
+				<div hflex="1" vflex="1" style="display: flex; justify-content: center; align-items: center;">
+					<image id="imGrafico" width="70%" height="70%"></image>
 				</div>
-			</vbox>
-		</groupbox>
-
+			</hlayout>
+		</vlayout>
+									
 	</window>
 </zk>

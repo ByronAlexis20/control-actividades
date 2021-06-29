@@ -26,11 +26,11 @@
 									Nuevo
 								</button>
 								<button id="btnEditarAgenda" onClick="@command('editarAgenda')"
-									iconSclass="z-icon-pencil"  width="80px" zclass="btn btn-outline-primary btn btn-sm">
+									iconSclass="z-icon-pencil"  width="80px" zclass="btn btn-outline-success btn btn-sm">
 									Editar
 								</button>
 								<button id="btnEliminarAgenda" onClick="@command('eliminarAgenda')"
-									iconSclass="z-icon-trash-o" width="100px" zclass="btn btn-outline-primary btn btn-sm">
+									iconSclass="z-icon-trash-o" width="100px" zclass="btn btn-outline-danger btn-sm">
 									Eliminar
 								</button>
 							</div>
@@ -86,11 +86,11 @@
 										Nuevo
 									</button>    
 									<button id="btnEditarActividadInterna" onClick="@command('editarActividadInterna')"
-										iconSclass="z-icon-pencil" width="80px" zclass="btn btn-outline-primary btn btn-sm">
+										iconSclass="z-icon-pencil" width="80px" zclass="btn btn-outline-success btn btn-sm">
 										Editar
 									</button>
 									<button id="btnEliminarActividadInterna" onClick="@command('eliminarActividadInterna')"
-										iconSclass="z-icon-trash-o" width="80px" zclass="btn btn-outline-primary btn btn-sm">
+										iconSclass="z-icon-trash-o" width="80px" zclass="btn btn-outline-danger btn-sm">
 										Eliminar
 									</button>
 								</div>
@@ -111,7 +111,7 @@
 											<listcell label="@load(each.estadoActividad)" style="font-family: Calibri;"/>
 											<listcell>
 												<div hflex="1" align="center">
-													<button label="Ver" onClick="@command('evidencias',actividad=each)"/>
+													<button label="Ver" onClick="@command('evidencias',actividad=each)" zclass="btn-editar btn-size"/>
 												</div>
 											</listcell>
 										</listitem>

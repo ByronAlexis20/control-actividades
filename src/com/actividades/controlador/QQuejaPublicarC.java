@@ -122,6 +122,7 @@ public class QQuejaPublicarC {
 					String[] destinatarios;
 					asunto = "Notificación de quejas";
 					destinatario = gobernador.getPersona().getEmail();
+					System.out.println(gobernador.getPersona().getEmail());
 					destinatarios = destinatario.split(";");
 					servidor = 0;
 					mensaje = "Estimado/a Gobernador/a \n\n" + gobernador.getPersona().getNombre() + " " + gobernador.getPersona().getApellido() + "\nPRESENTE\n";

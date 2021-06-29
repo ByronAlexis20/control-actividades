@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
@@ -61,7 +62,6 @@ public class QRealizarC {
 		estadoQuejaBuscar = Constantes.QUEJA_PENDIENTE;
 		buscar();
 	}
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GlobalCommand({"Queja.buscarPorResponsableEstadoQuejaAtencion"})
 	@Command
 	@NotifyChange({"listaQueja"})
@@ -83,8 +83,6 @@ public class QRealizarC {
 			System.out.println("Selecciono atendidas");
 			listaQueja = quejaDAO.buscarPorResponsableEstadoQuejaAtencion(usuario.getIdEmpleado(), textoBuscar, Constantes.QUEJA_PUBLICADA, Constantes.QUEJA_ATENDIDA);
 		}
-		
-		lstQuejas.setModel(new ListModelList(listaQueja));
 		quejaSeleccionada = null;
 		if(listaQueja.size() == 0) {
 			Clients.showNotification("No hay datos para mostrar.!!");
@@ -92,7 +90,7 @@ public class QRealizarC {
 	}
 	@Command
 	public void nuevaQueja() {
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/quejas/realizar/QQuejaEditar.zul", null, null);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/quejas/realizar/QuejaEditar.zul", null, null);
 		ventanaCargar.doModal();
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -151,7 +149,7 @@ public class QRealizarC {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Ventana", this);
 		params.put("Queja", quejaSeleccionada);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/quejas/realizar/QQuejaEditar.zul", null, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/quejas/realizar/QuejaEditar.zul", null, params);
 		ventanaCargar.doModal();
 	}
 	
@@ -174,7 +172,7 @@ public class QRealizarC {
 						quejaDAO.getEntityManager().getTransaction().commit();
 						Messagebox.show("Transaccion ejecutada con exito");
 						textoBuscar = "";
-						buscar();
+						BindUtils.postGlobalCommand(null, null, "Queja.buscarPorResponsableEstadoQuejaAtencion", null);
 					} catch (Exception e) {
 						e.printStackTrace();
 						quejaDAO.getEntityManager().getTransaction().rollback();
@@ -209,7 +207,7 @@ public class QRealizarC {
 						quejaDAO.getEntityManager().getTransaction().commit();
 						Messagebox.show("Transaccion ejecutada con exito");
 						textoBuscar = "";
-						buscar();
+						BindUtils.postGlobalCommand(null, null, "Queja.buscarPorResponsableEstadoQuejaAtencion", null);
 					} catch (Exception e) {
 						e.printStackTrace();
 						quejaDAO.getEntityManager().getTransaction().rollback();

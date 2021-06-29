@@ -88,7 +88,7 @@ public class PrintReport {
 
 			Date fecha = new Date();
 			// Obtiene un nombre aleatorio para el reporte
-			nombreArchivo = nombreArchivo + "/quejas" + new SimpleDateFormat("dd-MM-yyyy").format(fecha) + ".pdf";
+			nombreArchivo = nombreArchivo + "\\quejas" + new SimpleDateFormat("dd-MM-yyyy").format(fecha) + ".pdf";
 
 			System.out.println(nombreArchivo);
 			byte[] b = null;

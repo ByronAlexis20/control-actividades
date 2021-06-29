@@ -114,9 +114,9 @@ public class GraficoActividadesC {
 			}
 		}
 		
-		txtNoActividades.setText(String.valueOf(totalActividades) + " Actividades Programadas");
-		txtNoPublicadas.setText(String.valueOf(cantidadPublicadas) + " Actividades Publicadas");
-		txtRechazadas.setText(String.valueOf(cantidadRechazadas) + " Actividades Rechazadas");
+		txtNoActividades.setText(String.valueOf(totalActividades));
+		txtNoPublicadas.setText(String.valueOf(cantidadPublicadas));
+		txtRechazadas.setText(String.valueOf(cantidadRechazadas));
 		
 		try {
 			realizarGrafica(totalActividades,cantidadPublicadas,cantidadRechazadas,cantidadPendientes);

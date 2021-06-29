@@ -99,7 +99,6 @@ public class RechazadaC {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GlobalCommand("Actividad.buscarPorAgenda")
 	@Command
 	@NotifyChange({"listaActividad"})
@@ -120,7 +119,6 @@ public class RechazadaC {
 			}
 		}
 		listaActividad = lista;
-		lstActividades.setModel(new ListModelList(listaActividad));
 	}
 
 
@@ -146,11 +144,10 @@ public class RechazadaC {
 			return; 
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("Ventana", this);
 		params.put("Actividad", actividadSeleccionada);
-		params.put("Actividad", "PRINCIPAL");
+		params.put("TipoActividad", "PRINCIPAL");
 		params.put("Agenda", agendaSeleccionada);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", winActividades, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/NuevaActividad.zul", winActividades, params);
 		ventanaCargar.doModal();
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -191,7 +188,7 @@ public class RechazadaC {
 		actividadDAO.getEntityManager().refresh(seleccion);		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Actividad", seleccion);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/AEvidenciaLista.zul", null, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/EvidenciaLista.zul", null, params);
 		ventanaCargar.doModal();
 	}
 
@@ -210,7 +207,7 @@ public class RechazadaC {
 					agendaDAO.getEntityManager().merge(seleccion);
 					agendaDAO.getEntityManager().getTransaction().commit();
 					Messagebox.show("Datos grabados con exito");
-					cargarActividades();
+					BindUtils.postGlobalCommand(null, null, "Actividad.buscarPorAgenda", null);
 				}
 			}
 		};

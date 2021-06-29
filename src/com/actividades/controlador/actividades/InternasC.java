@@ -82,7 +82,7 @@ public class InternasC {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Ventana", this);
 		params.put("Agenda", null);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaAgenda.zul", winActividades, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/NuevaAgenda.zul", winActividades, params);
 		ventanaCargar.doModal();
 	}
 
@@ -97,7 +97,7 @@ public class InternasC {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Ventana", this);
 		params.put("Agenda", agendaSeleccionada);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaAgenda.zul", winActividades, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/NuevaAgenda.zul", winActividades, params);
 		ventanaCargar.doModal();
 	}
 
@@ -172,16 +172,13 @@ public class InternasC {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GlobalCommand("Actividad.buscarPorAgenda")
 	@Command
 	@NotifyChange({"listaActividadInterna"})
 	public void cargarActividades() {
 		if(listaActividadInterna != null)
 			listaActividadInterna = null;
-		
-		
-		
+				
 		List<String> estados = new ArrayList<>();
 		estados.add(Constantes.ESTADO_NO_PUBLICADO);
 		estados.add(Constantes.ESTADO_PUBLICADO);
@@ -198,7 +195,6 @@ public class InternasC {
 			}
 		}
 		listaActividadInterna = listaInterna;
-		lstActividadesInternas.setModel(new ListModelList(listaActividadInterna));
 		
 	}
 
@@ -240,72 +236,6 @@ public class InternasC {
 		lstAgenda.setModel(new ListModelList(listaAgenda));
 		deshabilitarCampos();
 		agendaSeleccionada = null;	
-
-	}
-
-
-
-	@Command
-	public void nuevaActividad() {
-		if (agendaSeleccionada == null) {
-			Messagebox.show("Debe seleccionar una Agenda");
-			return; 
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("Ventana", this);
-		params.put("Actividad", null);
-		params.put("TipoActividad", "PRINCIPAL");
-		params.put("Agenda", agendaSeleccionada);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", winActividades, params);
-		ventanaCargar.doModal();
-	}
-	@Command
-	public void editarActividad() {
-		if (actividadSeleccionada == null) {
-			Messagebox.show("Debe seleccionar una Actividad");
-			return; 
-		}
-		if (actividadSeleccionada.getEstadoActividad().equals(Constantes.ESTADO_RECHAZADO)) {
-			Messagebox.show("No se puede editar una Actividad RECHAZADA");
-			return; 
-		}
-		if (actividadSeleccionada.getEstadoPublicado().equals(Constantes.ESTADO_PUBLICADO)) {
-			Messagebox.show("No se puede editar una Actividad PUBLICADA");
-			return; 
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("Ventana", this);
-		params.put("Actividad", actividadSeleccionada);
-		params.put("TipoActividad", "PRINCIPAL");
-		params.put("Agenda", agendaSeleccionada);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", winActividades, params);
-		ventanaCargar.doModal();
-	}
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Command
-	public void eliminarActividad() {
-		if (actividadSeleccionada == null) {
-			Messagebox.show("Debe seleccionar una Actividad");
-			return; 
-		}
-		Messagebox.show("Desea eliminar el registro seleccionado?", "Confirmación de Eliminación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {	
-			@Override
-			public void onEvent(Event event) throws Exception {
-				if (event.getName().equals("onYes")) {
-					try {
-						actividadSeleccionada.setEstado(Constantes.ESTADO_INACTIVO);
-						actividadDAO.getEntityManager().getTransaction().begin();
-						actividadDAO.getEntityManager().merge(actividadSeleccionada);
-						actividadDAO.getEntityManager().getTransaction().commit();
-						Messagebox.show("Transaccion ejecutada con exito");
-						BindUtils.postGlobalCommand(null, null, "Actividad.buscarPorAgenda", null);
-					} catch (Exception e) {
-						e.printStackTrace();
-						actividadDAO.getEntityManager().getTransaction().rollback();
-					}
-				}
-			}
-		});	
 	}
 
 	@Command
@@ -319,7 +249,7 @@ public class InternasC {
 		params.put("Actividad", null);
 		params.put("TipoActividad", "INTERNA");
 		params.put("Agenda", agendaSeleccionada);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", winActividades, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/NuevaActividad.zul", winActividades, params);
 		ventanaCargar.doModal();
 	}
 	@Command
@@ -333,7 +263,7 @@ public class InternasC {
 		params.put("Actividad", actividadSeleccionadaInterna);
 		params.put("TipoActividad", "INTERNA");
 		params.put("Agenda", agendaSeleccionada);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/ANuevaActividad.zul", winActividades, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/NuevaActividad.zul", winActividades, params);
 		ventanaCargar.doModal();
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -374,7 +304,7 @@ public class InternasC {
 		actividadDAO.getEntityManager().refresh(seleccion);		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Actividad", seleccion);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/AEvidenciaLista.zul", null, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/EvidenciaLista.zul", null, params);
 		ventanaCargar.doModal();
 	}
 
