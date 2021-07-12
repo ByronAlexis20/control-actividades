@@ -153,6 +153,10 @@ public class NuevaAgendaC {
 				txtDescripcion.focus();
 				return false;
 			}
+			if(dtpFechaFin.getValue() == null) {
+				Clients.showNotification("Debe registrar fecha fin","info",dtpFechaFin,"end_center",2000);
+				return false;
+			}
 			return true;
 		}catch(Exception ex) {
 			return false;

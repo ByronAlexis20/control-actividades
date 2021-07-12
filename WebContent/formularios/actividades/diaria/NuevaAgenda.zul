@@ -24,7 +24,7 @@
 					<row>
 						<cell sclass="row-title">Fecha Inicio:</cell>
 						<cell>
-							<datebox id="dtpFechaInicio" onChange="" width="50%" onChanging="@command('cambioFecha')"/>
+							<datebox id="dtpFechaInicio" onChange="@command('cambioFecha')" width="50%" onChanging=""/>
 						</cell>
 					</row>
 					<row>
