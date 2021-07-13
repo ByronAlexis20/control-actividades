@@ -17,7 +17,9 @@ import java.util.List;
 			+ "and d.estado = 'A' order by d.idDepartamento asc"),
 	@NamedQuery(name="Departamento.buscarActivosReporte", query="SELECT d FROM Departamento d where lower(d.nombre) like (:patron) and "
 			+ "d.estado = 'A' and d.idDepartamento <> :idDepart order by d.idDepartamento asc"),
-	@NamedQuery(name="Departamento.buscarDepartamentoPorId", query="SELECT d FROM Departamento d where d.idDepartamento = :id")
+	@NamedQuery(name="Departamento.buscarDepartamentoPorId", query="SELECT d FROM Departamento d where d.idDepartamento = :id"),
+	@NamedQuery(name="Departamento.buscarDepartamentoPorCodigo", query="SELECT d FROM Departamento d where d.codigo = :codigo"),
+	@NamedQuery(name="Departamento.buscarDepartamentoPorCodigoId", query="SELECT d FROM Departamento d where d.codigo = :codigo and d.idDepartamento <> :id"),
 })
 public class Departamento implements Serializable {
 	private static final long serialVersionUID = 1L;

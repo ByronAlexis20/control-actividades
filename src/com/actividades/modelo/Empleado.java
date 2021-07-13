@@ -60,6 +60,9 @@ public class Empleado implements Serializable {
 	
 	private String foto;
 
+	@Column(name="clave_normal")
+	private String claveNormal;
+	
 	//bi-directional many-to-one association to Agenda
 	@OneToMany(mappedBy="empleado")
 	private List<Agenda> agendas;
@@ -274,6 +277,14 @@ public class Empleado implements Serializable {
 
 	public void setFoto(String foto) {
 		this.foto = foto;
+	}
+
+	public String getClaveNormal() {
+		return claveNormal;
+	}
+
+	public void setClaveNormal(String claveNormal) {
+		this.claveNormal = claveNormal;
 	}
 
 }

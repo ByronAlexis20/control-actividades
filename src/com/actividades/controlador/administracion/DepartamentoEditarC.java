@@ -1,5 +1,7 @@
 package com.actividades.controlador.administracion;
 
+import java.util.List;
+
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
@@ -23,6 +25,7 @@ public class DepartamentoEditarC {
 	@Wire private Window winDepartamentoEditar;
 	@Wire private Textbox txtNombre;
 	@Wire private Textbox txtDescripcion;
+	@Wire private Textbox txtCodigo;
 	
 	DepartamentoDAO departamentoDAO = new DepartamentoDAO();
 	Departamento departamento;
@@ -63,10 +66,31 @@ public class DepartamentoEditarC {
 		}
 	}
 	public boolean validarDatos() {
-		if(txtNombre.getText() == "") {
+		if(txtCodigo.getText().toString().isEmpty()) {
+			Clients.showNotification("Debe registrar el código del departamento","info",txtCodigo,"end_center",2000);
+			txtCodigo.setFocus(true);
+			return false;
+		}
+		if(txtNombre.getText().toString().isEmpty()) {
 			Clients.showNotification("Debe registrar el nombre del departamento","info",txtNombre,"end_center",2000);
 			txtNombre.setFocus(true);
 			return false;
+		}
+		//validar departamento
+		if(departamento.getIdDepartamento() == null) {
+			List<Departamento> listaDepar = departamentoDAO.getDepartamentoPorCodigo(departamento.getCodigo());
+			if(listaDepar.size() > 0) {
+				Clients.showNotification("Código ya existe","info",txtCodigo,"end_center",2000);
+				txtCodigo.setFocus(true);
+				return false;
+			}
+		}else {
+			List<Departamento> listaDepar = departamentoDAO.getDepartamentoPorCodigoDiferenteId(departamento.getCodigo(), departamento.getIdDepartamento());
+			if(listaDepar.size() > 0) {
+				Clients.showNotification("Código ya existe","info",txtCodigo,"end_center",2000);
+				txtCodigo.setFocus(true);
+				return false;
+			}
 		}
 		return true;
 	}

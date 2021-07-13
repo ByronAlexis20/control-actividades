@@ -44,4 +44,23 @@ public class DepartamentoDAO extends ClaseDAO{
 		resultado = (List<Departamento>) query.getResultList();
 		return resultado;
 	}
+	@SuppressWarnings("unchecked")
+	public List<Departamento> getDepartamentoPorCodigo(String codigo) {
+		List<Departamento> resultado = new ArrayList<Departamento>(); 
+		Query query = getEntityManager().createNamedQuery("Departamento.buscarDepartamentoPorCodigo");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("codigo", codigo);
+		resultado = (List<Departamento>) query.getResultList();
+		return resultado;
+	}
+	@SuppressWarnings("unchecked")
+	public List<Departamento> getDepartamentoPorCodigoDiferenteId(String codigo, Integer id) {
+		List<Departamento> resultado = new ArrayList<Departamento>(); 
+		Query query = getEntityManager().createNamedQuery("Departamento.buscarDepartamentoPorCodigoId");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("codigo", codigo);
+		query.setParameter("id", id);
+		resultado = (List<Departamento>) query.getResultList();
+		return resultado;
+	}
 }

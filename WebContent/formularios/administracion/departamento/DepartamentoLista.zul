@@ -37,7 +37,7 @@
 					</listhead>
 					<template name="model">
 						<listitem>
-							<listcell label="@load(each.idDepartamento)" sclass="lb-listcell"/>
+							<listcell label="@load(each.codigo)" sclass="lb-listcell"/>
 							<listcell label="@load(each.nombre)" sclass="lb-listcell"/>
 							<listcell label="@load(each.descripcion)" sclass="lb-listcell"/>
 							<listcell label="@load(each.estado)" sclass="lb-listcell"/>

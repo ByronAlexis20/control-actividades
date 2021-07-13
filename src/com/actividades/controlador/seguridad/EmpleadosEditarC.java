@@ -90,6 +90,7 @@ public class EmpleadosEditarC {
 		cboDepartamento.setText(empleado.getDepartamento().getNombre());
 		cboCargo.setText(empleado.getCargo().getDescripcion());
 		txtUsuario.setText(empleado.getUsuario());
+		txtClave.setText(empleado.getClaveNormal());
 	}
 	public List<TipoUsuario> getTipoUsuario() {		
 		return tipoUsuarioDAO.getTiposUsuariosActivos();
@@ -163,6 +164,7 @@ public class EmpleadosEditarC {
 				persona.setEmpleados(lista);
 				empleado.setUsuario(txtUsuario.getText().toString());
 				empleado.setClave(helper.encriptar(txtClave.getText().toString()));
+				empleado.setClaveNormal(txtClave.getText().toString());
 				empleado.setPrimeraVez("S");
 				empleado.setEstado("A");
 				TipoUsuario tipo = (TipoUsuario) cboTipoUsuario.getSelectedItem().getValue();
@@ -181,6 +183,7 @@ public class EmpleadosEditarC {
 				empleado.getPersona().setTelefono(txtTelefono.getText().toString());
 				empleado.setUsuario(txtUsuario.getText().toString());
 				empleado.setClave(helper.encriptar(txtClave.getText().toString()));
+				empleado.setClaveNormal(txtClave.getText().toString());
 				empleado.setPrimeraVez("S");
 				empleado.setEstado("A");
 				TipoUsuario tipo = (TipoUsuario) cboTipoUsuario.getSelectedItem().getValue();

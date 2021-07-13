@@ -20,8 +20,8 @@
 						<cell>
 							<textbox
 								class="form-control form-control-sm" placeholder="Código"
-								hflex="1" disabled="true"
-								value="@bind(vm.departamento.idDepartamento)" />
+								hflex="1" id="txtCodigo"
+								value="@bind(vm.departamento.codigo)" />
 						</cell>
 					</row>
 					<row>
