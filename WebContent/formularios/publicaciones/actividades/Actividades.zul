@@ -88,7 +88,7 @@
 											<listcell label="@load(each.fechaFin) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;"/>
 											<listcell>
 												<div hflex="1" align="center">
-													<button label="ver" onClick="@command('verActividades',agenda=each)"/>
+													<button label="ver" onClick="@command('verActividades',agenda=each)" zclass="btn-editar btn-size"/>
 												</div> 
 											</listcell>
 										</listitem>

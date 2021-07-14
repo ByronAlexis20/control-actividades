@@ -77,7 +77,7 @@
 											</button>
 										</listcell>
 										<listcell>
-											<button onClick="@command('darBaja',actividad=each)" zclass="btn-editar btn-size" zclass="btn-publicar btn-size">
+											<button onClick="@command('darBaja',actividad=each)" zclass="btn-publicar btn-size">
 												Baja
 											</button>
 										</listcell>

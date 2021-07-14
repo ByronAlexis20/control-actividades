@@ -39,8 +39,8 @@ public class Constantes {
 	public static String USUARIO_PERMITIDO = "PERMITIDO";
 	public static String USUARIO_NO_PERMITIDO = "NO PERMITIDO";
 	
-	public static String CORREO_ORIGEN = "byronalexisramirez20@gmail.com";
-	public static String CONTRASENIA_ORIGEN = "emeleccampeon";
+	public static String CORREO_ORIGEN = "departamentoCGOB@gmail.com";
+	public static String CONTRASENIA_ORIGEN = "2020santaelena";
 	
 	
 	//tipo de actividades
