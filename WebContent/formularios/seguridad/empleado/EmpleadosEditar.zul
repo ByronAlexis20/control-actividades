@@ -22,7 +22,7 @@
 							<label value="Cédula: *" sclass="font-weight-bold col-form-label"/>
 						</cell>
 						<cell>
-							<textbox id="txtCedula"  maxlength="15" hflex="1" xmlns:w="client">
+							<textbox id="txtCedula"  maxlength="10" hflex="1" xmlns:w="client">
 								<attribute w:name="doKeyPress_">
 									function(evt){ if(this.getValue().length
 									> 0 ){ if (!this._shallIgnore(evt,

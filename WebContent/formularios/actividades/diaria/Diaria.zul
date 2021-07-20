@@ -29,7 +29,7 @@
 									iconSclass="z-icon-pencil" width="80px" zclass="btn btn-outline-success btn-sm">
 									Editar
 								</button>
-								<button id="btnEliminarAgenda" onClick="@command('eliminarAgenda')"
+								<button id="btnEliminarAgenda" onClick="@command('eliminarAgenda')" disabled="true"
 									iconSclass="z-icon-trash-o" width="100px" zclass="btn btn-outline-danger btn btn-sm">
 									Eliminar
 								</button>

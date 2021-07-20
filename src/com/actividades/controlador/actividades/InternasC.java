@@ -118,10 +118,8 @@ public class InternasC {
 						agendaDAO.getEntityManager().merge(agendaSeleccionada);
 						agendaDAO.getEntityManager().getTransaction().commit();
 						Messagebox.show("Transaccion ejecutada con exito");
-						cargarAgendas();
+						BindUtils.postGlobalCommand(null, null, "Agenda.buscarActivos", null);
 						deshabilitarCampos();
-
-
 					} catch (Exception e) {
 						e.printStackTrace();
 						agendaDAO.getEntityManager().getTransaction().rollback();

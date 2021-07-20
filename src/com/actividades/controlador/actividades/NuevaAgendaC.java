@@ -22,6 +22,8 @@ import org.zkoss.zul.Messagebox.ClickEvent;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+import com.actividades.modelo.Actividad;
+import com.actividades.modelo.ActividadDAO;
 import com.actividades.modelo.Agenda;
 import com.actividades.modelo.AgendaDAO;
 import com.actividades.modelo.Empleado;
@@ -38,6 +40,7 @@ public class NuevaAgendaC {
 	private Agenda agenda;
 	private AgendaDAO agendaDAO = new AgendaDAO();
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
+	ActividadDAO actividadDAO = new ActividadDAO();
 	
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -49,6 +52,7 @@ public class NuevaAgendaC {
 			dtpFechaFin.setValue(agenda.getFechaFin());
 			dtpFechaInicio.setDisabled(true);
 			dtpFechaFin.setDisabled(true);
+			validarActividades();
 		}else {
 			agenda = new Agenda();
 			//dtpFechaInicio.setValue(new Date());
@@ -56,7 +60,17 @@ public class NuevaAgendaC {
 			dtpFechaFin.setDisabled(true);
 		}
 	}
-	
+	//metodo que me valida si la agenda ya tiene actividades registradas
+	private void validarActividades() {
+		List<Actividad> listaActividad = actividadDAO.obtenerCodigoActividad(agenda.getIdAgenda());
+		if(listaActividad.size() > 0) {
+			dtpFechaInicio.setDisabled(true);
+			dtpFechaFin.setDisabled(true);
+		}else {
+			dtpFechaInicio.setDisabled(false);
+			dtpFechaFin.setDisabled(false);
+		}
+	}
 	@Command
 	public void grabar(){
 		if(validarDatos() == true) {
