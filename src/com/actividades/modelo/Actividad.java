@@ -56,6 +56,11 @@ public class Actividad implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_tipo_actividad")
 	private TipoActividad tipoActividad;
+	
+	//bi-directional many-to-one association to TipoActividad
+	@ManyToOne
+	@JoinColumn(name="id_clase_actividad")
+	private ClaseActividad claseActividad;
 
 	//bi-directional many-to-one association to Evidencia
 	@OneToMany(mappedBy="actividad")
@@ -164,6 +169,14 @@ public class Actividad implements Serializable {
 		evidencia.setActividad(null);
 
 		return evidencia;
+	}
+
+	public ClaseActividad getClaseActividad() {
+		return claseActividad;
+	}
+
+	public void setClaseActividad(ClaseActividad claseActividad) {
+		this.claseActividad = claseActividad;
 	}
 
 	@Override

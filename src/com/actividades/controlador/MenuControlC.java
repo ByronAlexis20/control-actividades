@@ -191,8 +191,8 @@ public class MenuControlC {
 		String[] partsApellido = us.getPersona().getApellido().split(" ");
 		return partsNombre[0] + " " + partsApellido[0];
 	}
-	public String getTipoUsuario() {
+	public Empleado getTipoUsuario() {
 		Empleado us = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername());
-		return us.getTipoUsuario().getTipoUsuario();
+		return us;
 	}
 }

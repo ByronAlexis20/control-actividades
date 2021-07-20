@@ -27,6 +27,17 @@
 					        </vbox>
 						</cell>
 					</row>
+					<row>
+						<cell sclass="row-title">Tipo de actividad:</cell>
+						<cell>
+							<combobox id="cboTipoActivivdad" model="@load(vm.claseActividades)" 
+								placeholder="Tipo de actividad" hflex="1" style="text-transform:uppercase">
+								<template name="model">
+									<comboitem label="${each.claseActividad}" />
+								</template>
+								</combobox>
+						</cell>
+					</row>
 					<row hflex="1">
 						<cell>Descripción Actividad:</cell>
 						<cell hflex="1">

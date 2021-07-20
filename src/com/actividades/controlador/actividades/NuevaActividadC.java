@@ -15,6 +15,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Messagebox.ClickEvent;
@@ -25,6 +26,8 @@ import org.zkoss.zul.Window;
 import com.actividades.modelo.Actividad;
 import com.actividades.modelo.ActividadDAO;
 import com.actividades.modelo.Agenda;
+import com.actividades.modelo.ClaseActividad;
+import com.actividades.modelo.ClaseActividadDAO;
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.modelo.TipoActividad;
@@ -36,6 +39,7 @@ public class NuevaActividadC {
 	@Wire private Window winActividadEditar;
 	@Wire private Textbox txtDescripcion;
 	@Wire private Datebox dtpFecha;
+	@Wire private Combobox cboTipoActivivdad;
 	
 	@Wire private Radio rbPrincipal;
 	@Wire private Radio rbInterna;
@@ -45,6 +49,7 @@ public class NuevaActividadC {
 	ActividadDAO actividadDAO = new ActividadDAO();
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	TipoActividadDAO tipoActividadDAO = new TipoActividadDAO();
+	ClaseActividadDAO claseActividadDAO = new ClaseActividadDAO();
 	String tipoActividad = "";
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -78,6 +83,9 @@ public class NuevaActividadC {
 				}
 			}else {
 				rbPrincipal.setSelected(true);
+			}
+			if(actividad.getClaseActividad() != null) {
+				cboTipoActivivdad.setText(actividad.getClaseActividad().getClaseActividad());
 			}
 		}
 		
@@ -139,6 +147,7 @@ public class NuevaActividadC {
 		actividad.setTipoActividad(tipo.get(0));
 		//enlazar con la aganda
 		actividad.setAgenda(agenda);
+		actividad.setClaseActividad((ClaseActividad)cboTipoActivivdad.getSelectedItem().getValue());
 		codigoActividad();
 		
 		if(agenda.getActividads().size() > 0) {
@@ -170,6 +179,10 @@ public class NuevaActividadC {
 	
 	private boolean validarDatos() {
 		try {
+			if(cboTipoActivivdad.getSelectedItem().getValue() == null) {
+				Clients.showNotification("Debe seleccionar Tipo de Actividad","info",cboTipoActivivdad,"end_center",2000);
+				return false;
+			}
 			if(txtDescripcion.getText().isEmpty()) {
 				Clients.showNotification("Debe registrar la descripcion de la actividad","info",txtDescripcion,"end_center",2000);
 				txtDescripcion.focus();
@@ -191,6 +204,9 @@ public class NuevaActividadC {
 	}
 	public Agenda getAgenda() {
 		return agenda;
+	}
+	public List<ClaseActividad> getClaseActividades(){
+		return claseActividadDAO.obtenerClaseActividad();
 	}
 	public void setAgenda(Agenda agenda) {
 		this.agenda = agenda;

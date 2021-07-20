@@ -11,8 +11,14 @@
 
 		<hbox hflex="1" vflex="1" pack="end" align="center">
 			<vbox vflex="1" pack="center">
-				<label value="@load(vm.tipoUsuario)"
-					style="font: 100% sans-serif;color:white" />
+				<hbox>
+					<label value="@load(vm.tipoUsuario.tipoUsuario.tipoUsuario)"
+						style="font: 100% sans-serif;color:white" />
+					<label value=" - "
+						style="font: 100% sans-serif;color:white" />
+					<label value="@load(vm.tipoUsuario.departamento.nombre)"
+						style="font: 100% sans-serif;color:white" />
+				</hbox>
 			</vbox>
 			<separator orient="horizontal" width="10px"/>
 			<vbox vflex="1" pack="center">
