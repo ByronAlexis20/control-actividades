@@ -15,10 +15,13 @@ import java.util.List;
 @NamedQueries({
 	@NamedQuery(name="Agenda.buscarActivos", query="SELECT a FROM Agenda a where a.estado = 'A'  order by a.idAgenda asc"),
 	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeado", query="SELECT a FROM Agenda a where a.estado = 'A' "
-			+ "and a.empleado.idEmpleado = :idEmpleado order by a.idAgenda desc"),
+			+ "and a.empleado.idEmpleado = :idEmpleado order by a.fechaInicio desc"),
+	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeadoYFechas", query="SELECT a FROM Agenda a where a.estado = 'A' "
+			+ "and a.empleado.idEmpleado = :idEmpleado and (a.fechaInicio between :fechaInicio and :fechaFin) order by a.fechaInicio desc"),
 	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeadoCodigoAgenda", query="SELECT a FROM Agenda a where "
-			+ "a.empleado.idEmpleado = :idEmpleado order by a.idAgenda desc"),
-	
+			+ "a.empleado.idEmpleado = :idEmpleado order by a.fechaInicio desc"),
+	@NamedQuery(name="Agenda.buscarUltimaAgenda", query="SELECT a FROM Agenda a where "
+			+ "a.empleado.idEmpleado = :idEmpleado order by a.fechaInicio desc"),
 })
 public class Agenda implements Serializable {
 	private static final long serialVersionUID = 1L;

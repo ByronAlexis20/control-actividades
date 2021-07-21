@@ -2,6 +2,7 @@ package com.actividades.controlador.seguridad;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.zkoss.bind.BindContext;
@@ -128,6 +129,7 @@ public class EmpleadosEditarC {
 						empleadoDAO.getEntityManager().getTransaction().begin();			
 						if (empleado.getIdEmpleado() == null) {
 							copiarDatos();
+							empleado.setFechaIngreso(new Date());
 							empleadoDAO.getEntityManager().persist(persona);
 						}else{
 							copiarDatos();

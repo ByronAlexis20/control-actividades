@@ -14,13 +14,12 @@ import java.util.List;
 @Table(name="actividad")
 @NamedQueries({
 	@NamedQuery(name="Actividad.buscarPorAgenda", query="SELECT a FROM Actividad a where a.estado = 'A' "
-			+ "and a.agenda.idAgenda = :idAgenda and a.tipoActividad.idTipoActividad = :idTipoActividad order by a.idActividad asc"),
+			+ "and a.agenda.idAgenda = :idAgenda and a.tipoActividad.idTipoActividad = :idTipoActividad order by a.fecha desc"),
 	@NamedQuery(name="Actividad.buscarCodigoPorAgenda", query="SELECT a FROM Actividad a "
-			+ "where a.agenda.idAgenda = :idAgenda and a.estado = 'A' order by a.idActividad desc"),
-	
+			+ "where a.agenda.idAgenda = :idAgenda and a.estado = 'A' order by a.fecha desc"),
 	@NamedQuery(name="Actividad.buscarPorFecha", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
 			+ " and (a.fecha between :fechaInicio and :fechaFin) and a.estado = 'A' and a.tipoActividad.idTipoActividad = :idTipoActividad"
-			+ " order by a.idActividad desc")
+			+ " order by a.fecha desc")
 })
 public class Actividad implements Serializable {
 	private static final long serialVersionUID = 1L;

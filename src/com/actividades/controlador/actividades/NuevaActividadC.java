@@ -134,7 +134,7 @@ public class NuevaActividadC {
 		actividad.setEstadoPublicado(Constantes.ESTADO_NO_PUBLICADO);
 		actividad.setFecha(dtpFecha.getValue());
 		//el estado de la actividad depende de los radios
-		actividad.setEstadoActividad(Constantes.ESTADO_EN_PROCESO);
+		actividad.setEstadoActividad(Constantes.ESTADO_PENDIENTE);
 		
 		//cargar el tipo de actividad
 		

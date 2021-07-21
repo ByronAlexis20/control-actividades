@@ -59,6 +59,18 @@ public class NuevaAgendaC {
 			dtpFechaFin.setConstraint("after " + new SimpleDateFormat("yyyyMMdd").format(new Date()));
 			dtpFechaFin.setDisabled(true);
 		}
+		validarFechasAgenda();
+	}
+	private void validarFechasAgenda(){
+		//tambien validar la fecha de ingreso del jefe, y la fecha de la ultima agenda para no repetir fechas
+		//primero validar la ultima agenda
+		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
+		List<Agenda> listaAgenda = agendaDAO.obtenerUltimaAgenda(usuario.getIdEmpleado());
+		if(listaAgenda.size() > 0) {
+			dtpFechaInicio.setConstraint("after " + new SimpleDateFormat("yyyyMMdd").format(listaAgenda.get(0).getFechaFin()));
+		}else {//caso contrario se verifica por el dia de ingreso del empleado
+			dtpFechaInicio.setConstraint("after " + new SimpleDateFormat("yyyyMMdd").format(usuario.getFechaIngreso()));
+		}
 	}
 	//metodo que me valida si la agenda ya tiene actividades registradas
 	private void validarActividades() {

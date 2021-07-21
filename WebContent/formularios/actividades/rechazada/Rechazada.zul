@@ -29,7 +29,17 @@
 								<template name="model">
 									<listitem>
 										<listcell label="@load(each.codigo)" style="font-size:10px;font-family: Calibri;font-weight: bold;"/>
-										<listcell label="@load(each.descripcion)" style="font-family: Calibri;"/>
+										<listcell>
+											<vlayout>
+												<label value="@load(each.descripcion)" style="font-family: Calibri;"></label>
+												<div>
+													<label value=" De " style="font-family: Calibri;"></label>
+													<label value="@load(each.fechaInicio) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;"></label>
+													<label value=" hasta " style="font-family: Calibri;"></label>
+													<label value="@load(each.fechaFin) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;"></label>
+												</div>
+											</vlayout>
+										</listcell>
 									</listitem>
 								</template>
 							</listbox>

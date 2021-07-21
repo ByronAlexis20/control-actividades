@@ -2,6 +2,8 @@ package com.actividades.modelo;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.Date;
 import java.util.List;
 
 
@@ -62,6 +64,10 @@ public class Empleado implements Serializable {
 
 	@Column(name="clave_normal")
 	private String claveNormal;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="fecha_ingreso")
+	private Date fechaIngreso;
 	
 	//bi-directional many-to-one association to Agenda
 	@OneToMany(mappedBy="empleado")
@@ -285,6 +291,14 @@ public class Empleado implements Serializable {
 
 	public void setClaveNormal(String claveNormal) {
 		this.claveNormal = claveNormal;
+	}
+
+	public Date getFechaIngreso() {
+		return fechaIngreso;
+	}
+
+	public void setFechaIngreso(Date fechaIngreso) {
+		this.fechaIngreso = fechaIngreso;
 	}
 
 }

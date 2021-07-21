@@ -29,11 +29,17 @@
 									iconSclass="z-icon-pencil" width="80px" zclass="btn btn-outline-success btn-sm">
 									Editar
 								</button>
-								<button id="btnEliminarAgenda" onClick="@command('eliminarAgenda')" disabled="true"
+								<button id="btnEliminarAgenda" onClick="@command('eliminarAgenda')" visible="false"
 									iconSclass="z-icon-trash-o" width="100px" zclass="btn btn-outline-danger btn btn-sm">
 									Eliminar
 								</button>
 							</div>
+							<hbox>
+								<datebox id="dtpFechaInicio" placeholder="Fecha Inicio"></datebox>
+								<datebox id="dtpFechaFin" placeholder="Fecha Fin"></datebox>
+								<button id="btnBusar" onClick="@command('buscarPorFiltroFechas')"
+									iconSclass="z-icon-search" zclass="btn btn-outline-primary btn btn-sm"/>
+							</hbox>
 							<listbox id="lstAgenda" hflex="1" vflex="1" model="@load(vm.listaAgenda)" 
 								selectedItem="@bind(vm.agendaSeleccionada)" onSelect="@command('seleccionarAgenda')">
 								<listhead>
@@ -43,7 +49,17 @@
 								<template name="model">
 									<listitem>
 										<listcell label="@load(each.codigo)" style="font-size:10px;font-family: Calibri;font-weight: bold;"/>
-										<listcell label="@load(each.descripcion)" style="font-family: Calibri;"/>
+										<listcell>
+											<vlayout>
+												<label value="@load(each.descripcion)" style="font-family: Calibri;"></label>
+												<div>
+													<label value=" De " style="font-family: Calibri;"></label>
+													<label value="@load(each.fechaInicio) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;"></label>
+													<label value=" hasta " style="font-family: Calibri;"></label>
+													<label value="@load(each.fechaFin) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;"></label>
+												</div>
+											</vlayout>
+										</listcell>
 									</listitem>
 								</template>
 							</listbox>
