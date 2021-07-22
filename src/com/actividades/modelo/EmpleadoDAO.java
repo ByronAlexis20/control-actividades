@@ -136,4 +136,13 @@ public class EmpleadoDAO extends ClaseDAO{
 		resultado = (List<Empleado>) query.getResultList();
 		return resultado;
 	}
+	@SuppressWarnings("unchecked")
+	public List<Empleado> buscarEmpleadoPorTipoUsuario(Integer idTipoUsuario) {
+		List<Empleado> resultado; 
+		Query query = getEntityManager().createNamedQuery("Empleado.buscarPorTipoUsuario");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idTipoUsuario", idTipoUsuario);
+		resultado = (List<Empleado>) query.getResultList();
+		return resultado;
+	}
 }

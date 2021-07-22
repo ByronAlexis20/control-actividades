@@ -93,8 +93,21 @@ public class EmpleadosEditarC {
 		txtUsuario.setText(empleado.getUsuario());
 		txtClave.setText(empleado.getClaveNormal());
 	}
-	public List<TipoUsuario> getTipoUsuario() {		
-		return tipoUsuarioDAO.getTiposUsuariosActivos();
+	public List<TipoUsuario> getTipoUsuario() {
+		//validar cuando ya existe un usuario de maxima autoridad
+		List<Empleado> lista = empleadoDAO.buscarEmpleadoPorTipoUsuario(Constantes.ID_AUTORIDAD_MAXIMA);
+		if(lista.size() > 0) {
+			List<TipoUsuario> listTipoUsuario = new ArrayList<>();
+			List<TipoUsuario> tiposUsuarios = tipoUsuarioDAO.getTiposUsuariosActivos();
+			for(TipoUsuario t : tiposUsuarios) {
+				if(t.getIdTipoUsuario() != Constantes.ID_AUTORIDAD_MAXIMA) {
+					listTipoUsuario.add(t);
+				}
+			}
+			return listTipoUsuario;
+		}else {
+			return tipoUsuarioDAO.getTiposUsuariosActivos();
+		}
 	}
 
 	public List<Departamento> getDepartamento() {		
