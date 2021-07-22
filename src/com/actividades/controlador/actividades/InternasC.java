@@ -21,7 +21,9 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Datebox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -50,7 +52,8 @@ public class InternasC {
 	@Wire private Button btnNuevaActividadInterna;
 	@Wire private Button btnEditarActividadInterna;
 	@Wire private Button btnEliminarActividadInterna;
-	
+	@Wire private Datebox dtpFechaInicio;
+	@Wire private Datebox dtpFechaFin;
 	
 	@Wire private Button btnPublicar;
 	
@@ -127,9 +130,7 @@ public class InternasC {
 				}
 			}
 		});	
-
 	}
-
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void deshabilitarCampos() {
 		txtAgendaSeleccionada.setText("");
@@ -152,7 +153,61 @@ public class InternasC {
 		btnEliminarActividadInterna.setDisabled(false);
 		btnNuevaActividadInterna.setDisabled(false);
 	}
-
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Command
+	@NotifyChange({"listaActividad", "listaActividadInterna"})
+	public void buscarPorFiltroFechas() {
+		if(dtpFechaInicio.getValue() == null) {
+			Clients.showNotification("Debe seleccionar fecha Inicio");
+			return;
+		}
+		if(dtpFechaFin.getValue() == null) {
+			Clients.showNotification("Debe seleccionar fecha fin");
+			return;
+		}
+		if (listaAgenda != null)
+			listaAgenda = null; 
+		listaAgenda = new ArrayList<>();
+		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
+		if(!usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)){
+			if(usuario.getPermiso() != null) {
+				if(usuario.getPermiso().equals(Constantes.USUARIO_PERMITIDO)) {
+					//hay q buscar el jefe de ese departamento
+					List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
+					if(jefeArea.size() > 0) {
+						listaAgenda = agendaDAO.obtenerAgendaActivaYFechas(jefeArea.get(0).getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
+					}	
+				}else {
+					listaAgenda = new ArrayList<>();
+					btnNuevoAgenda.setDisabled(true);
+					btnEditarAgenda.setDisabled(true);
+					btnEliminarAgenda.setDisabled(true);
+				}
+			}else {
+				listaAgenda = new ArrayList<>();
+				btnNuevoAgenda.setDisabled(true);
+				btnEditarAgenda.setDisabled(true);
+				btnEliminarAgenda.setDisabled(true);
+			}
+			
+		}else {
+			listaAgenda = agendaDAO.obtenerAgendaActivaYFechas(usuario.getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
+		}
+		lstAgenda.setModel(new ListModelList(listaAgenda));
+		deshabilitarCampos();
+		agendaSeleccionada = null;	
+		
+		
+		if(listaActividadInterna != null)
+			listaActividadInterna = null;
+		List<String> estados = new ArrayList<>();
+		estados.add(Constantes.ESTADO_NO_PUBLICADO);
+		estados.add(Constantes.ESTADO_PUBLICADO);
+		estados.add(Constantes.ESTADO_RECHAZADO);
+		
+		List<Actividad> lista = new ArrayList<>();
+		listaActividadInterna = lista;
+	}
 	@Command
 	public void seleccionarAgenda() {
 		try {
@@ -169,7 +224,6 @@ public class InternasC {
 			System.out.println(ex.getMessage());
 		}
 	}
-
 	@GlobalCommand("Actividad.buscarPorAgenda")
 	@Command
 	@NotifyChange({"listaActividadInterna"})
@@ -192,11 +246,8 @@ public class InternasC {
 				}
 			}
 		}
-		listaActividadInterna = listaInterna;
-		
+		listaActividadInterna = listaInterna;	
 	}
-
-
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GlobalCommand("Agenda.buscarActivos")
 	@Command

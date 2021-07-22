@@ -209,7 +209,6 @@ public class DiariaC {
 		}else {
 			listaAgenda = agendaDAO.obtenerAgendaActivaYFechas(usuario.getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
 		}
-		System.out.println(listaAgenda.size());
 		lstAgenda.setModel(new ListModelList(listaAgenda));
 		deshabilitarCampos();
 		agendaSeleccionada = null;	
@@ -225,8 +224,6 @@ public class DiariaC {
 		List<Actividad> lista = new ArrayList<>();
 		listaActividad = lista;
 		lstActividades.setModel(new ListModelList(listaActividad));
-		
-		
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GlobalCommand("Actividad.buscarPorAgenda")
