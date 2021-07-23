@@ -58,8 +58,8 @@ public class NuevaAgendaC {
 			//dtpFechaInicio.setValue(new Date());
 			dtpFechaFin.setConstraint("after " + new SimpleDateFormat("yyyyMMdd").format(new Date()));
 			dtpFechaFin.setDisabled(true);
+			validarFechasAgenda();
 		}
-		validarFechasAgenda();
 	}
 	private void validarFechasAgenda(){
 		//tambien validar la fecha de ingreso del jefe, y la fecha de la ultima agenda para no repetir fechas
