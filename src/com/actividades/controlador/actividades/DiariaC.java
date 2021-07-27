@@ -267,7 +267,7 @@ public class DiariaC {
 		listaAgenda = new ArrayList<>();
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
 		if(!usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)){
-			if(usuario.getPermiso() != null) {
+			if(usuario.getPermiso() != null ) {
 				if(usuario.getPermiso().equals(Constantes.USUARIO_PERMITIDO)) {
 					//hay q buscar el jefe de ese departamento
 					List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
@@ -281,12 +281,15 @@ public class DiariaC {
 					btnEliminarAgenda.setDisabled(true);
 				}
 			}else {
-				listaAgenda = new ArrayList<>();
-				btnNuevoAgenda.setDisabled(true);
-				btnEditarAgenda.setDisabled(true);
-				btnEliminarAgenda.setDisabled(true);
+				if(usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_AUTORIDAD_MAXIMA)){
+						listaAgenda = agendaDAO.obtenerAgendaActiva(usuario.getIdEmpleado());
+				}else {
+					listaAgenda = new ArrayList<>();
+					btnNuevoAgenda.setDisabled(true);
+					btnEditarAgenda.setDisabled(true);
+					btnEliminarAgenda.setDisabled(true);
+				}
 			}
-			
 		}else {
 			listaAgenda = agendaDAO.obtenerAgendaActiva(usuario.getIdEmpleado());
 		}

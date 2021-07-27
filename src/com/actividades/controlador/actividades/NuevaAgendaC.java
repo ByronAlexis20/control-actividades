@@ -99,17 +99,21 @@ public class NuevaAgendaC {
 						Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
 						
 						if(!usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)){
-							if(usuario.getPermiso().equals(Constantes.USUARIO_PERMITIDO)) {
-								//hay q buscar el jefe de ese departamento
-								List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
-								if(jefeArea.size() > 0) {
-									agenda.setEmpleado(jefeArea.get(0));
-								}	
+							if(usuario.getPermiso() != null) {
+								if(usuario.getPermiso().equals(Constantes.USUARIO_PERMITIDO)) {
+									//hay q buscar el jefe de ese departamento
+									List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
+									if(jefeArea.size() > 0) {
+										agenda.setEmpleado(jefeArea.get(0));
+									}										
+								}
 							}
 						}else {
+							agenda.setEmpleado(usuario);								
+						}
+						if(usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_AUTORIDAD_MAXIMA)) {
 							agenda.setEmpleado(usuario);
 						}
-						
 						codigoAgenda();
 						
 						agendaDAO.getEntityManager().getTransaction().begin();
@@ -138,12 +142,14 @@ public class NuevaAgendaC {
 			List<Agenda> agendas = new ArrayList<>();
 			Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
 			if(!usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)){
-				if(usuario.getPermiso().equals(Constantes.USUARIO_PERMITIDO)) {
-					//hay q buscar el jefe de ese departamento
-					List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
-					if(jefeArea.size() > 0) {
-						agendas = agendaDAO.obtenerCodigoAgendaActiva(jefeArea.get(0).getIdEmpleado());
-					}	
+				if(usuario.getPermiso() != null) {
+					if(usuario.getPermiso().equals(Constantes.USUARIO_PERMITIDO)) {
+						//hay q buscar el jefe de ese departamento
+						List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
+						if(jefeArea.size() > 0) {
+							agendas = agendaDAO.obtenerCodigoAgendaActiva(jefeArea.get(0).getIdEmpleado());
+						}	
+					}
 				}
 			}else {
 				agendas = agendaDAO.obtenerCodigoAgendaActiva(usuario.getIdEmpleado());
