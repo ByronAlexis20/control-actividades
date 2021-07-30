@@ -34,7 +34,7 @@
 					</row>
 					<row>
 						<cell colspan="2" align="center">
-							<button id="btnAnadirArchivo" label="Añadir Archivo" upload="true" 
+							<button id="btnAnadirArchivo" label="Añadir Archivo" upload="true,accept=.jpg"
 							onUpload="@command('agregar', upEvent=event)" iconSclass="z-icon-upload"/>
 						</cell>
 					</row>

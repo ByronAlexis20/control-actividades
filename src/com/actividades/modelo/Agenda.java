@@ -5,11 +5,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
-/**
- * The persistent class for the agenda database table.
- * 
- */
 @Entity
 @Table(name="agenda")
 @NamedQueries({
@@ -21,7 +16,7 @@ import java.util.List;
 	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeadoCodigoAgenda", query="SELECT a FROM Agenda a where "
 			+ "a.empleado.idEmpleado = :idEmpleado order by a.fechaInicio desc"),
 	@NamedQuery(name="Agenda.buscarUltimaAgenda", query="SELECT a FROM Agenda a where "
-			+ "a.empleado.idEmpleado = :idEmpleado order by a.fechaInicio desc"),
+			+ "a.empleado.idEmpleado = :idEmpleado and a.estado = 'A' order by a.fechaInicio desc"),
 })
 public class Agenda implements Serializable {
 	private static final long serialVersionUID = 1L;

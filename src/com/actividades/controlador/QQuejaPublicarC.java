@@ -24,6 +24,7 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 
 import com.actividades.correo.EnviarCorreo;
+import com.actividades.correo.EnviarCorreoUtil;
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.modelo.Queja;
@@ -68,6 +69,7 @@ public class QQuejaPublicarC {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
 	public void publicarQueja() {
+		
 		Messagebox.show("¿Desea Publicar las quejas y pasar al Departamento de Gobernación?", "Confirmación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
 			@Override
 			public void onEvent(Event event) throws Exception {
@@ -98,6 +100,8 @@ public class QQuejaPublicarC {
 				}
 			}
 		});
+//		EnviarCorreoUtil util = new EnviarCorreoUtil();
+//		util.SendMail();
 	}
 	private void enviarCorreoGobernador(int contadorQuejas) {
 		List<Empleado> resultado = empleadoDAO.buscarEmpleadoPorTipoUsuarioDepartamento(Constantes.ID_AUTORIDAD_MAXIMA, Constantes.ID_DEPARTAMENTO_GOBERNACION);

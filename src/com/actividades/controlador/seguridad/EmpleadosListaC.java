@@ -51,6 +51,7 @@ public class EmpleadosListaC {
 		}else {
 			empleadoSeleccionado = null;
 		}
+		System.out.println("entra a buscar empleado");
 	}
 
 	@Command
@@ -109,7 +110,7 @@ public class EmpleadosListaC {
 		this.textoBuscar = textoBuscar;
 	}
 	public List<Empleado> getListaEmpleados() {
-		return listaEmpleados = empleadoDAO.buscarEmpleados("");
+		return listaEmpleados;
 	}
 	public void setListaEmpleados(List<Empleado> listaEmpleados) {
 		this.listaEmpleados = listaEmpleados;

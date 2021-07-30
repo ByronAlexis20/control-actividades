@@ -57,7 +57,7 @@
 							<label value="Teléfono: " sclass="font-weight-bold col-form-label"/>
 						</cell>
 						<cell>
-							<textbox id="txtTelefono" hflex="1" maxlength="13" xmlns:w="client">
+							<textbox id="txtTelefono" hflex="1" maxlength="10" xmlns:w="client">
 								<attribute w:name="doKeyPress_">
 									function(evt){ if(this.getValue().length
 									> 0 ){ if (!this._shallIgnore(evt,
