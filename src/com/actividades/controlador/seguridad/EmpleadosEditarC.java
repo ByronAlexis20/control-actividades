@@ -284,7 +284,17 @@ public class EmpleadosEditarC {
 					return false;
 				}				
 			}
-			
+			//ademas validar si ya existen administradores de sistemas.. solo debe haber uno
+			List<Empleado> listaEmpleadoSistema = empleadoDAO.buscarEmpleadoPorTipoUsuario(Constantes.ID_ADMINISTRADOR_SISTEMAS);
+			if(listaEmpleadoSistema.size() > 0) {
+				Clients.showNotification("Ya existe un administrador de sistemas","info",txtCedula,"end_center",2000);
+				return false;
+			}
+			List<Empleado> listaEmpleadoComunicacion = empleadoDAO.buscarEmpleadoPorTipoUsuario(Constantes.ID_ADMINISTRACION_COMUNICACION);
+			if(listaEmpleadoComunicacion.size() > 0) {
+				Clients.showNotification("Ya existe un administrador de comunicacion","info",txtCedula,"end_center",2000);
+				return false;
+			}
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
