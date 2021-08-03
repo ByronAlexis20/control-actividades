@@ -1,0 +1,53 @@
+<?page title="Actividad por tipo" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<div id="winActividadPorTipo" 
+		apply="org.zkoss.bind.BindComposer" hflex="1" vflex="1"
+		viewModel="@id('vm') @init('com.actividades.controlador.reportes.ActPorTipoC')"
+		class="contenedor-formulario">
+		<vlayout vflex="1" zclass="contenido" hflex="1">
+			<groupbox>
+				<div align="center">
+					<label value="Actividades por tipo"
+						style="color:#088A08;font-size:20px"
+						sclass="p-1 text-red font-italic font-weight-bold" />
+				</div>
+			</groupbox>
+			<hlayout>
+				<combobox id="cboTipoActivivdad" model="@load(vm.claseActividades)" 
+					placeholder="Tipo de actividad" hflex="1" style="text-transform:uppercase">
+					<template name="model">
+						<comboitem label="${each.claseActividad}" />
+					</template>
+				</combobox>
+				<radiogroup>
+					<radio id="rbInternas" selected="true" label="Internas"/>
+					<radio id="rbPrincipales" label="Principales"/>
+				</radiogroup>
+				<datebox  id="dtpFechaInicio" placeholder="Fecha Inicio"/>
+				<datebox  id="dtpFechaFin" placeholder="Fecha Fin"/>
+				<button label="Buscar!" id="btnBuscar" iconSclass="z-icon-search"
+					zclass="btn btn-outline-primary btn btn-sm" onClick="@command('buscar')"/>
+				<button label="Imprimir" id="btnImprimir" iconSclass="z-icon-print"
+					zclass="btn btn-outline-primary btn btn-sm" onClick="@command('imprimir')"/>
+			</hlayout>
+			<hlayout vflex="1" hflex="1">
+				<listbox autopaging="true" id="ltsActividad"
+					model="@load(vm.listaActividad)"
+					mold="paging" hflex="1" vflex="1">
+					<listhead>
+						<listheader label="Código" width="8%" sclass="lb-listheader"/>
+						<listheader label="Fecha" sclass="lb-listheader"/>
+						<listheader label="Descripcion" sclass="lb-listheader"/>
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell label="@load(each.codigo)" sclass="lb-listcell"/>
+							<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" sclass="lb-listcell"/>
+							<listcell label="@load(each.descripcion)" sclass="lb-listcell"/>
+						</listitem>
+					</template>
+				</listbox>
+			</hlayout>
+		</vlayout>
+	</div>
+</zk>

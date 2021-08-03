@@ -13,7 +13,7 @@
 			</groupbox>
 			<div>
 				<button id="btnNuevo" label="Nuevo Tipo de evidencia" iconSclass="z-icon-plus"
-					zclass="btn btn-outline-primary btn btn-sm"/>
+					zclass="btn btn-outline-primary btn btn-sm" onClick="@command('nuevo')"/>
 			</div>
 			<hlayout>
 				<textbox hflex="1" id="txtBuscar" value="@bind(vm.textoBuscar)"

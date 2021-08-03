@@ -39,4 +39,18 @@ public class ActividadDAO extends ClaseDAO{
 		resultado = (List<Actividad>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Actividad> reportePorTipoActividad(Date fechaInicio, Date fechaFin, Integer idEmpleado,Integer idTipoActividad,Integer idClaseActividad) {
+		List<Actividad> resultado = new ArrayList<Actividad>(); 
+		Query query = getEntityManager().createNamedQuery("Actividad.reportePorTipoActividad");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("fechaInicio", fechaInicio);
+		query.setParameter("fechaFin", fechaFin);
+		query.setParameter("idEmpleado", idEmpleado);
+		query.setParameter("idTipoActividad", idTipoActividad);
+		query.setParameter("idClaseActividad", idClaseActividad);
+		resultado = (List<Actividad>) query.getResultList();
+		return resultado;
+	}
 }

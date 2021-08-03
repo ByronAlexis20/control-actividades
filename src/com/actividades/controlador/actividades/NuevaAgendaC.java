@@ -2,6 +2,7 @@ package com.actividades.controlador.actividades;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -67,7 +68,12 @@ public class NuevaAgendaC {
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
 		List<Agenda> listaAgenda = agendaDAO.obtenerUltimaAgenda(usuario.getIdEmpleado());
 		if(listaAgenda.size() > 0) {
-			dtpFechaInicio.setConstraint("after " + new SimpleDateFormat("yyyyMMdd").format(listaAgenda.get(0).getFechaFin()));
+			Date dt = listaAgenda.get(0).getFechaFin();
+	        Calendar c = Calendar.getInstance();
+	        c.setTime(dt);
+	        c.add(Calendar.DATE, 1);
+	        dt = c.getTime();	        
+			dtpFechaInicio.setConstraint("after " + new SimpleDateFormat("yyyyMMdd").format(dt));
 		}else {//caso contrario se verifica por el dia de ingreso del empleado
 			dtpFechaInicio.setConstraint("after " + new SimpleDateFormat("yyyyMMdd").format(usuario.getFechaIngreso()));
 		}

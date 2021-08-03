@@ -267,6 +267,14 @@ public class EmpleadosEditarC {
 				txtClave.focus();
 				return false;
 			}
+			if(cboTipoUsuario.getSelectedItem().getValue() == null) {
+				Clients.showNotification("Debe seleccionar un tipo de usuario","info",cboTipoUsuario,"end_center",2000);
+				return false;
+			}
+			if(cboDepartamento.getSelectedItem().getValue() == null) {
+				Clients.showNotification("Debe seleccionar un departamento","info",cboTipoUsuario,"end_center",2000);
+				return false;
+			}
 			if(validarJefes() == true) {
 				Clients.showNotification("Ya existe un jefe en el Departamento!","info",cboTipoUsuario,"end_center",2000);
 				cboTipoUsuario.focus();
@@ -285,15 +293,20 @@ public class EmpleadosEditarC {
 				}				
 			}
 			//ademas validar si ya existen administradores de sistemas.. solo debe haber uno
-			List<Empleado> listaEmpleadoSistema = empleadoDAO.buscarEmpleadoPorTipoUsuario(Constantes.ID_ADMINISTRADOR_SISTEMAS);
-			if(listaEmpleadoSistema.size() > 0) {
-				Clients.showNotification("Ya existe un administrador de sistemas","info",txtCedula,"end_center",2000);
-				return false;
+			TipoUsuario tipo = (TipoUsuario) cboTipoUsuario.getSelectedItem().getValue();
+			if(tipo.getIdTipoUsuario() == Constantes.ID_ADMINISTRADOR_SISTEMAS) {
+				List<Empleado> listaEmpleadoSistema = empleadoDAO.buscarEmpleadoPorTipoUsuario(Constantes.ID_ADMINISTRADOR_SISTEMAS);
+				if(listaEmpleadoSistema.size() > 0) {
+					Clients.showNotification("Ya existe un administrador de sistemas","info",txtCedula,"end_center",2000);
+					return false;
+				}
 			}
-			List<Empleado> listaEmpleadoComunicacion = empleadoDAO.buscarEmpleadoPorTipoUsuario(Constantes.ID_ADMINISTRACION_COMUNICACION);
-			if(listaEmpleadoComunicacion.size() > 0) {
-				Clients.showNotification("Ya existe un administrador de comunicacion","info",txtCedula,"end_center",2000);
-				return false;
+			if(tipo.getIdTipoUsuario() == Constantes.ID_ADMINISTRACION_COMUNICACION) {
+				List<Empleado> listaEmpleadoComunicacion = empleadoDAO.buscarEmpleadoPorTipoUsuario(Constantes.ID_ADMINISTRACION_COMUNICACION);
+				if(listaEmpleadoComunicacion.size() > 0) {
+					Clients.showNotification("Ya existe un administrador de comunicacion","info",txtCedula,"end_center",2000);
+					return false;
+				}
 			}
 			return true;
 		} catch (Exception e) {

@@ -19,7 +19,10 @@ import java.util.List;
 			+ "where a.agenda.idAgenda = :idAgenda and a.estado = 'A' order by a.fecha desc"),
 	@NamedQuery(name="Actividad.buscarPorFecha", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
 			+ " and (a.fecha between :fechaInicio and :fechaFin) and a.estado = 'A' and a.tipoActividad.idTipoActividad = :idTipoActividad"
-			+ " order by a.fecha desc")
+			+ " order by a.fecha desc"),
+	@NamedQuery(name="Actividad.reportePorTipoActividad", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
+			+ " and (a.fecha between :fechaInicio and :fechaFin) and a.estado = 'A' and a.tipoActividad.idTipoActividad = :idTipoActividad"
+			+ " and a.claseActividad.idClaseActividad = :idClaseActividad order by a.fecha desc"),
 })
 public class Actividad implements Serializable {
 	private static final long serialVersionUID = 1L;
