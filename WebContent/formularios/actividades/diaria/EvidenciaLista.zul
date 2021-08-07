@@ -14,7 +14,7 @@
 						<button id="btnQuitarEvidencia" label="Eliminar" width="100px" onClick="@command('eliminarEvidencia')" zclass="btn btn-outline-danger btn-sm"/>
 					</hbox>
 					<hbox hflex="1" vflex="1">
-						<listbox id="lstEvidencia" model="@load(vm.listaEvidencia)" autopaging="true" selectedItem="@bind(vm.evidenciaSeleccionada)"
+						<listbox id="lstEvidencia" model="@load(vm.listaEvidencia)" selectedItem="@bind(vm.evidenciaSeleccionada)"
 							mold="paging" height="200px" vflex="1">
 							<listhead>
 								<listheader label="Tipo" width="20%"/>

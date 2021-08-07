@@ -80,8 +80,8 @@ public class EvidenciaRegistroC {
 						tipoEvidenciaDAO.getEntityManager().getTransaction().begin();
 						//hacer el enlace con la actividad
 						enlazarObjetos();
-						if(actividad.getIdActividad() == null) {
-							tipoEvidenciaDAO.getEntityManager().persist(actividad);
+						if(actividad.getEvidencias().size() > 0) {
+							tipoEvidenciaDAO.getEntityManager().persist(evidencia);
 						}else {
 							tipoEvidenciaDAO.getEntityManager().merge(evidencia);
 							actividad.setEstadoActividad(Constantes.ESTADO_REALIZADO);

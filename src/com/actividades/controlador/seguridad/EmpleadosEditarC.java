@@ -295,17 +295,25 @@ public class EmpleadosEditarC {
 			//ademas validar si ya existen administradores de sistemas.. solo debe haber uno
 			TipoUsuario tipo = (TipoUsuario) cboTipoUsuario.getSelectedItem().getValue();
 			if(tipo.getIdTipoUsuario() == Constantes.ID_ADMINISTRADOR_SISTEMAS) {
-				List<Empleado> listaEmpleadoSistema = empleadoDAO.buscarEmpleadoPorTipoUsuario(Constantes.ID_ADMINISTRADOR_SISTEMAS);
-				if(listaEmpleadoSistema.size() > 0) {
-					Clients.showNotification("Ya existe un administrador de sistemas","info",txtCedula,"end_center",2000);
-					return false;
+				if(empleado != null) {
+					if(empleado.getIdEmpleado() != null) {
+						List<Empleado> listaEmpleadoSistema = empleadoDAO.buscarEmpleadoPorTipoUsuario(Constantes.ID_ADMINISTRADOR_SISTEMAS);
+						if(listaEmpleadoSistema.size() > 0) {
+							Clients.showNotification("Ya existe un administrador de sistemas","info",txtCedula,"end_center",2000);
+							return false;
+						}
+					}
 				}
 			}
 			if(tipo.getIdTipoUsuario() == Constantes.ID_ADMINISTRACION_COMUNICACION) {
-				List<Empleado> listaEmpleadoComunicacion = empleadoDAO.buscarEmpleadoPorTipoUsuario(Constantes.ID_ADMINISTRACION_COMUNICACION);
-				if(listaEmpleadoComunicacion.size() > 0) {
-					Clients.showNotification("Ya existe un administrador de comunicacion","info",txtCedula,"end_center",2000);
-					return false;
+				if(empleado != null) {
+					if(empleado.getIdEmpleado() != null) {
+						List<Empleado> listaEmpleadoComunicacion = empleadoDAO.buscarEmpleadoPorTipoUsuario(Constantes.ID_ADMINISTRACION_COMUNICACION);
+						if(listaEmpleadoComunicacion.size() > 0) {
+							Clients.showNotification("Ya existe un administrador de comunicacion","info",txtCedula,"end_center",2000);
+							return false;
+						}
+					}
 				}
 			}
 			return true;
