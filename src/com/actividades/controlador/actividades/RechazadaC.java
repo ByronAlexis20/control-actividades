@@ -21,7 +21,9 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Datebox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -46,7 +48,8 @@ public class RechazadaC {
 	@Wire private Textbox txtFechaInicio;
 	@Wire private Textbox txtFechaFin;
 	@Wire private Button btnPublicar;
-
+	@Wire private Datebox dtpFechaInicio;
+	@Wire private Datebox dtpFechaFin;
 
 	private Agenda agendaSeleccionada;
 	private List<Agenda> listaAgenda;
@@ -136,7 +139,55 @@ public class RechazadaC {
 		agendaSeleccionada = null;	
 
 	}
-	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Command
+	@NotifyChange({"listaActividad", "listaActividadInterna"})
+	public void buscarPorFiltroFechas() {
+		if(dtpFechaInicio.getValue() == null) {
+			Clients.showNotification("Debe seleccionar fecha Inicio");
+			return;
+		}
+		if(dtpFechaFin.getValue() == null) {
+			Clients.showNotification("Debe seleccionar fecha fin");
+			return;
+		}
+		if (listaAgenda != null)
+			listaAgenda = null; 
+		listaAgenda = new ArrayList<>();
+		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
+		if(!usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)){
+			if(usuario.getPermiso() != null) {
+				if(usuario.getPermiso().equals(Constantes.USUARIO_PERMITIDO)) {
+					//hay q buscar el jefe de ese departamento
+					List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
+					if(jefeArea.size() > 0) {
+						listaAgenda = agendaDAO.obtenerAgendaActivaYFechas(jefeArea.get(0).getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
+					}	
+				}else {
+					listaAgenda = new ArrayList<>();
+				}
+			}else {
+				listaAgenda = new ArrayList<>();
+			}
+			
+		}else {
+			listaAgenda = agendaDAO.obtenerAgendaActivaYFechas(usuario.getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
+		}
+		lstAgenda.setModel(new ListModelList(listaAgenda));
+		deshabilitarCampos();
+		agendaSeleccionada = null;	
+		
+		
+		if(listaActividad != null)
+			listaActividad = null;
+		List<String> estados = new ArrayList<>();
+		estados.add(Constantes.ESTADO_NO_PUBLICADO);
+		estados.add(Constantes.ESTADO_PUBLICADO);
+		estados.add(Constantes.ESTADO_RECHAZADO);
+		
+		List<Actividad> lista = new ArrayList<>();
+		listaActividad = lista;
+	}
 	@Command
 	public void editarActividad() {
 		if (actividadSeleccionada == null) {

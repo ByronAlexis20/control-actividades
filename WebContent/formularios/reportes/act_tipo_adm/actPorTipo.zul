@@ -1,0 +1,93 @@
+<?page title="Actividades diarias" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<div apply="org.zkoss.bind.BindComposer" class="contenedor-formulario"
+		viewModel="@id('vm') @init('com.actividades.controlador.reportes.ActPorTipoAdminC')"
+		hflex="1" vflex="1">
+		<vlayout hflex="1" vflex="1" zclass="contenido">
+			<groupbox>
+				<div align="center">
+					<label value="Reporte de actividades por tipo de actividad"
+						style="color:#088A08;font-size:25px;font-weight: bold;"/>
+				</div>
+			</groupbox>
+			<hbox hflex="1" vflex="1" align="center">
+				<vbox vflex="1" width="80%">
+					<groupbox hflex="1" vflex="1" closable="false">
+						<caption label="Departamentos y Jefes" />
+						<vbox hflex="1" vflex="1">
+							<hlayout>
+								<textbox hflex="1" id="txtBuscar" style="text-transform:uppercase"
+									value="@bind(vm.textoBuscar)" onOK="@command('buscar')" placeholder="Busqueda por departamento" />
+								<button label="Buscar!" id="btnBuscar" iconSclass="z-icon-search" onClick="@command('buscar')"/>
+							</hlayout>
+							<listbox id="lstDepartamento" hflex="1" vflex="1"
+								model="@load(vm.listaDepartamentos)"
+								selectedItem="@bind(vm.departamentoSeleccionado)"
+								onSelect="@command('seleccionarDepartamento')">
+								<listhead>
+									<listheader label="Departamento" sclass="lb-listheader"/>
+									<listheader label="Responsable" sclass="lb-listheader"/>
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell label="@load(each.departamento.nombre)" sclass="lb-listcell"/>
+										<listcell label="@load(each.nombreJefe)" sclass="lb-listcell"/>
+									</listitem>
+								</template>
+							</listbox>
+						</vbox>
+					</groupbox>
+				</vbox>
+				
+				<vbox vflex="1" hflex="1">
+					<groupbox hflex="1" vflex="1" closable="false">
+						<caption label=""></caption>
+						<vbox hflex="1" vflex="1">
+							<grid hflex="1">
+								<columns>
+									<column align="right" hflex="min" />
+									<column/>
+								</columns>
+								<rows>
+									<row>
+										<cell>Departamento:</cell>
+										<cell>
+											<textbox id="txtDepartamento" class="form-control form-control-sm" placeholder="Departamento"
+												hflex="1" readonly="true"/>
+										</cell>
+									</row>
+									<row>
+										<cell>Jefe Responsable:</cell>
+										<cell>
+											<textbox id="txtJefe" class="form-control form-control-sm" placeholder="Jefe responsable"
+												hflex="1" readonly="true"/>
+										</cell>
+									</row>
+									
+								</rows>
+							</grid>
+							<groupbox hflex="1" closable="false" vflex="1">
+								<hlayout>
+									<combobox id="cboTipoActivivdad" model="@load(vm.claseActividades)" 
+										placeholder="Tipo de actividad" hflex="1" style="text-transform:uppercase">
+										<template name="model">
+											<comboitem label="${each.claseActividad}" />
+										</template>
+									</combobox>
+									<radiogroup>
+										<radio id="rbInternas" selected="true" label="Internas"/>
+										<radio id="rbPrincipales" label="Principales"/>
+									</radiogroup>
+									<datebox  id="dtpFechaInicio" placeholder="Fecha Inicio"/>
+									<datebox  id="dtpFechaFin" placeholder="Fecha Fin"/>
+									<button label="Imprimir" id="btnImprimir" iconSclass="z-icon-print"
+										zclass="btn btn-outline-primary btn btn-sm" onClick="@command('imprimir')"/>
+								</hlayout>
+							</groupbox>
+						</vbox>
+					</groupbox>
+				</vbox>
+			</hbox>
+		</vlayout>
+	</div>
+</zk>

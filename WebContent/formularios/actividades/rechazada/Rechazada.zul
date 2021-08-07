@@ -20,6 +20,12 @@
 					<groupbox hflex="1" vflex="1" closable="false">
 						<caption label="Agendas"/>
 						<vbox hflex="1" vflex="1">
+							<hbox>
+								<datebox id="dtpFechaInicio" placeholder="Fecha Inicio"></datebox>
+								<datebox id="dtpFechaFin" placeholder="Fecha Fin"></datebox>
+								<button id="btnBusar" onClick="@command('buscarPorFiltroFechas')"
+									iconSclass="z-icon-search" zclass="btn btn-outline-primary btn btn-sm"/>
+							</hbox>
 							<listbox id="lstAgenda" hflex="1" vflex="1" model="@load(vm.listaAgenda)" 
 								selectedItem="@bind(vm.agendaSeleccionada)" onSelect="@command('seleccionarAgenda')">
 								<listhead>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptActividadPorTipo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ed4fb489-96a6-4f8d-8328-558d0ccefa3a">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="control_actividades"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="ID_EMPLEADO" class="java.lang.Integer"/>
+	<parameter name="FECHA_INICIO" class="java.util.Date"/>
+	<parameter name="FECHA_FIN" class="java.util.Date"/>
+	<parameter name="ID_TIPO_ACTIVIDAD" class="java.lang.Integer"/>
+	<parameter name="ID_CLASE_ACTIVIDAD" class="java.lang.Integer"/>
+	<parameter name="DEPARTAMENTO" class="java.lang.String"/>
+	<parameter name="FUNCIONARIO" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select ac.*, (select ev.ruta_archivo from evidencia ev, tipo_evidencia te where ev.id_actividad = ac.id_actividad and te.id_tipo_evidencia = ev.id_tipo_evidencia and (te.formato like lower('%jpg%') or te.formato like lower('%png%')) limit 1)
+from actividad ac, agenda ag
+where ac.id_agenda = ag.id_agenda
+and ag.id_empleado =  $P{ID_EMPLEADO}
+and (ac.fecha between  $P{FECHA_INICIO}  and $P{FECHA_FIN} )
+and ac.id_tipo_actividad = $P{ID_TIPO_ACTIVIDAD}
+and ac.id_clase_actividad = $P{ID_CLASE_ACTIVIDAD}
+order by ac.fecha asc]]>
+	</queryString>
+	<field name="id_actividad" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_actividad"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_actividad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="actividad"/>
+	</field>
+	<field name="id_tipo_actividad" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_tipo_actividad"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_tipo_actividad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="actividad"/>
+	</field>
+	<field name="id_agenda" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_agenda"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_agenda"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="actividad"/>
+	</field>
+	<field name="descripcion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="descripcion"/>
+		<property name="com.jaspersoft.studio.field.label" value="descripcion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="actividad"/>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fecha"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="actividad"/>
+	</field>
+	<field name="estado_actividad" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="estado_actividad"/>
+		<property name="com.jaspersoft.studio.field.label" value="estado_actividad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="actividad"/>
+	</field>
+	<field name="estado_publicado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="estado_publicado"/>
+		<property name="com.jaspersoft.studio.field.label" value="estado_publicado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="actividad"/>
+	</field>
+	<field name="estado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="estado"/>
+		<property name="com.jaspersoft.studio.field.label" value="estado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="actividad"/>
+	</field>
+	<field name="codigo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="codigo"/>
+		<property name="com.jaspersoft.studio.field.label" value="codigo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="actividad"/>
+	</field>
+	<field name="secuencia" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="secuencia"/>
+		<property name="com.jaspersoft.studio.field.label" value="secuencia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="actividad"/>
+	</field>
+	<field name="id_clase_actividad" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_clase_actividad"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_clase_actividad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="actividad"/>
+	</field>
+	<field name="ruta_archivo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ruta_archivo"/>
+		<property name="com.jaspersoft.studio.field.label" value="ruta_archivo"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="83" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement stretchType="RelativeToTallestObject" x="21" y="9" width="97" height="68" uuid="a59f8105-89fd-4ba3-b39d-9710b698477e"/>
+				<imageExpression><![CDATA["logo_gobernacion.jpg"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="21" y="8" width="514" height="1" uuid="ba958301-9ed4-415c-bb79-df4c198a63eb"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="21" y="77" width="514" height="1" uuid="ef82bbd6-d682-4ec8-bc1b-4e1f9fcd405b"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="118" y="9" width="417" height="68" uuid="82215a68-88c5-42c4-b89f-38a8f4a3802b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE ACTIVIDADES]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="7" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="48" splitType="Stretch">
+			<textField>
+				<reportElement x="115" y="0" width="280" height="20" uuid="c9cad017-37dd-4db4-843c-dabb679aab88"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{DEPARTAMENTO}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="115" y="20" width="280" height="20" uuid="45c93bdf-85e2-43d3-ac7f-2a12bd3ae0e4"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{FUNCIONARIO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="21" y="0" width="89" height="20" uuid="c675a524-82b4-44f9-857b-83d6de8c2956"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Departamento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="20" width="89" height="20" uuid="6568756a-b026-4319-82d6-490175cc5edc"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Funcionario:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<staticText>
+				<reportElement x="21" y="10" width="69" height="20" uuid="7806cda3-62b9-4abf-8b38-edd4cc79ecbd"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="90" y="10" width="190" height="20" uuid="a35f3cca-99d5-450e-b851-6da56abd2563">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a17c72f6-ae4c-4d9a-850e-59eeed872fcc"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="20" y="30" width="69" height="20" uuid="36dba516-abed-43ba-9b88-6cf91d4efcd5"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actividad]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="20" y="50" width="360" height="20" isPrintWhenDetailOverflows="true" uuid="d33c3d9f-32f8-4a02-b392-7266215e9a78">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="96655c26-368f-4fac-acec-69bd270b3e18"/>
+				</reportElement>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="390" y="0" width="145" height="120" uuid="084fa50b-7680-41ef-bd7f-7148417d5b87"/>
+				<imageExpression><![CDATA[$F{ruta_archivo}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
