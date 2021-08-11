@@ -9,7 +9,8 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@NamedQuery(name="Publicacion.findAll", query="SELECT p FROM Publicacion p")
+@NamedQuery(name="Publicacion.buscarPorPatron", query="SELECT p FROM Publicacion p where lower(p.link) like lower(:patron) "
+		+ "and p.estado = 'A'") 
 public class Publicacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 

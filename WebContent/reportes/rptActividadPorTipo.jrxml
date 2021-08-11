@@ -165,7 +165,7 @@ order by ac.fecha asc]]>
 				</textElement>
 				<text><![CDATA[Actividad]]></text>
 			</staticText>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="20" y="50" width="360" height="20" isPrintWhenDetailOverflows="true" uuid="d33c3d9f-32f8-4a02-b392-7266215e9a78">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="96655c26-368f-4fac-acec-69bd270b3e18"/>
 				</reportElement>
