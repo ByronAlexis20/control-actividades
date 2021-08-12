@@ -38,6 +38,7 @@ import com.actividades.util.SecurityUtil;
 public class NuevaActividadC {
 	@Wire private Window winActividadEditar;
 	@Wire private Textbox txtDescripcion;
+	@Wire private Textbox txtResponsable;
 	@Wire private Datebox dtpFecha;
 	@Wire private Combobox cboTipoActivivdad;
 	
@@ -51,6 +52,7 @@ public class NuevaActividadC {
 	TipoActividadDAO tipoActividadDAO = new TipoActividadDAO();
 	ClaseActividadDAO claseActividadDAO = new ClaseActividadDAO();
 	String tipoActividad = "";
+	Empleado empleado;
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
@@ -69,8 +71,18 @@ public class NuevaActividadC {
 			actividad = new Actividad();
 			actividad.setIdActividad(null);
 			rbPrincipal.setSelected(true);
+			Empleado us = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
+			txtResponsable.setText(us.getPersona().getNombre() + " " + us.getPersona().getApellido());
 		}else {
 			txtDescripcion.setText(actividad.getDescripcion());
+			if(actividad.getIdResponsable() != null) {
+				empleado = usuarioDAO.getUsuarioPorId(actividad.getIdResponsable());
+				txtResponsable.setText(empleado.getPersona().getNombre() + " " + empleado.getPersona().getApellido());
+			}else {
+				Empleado us = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
+				txtResponsable.setText(us.getPersona().getNombre() + " " + us.getPersona().getApellido());
+			}
+			
 			dtpFecha.setValue(actividad.getFecha());
 			//seleccionar tipo de actividad
 			if(actividad.getTipoActividad() != null) {
@@ -148,6 +160,10 @@ public class NuevaActividadC {
 		//enlazar con la aganda
 		actividad.setAgenda(agenda);
 		actividad.setClaseActividad((ClaseActividad)cboTipoActivivdad.getSelectedItem().getValue());
+		if(empleado == null) {
+			Empleado us = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
+			actividad.setIdResponsable(us.getIdEmpleado());
+		}
 		codigoActividad();
 		
 		if(agenda.getActividads().size() > 0) {
@@ -223,4 +239,13 @@ public class NuevaActividadC {
 	public void setTipoActividad(String tipoActividad) {
 		this.tipoActividad = tipoActividad;
 	}
+
+	public Empleado getEmpleado() {
+		return empleado;
+	}
+
+	public void setEmpleado(Empleado empleado) {
+		this.empleado = empleado;
+	}
+	
 }

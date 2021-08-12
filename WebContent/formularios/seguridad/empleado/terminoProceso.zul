@@ -1,20 +1,20 @@
 <?page title="Lista de Empleados" contentType="text/html;charset=UTF-8"?>
 <zk xmlns:n="native">
 	<div apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('com.actividades.controlador.seguridad.EmpleadosListaC')" 
+		viewModel="@id('vm') @init('com.actividades.controlador.seguridad.TerminarProcesoC')" 
 		hflex="1" vflex="1" class="contenedor-formulario">
 		<vlayout vflex="1" zclass="contenido" hflex="1">
 			<groupbox hflex="1">
 				<div align="center">
-					<label value="Listado de Empleados"
+					<label value="Terminar proceso"
 						style="color:#088A08;font-size:20px"
 						sclass="p-1 text-red font-italic font-weight-bold" />
 				</div>
 			</groupbox>
 			<div>
-				<button label="Nuevo Empleado" iconSclass="z-icon-plus"
-					zclass="btn btn-outline-primary btn btn-sm"
-					onClick="@command('nuevo')" />
+				<button label="Dar de baja" iconSclass="z-icon-plus"
+					zclass="btn btn-outline-danger btn btn-sm"
+					onClick="@command('darBaja')" />
 			</div>
 			<hlayout>
 				<textbox value="@bind(vm.textoBuscar)" hflex="1"
@@ -36,7 +36,6 @@
 						<listheader label="Departamento" sclass="lb-listheader"/>
 						<listheader label="Cargo" sclass="lb-listheader"/>
 						<listheader label="Usuario" width="10%" sclass="lb-listheader"/>
-						<listheader label="Acción" width="80px" sclass="lb-listheader"/>
 					</listhead>
 					<template name="model">
 						<listitem>
@@ -47,11 +46,6 @@
 							<listcell label="@load(each.departamento.nombre)" sclass="lb-listcell"/>
 							<listcell label="@load(each.cargo.descripcion)" sclass="lb-listcell"/>
 							<listcell label="@load(each.usuario)" sclass="lb-listcell"/>
-							<listcell>
-								<button onClick="@command('editar',empleado=each)"
-									iconSclass="z-icon-pencil"
-									zclass="btn btn-outline-success btn btn-sm"/>
-							</listcell>
 						</listitem>
 					</template>
 				</listbox>

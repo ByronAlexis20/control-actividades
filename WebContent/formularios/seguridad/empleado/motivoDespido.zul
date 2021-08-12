@@ -1,0 +1,41 @@
+<?page title="Cargos" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window id="winMotivo" border="normal"  width="40%"
+		apply="org.zkoss.bind.BindComposer" position="center"
+		viewModel="@id('vm') @init('com.actividades.controlador.seguridad.MotivoDespidoC')">
+		<vlayout>
+			<vbox hflex="1" align="center" sclass="banner-modal" height="35px" pack="center">
+				<div hflex="1" align="center">
+					<label value="Ingrese Datos" sclass="letter-modal"/>
+				</div>
+			</vbox>
+			<grid hflex="1">
+				<columns>
+					<column align="right" hflex="min" />
+					<column/>
+				</columns>
+				<rows>
+					<row>
+						<cell>Motivo:</cell>
+						<cell>
+							<textbox multiline="true" height="400px" id="txtMotivo"
+								class="form-control form-control-sm" placeholder="Motivo"
+								hflex="1"/>
+						</cell>
+					</row>
+				</rows>
+			</grid>
+			<!-- Los iconos listados con iconSclass son de: http://fontawesome.io/icons/ -->
+			<vbox hflex="1" align="center" height="35px" pack="center">
+				<div hflex="1" align="center">
+					<button id="grabar" label="Grabar"
+						iconSclass="z-icon-save" zclass="btn btn-primary btn btn-sm"
+						onClick="@command('grabar')" />
+					<button id="salir" label="Salir"
+						iconSclass="z-icon-sign-out" zclass="btn btn-danger btn btn-sm"
+						onClick="@command('salir')" />
+				</div>
+			</vbox>
+		</vlayout>
+	</window>
+</zk>

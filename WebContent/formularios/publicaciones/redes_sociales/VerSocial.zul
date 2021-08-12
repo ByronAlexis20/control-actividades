@@ -1,0 +1,40 @@
+<?page title="Redes sociales" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<div apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('com.actividades.controlador.publicaciones.VerSocial')" 
+		class="contenedor-formulario" hflex="1" vflex="1">
+		<vlayout vflex="1" zclass="contenido" hflex="1">
+			<groupbox>
+				<div align="center">
+					<label value="Redes sociales"
+						style="color:#088A08;font-size:20px"
+						sclass="p-1 text-red font-italic font-weight-bold" />
+				</div>
+			</groupbox>
+			<hlayout vflex="1" hflex="1">
+				<listbox autopaging="true" id="ltsLinks"
+					model="@load(vm.listaPublicacion)"
+					mold="paging" hflex="1" vflex="1">
+					<listhead>
+						<listheader label="Código" width="20%" sclass="lb-listheader"/>
+						<listheader label="Link" sclass="lb-listheader"/>
+						<listheader label="Estado" width="20%" sclass="lb-listheader"/>
+						<listheader label="Acción" width="80px" sclass="lb-listheader"/>
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell label="@load(each.idPublicacion)" sclass="lb-listcell"/>
+							<listcell label="@load(each.link)" sclass="lb-listcell"/>
+							<listcell label="@load(each.estado)" sclass="lb-listcell"/>
+							<listcell>
+								<button onClick="@command('ver',publicacion=each)"
+									iconSclass="z-icon-eye"
+									zclass="btn btn-outline-success btn btn-sm"/>
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+			</hlayout>
+		</vlayout>
+	</div>
+</zk>

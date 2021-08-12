@@ -91,16 +91,16 @@
 					</row>
 					<row>
 						<label value="Email: " sclass="font-weight-bold col-form-label"/>
-						<textbox id="txtEmail" constraint="/.+@.+\.[a-z]+/: No es una dirección email."
+						<textbox id="txtEmail"
 							hflex="1" maxlength="250"/>
 					</row>
 					<row>
 						<label value="Tipo de usuario: *" sclass="font-weight-bold col-form-label" />
 						<combobox id="cboTipoUsuario" model="@load(vm.tipoUsuario)" onChange="@command('cambiarUsuario')"
-							placeholder="Tipo de usuario" hflex="1">
+							placeholder="Tipo de usuario" hflex="1" selectedItem="@bind(vm.tipoUsuarioseleccionado)">
 						</combobox>
 						<label value="Cargo " sclass="font-weight-bold col-form-label"/>
-						<combobox id="cboCargo"
+						<combobox id="cboCargo" selectedItem="@bind(vm.cargoSeleccionado)"
 							model="@load(vm.cargos)" placeholder="Cargo" hflex="1">
 						</combobox>
 					</row>
@@ -108,7 +108,8 @@
 						<label value="Departamento: *" sclass="font-weight-bold col-form-label" />
 						<cell colspan="3">
 							<combobox id="cboDepartamento"
-								model="@load(vm.departamento)" placeholder="Departamento" hflex="1">
+								model="@load(vm.departamento)" placeholder="Departamento" hflex="1"
+								selectedItem="@bind(vm.departamentoSeleccionado)">
 							</combobox>
 						</cell>
 					</row>

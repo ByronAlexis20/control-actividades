@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="actividades" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d9e0e455-a5f9-4292-ae13-6b9dd07a348b">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="actividadesAnteriores" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d9e0e455-a5f9-4292-ae13-6b9dd07a348b">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Control Actividades"/>
 	<property name="ireport.zoom" value="1.2100000000000006"/>
 	<property name="ireport.x" value="0"/>
@@ -20,7 +19,7 @@ from actividad ac, agenda ag,empleado em, persona pe, departamento de, tipo_usua
 where ac.id_agenda = ag.id_agenda and ag.id_empleado = em.id_empleado and
 pe.id_persona = em.id_persona and em.id_departamento = de.id_departamento and
 em.id_tipo_usuario = tu.id_tipo_usuario and ac.estado = 'A' and ag.estado = 'A' and
-em.estado = 'A' and pe.estado = 'A' and de.estado = 'A' and tu.estado = 'A'
+em.estado = 'I' and pe.estado = 'A' and de.estado = 'A' and tu.estado = 'A'
 and ac.id_tipo_actividad =  $P{ID_TIPO_ACTIVIDAD}
 and ac.fecha between  $P{FECHA_INICIO} and  $P{FECHA_FIN}
 and ag.id_empleado =  $P{ID_EMPLEADO}]]>

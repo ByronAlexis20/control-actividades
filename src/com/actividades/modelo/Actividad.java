@@ -1,9 +1,22 @@
 package com.actividades.modelo;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -23,6 +36,8 @@ import java.util.List;
 	@NamedQuery(name="Actividad.reportePorTipoActividad", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
 			+ " and (a.fecha between :fechaInicio and :fechaFin) and a.estado = 'A' and a.tipoActividad.idTipoActividad = :idTipoActividad"
 			+ " and a.claseActividad.idClaseActividad = :idClaseActividad order by a.fecha desc"),
+	@NamedQuery(name="Actividad.buscarRechazadas", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
+			+ " and a.estado = 'A' and a.estadoActividad = 'RECHAZADO'"),
 })
 public class Actividad implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -67,6 +82,9 @@ public class Actividad implements Serializable {
 	//bi-directional many-to-one association to Evidencia
 	@OneToMany(mappedBy="actividad")
 	private List<Evidencia> evidencias;
+	
+	@Column(name="id_responsable")
+	private Integer idResponsable;
 
 	public Actividad() {
 	}
@@ -179,6 +197,14 @@ public class Actividad implements Serializable {
 
 	public void setClaseActividad(ClaseActividad claseActividad) {
 		this.claseActividad = claseActividad;
+	}
+
+	public Integer getIdResponsable() {
+		return idResponsable;
+	}
+
+	public void setIdResponsable(Integer idResponsable) {
+		this.idResponsable = idResponsable;
 	}
 
 	@Override

@@ -15,13 +15,17 @@ import java.util.List;
 @Table(name="empleado")
 @NamedQueries({
 	@NamedQuery(name="Empleado.findAll", query="SELECT e FROM Empleado e"),
+	@NamedQuery(name="Empleado.buscaUsuarioPorId", 
+				query="SELECT e FROM Empleado e WHERE e.idEmpleado = :idUsuario "),
 	@NamedQuery(name="Empleado.buscaUsuario", 
-	query="SELECT e FROM Empleado e WHERE e.usuario = :nombreUsuario and e.estado = 'A'"),
+				query="SELECT e FROM Empleado e WHERE e.usuario = :nombreUsuario and e.estado = 'A'"),
 	@NamedQuery(name="Empleado.buscarPorPatron", query="SELECT e FROM Empleado e where (lower(e.persona.nombre) like(:patron) or "
 			+ "lower(e.persona.apellido) like(:patron)) and e.estado = 'A' order by e.idEmpleado"),
 	@NamedQuery(name="Empleado.buscarPorUsuario", query="SELECT e FROM Empleado e where e.usuario = :patron and e.idEmpleado <> :idUsuario and e.estado = 'A'"),
 	@NamedQuery(name="Empleado.buscarEmpleado", query="SELECT e FROM Empleado e "
 			+ "where ((lower(e.persona.nombre) like (:patron)) or (lower(e.persona.apellido) like (:patron))) and e.estado = 'A' order by e.idEmpleado"),
+	@NamedQuery(name="Empleado.buscarEmpleadoJefesInactivos", query="SELECT e FROM Empleado e "
+			+ "where ((lower(e.persona.nombre) like (:patron)) or (lower(e.persona.apellido) like (:patron))) and e.estado = 'I' and e.tipoUsuario.idTipoUsuario = 2 order by e.idEmpleado"),
 	@NamedQuery(name="Empleado.buscarPorCedula", query="SELECT e FROM Empleado e where e.persona.cedula = :cedula and e.estado = 'A'"),
 	@NamedQuery(name="Empleado.buscarPorCedulaDiferenteAlUsuarioActual", query="SELECT e FROM Empleado e where e.persona.cedula = :cedula and e.estado = 'A' "
 			+ "and e.idEmpleado <> :idEmpleado"),
@@ -69,6 +73,13 @@ public class Empleado implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_ingreso")
 	private Date fechaIngreso;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="fecha_salida")
+	private Date fechaSalida;
+	
+	@Column(name="motivo_salida")
+	private String motivoSalida;
 	
 	//bi-directional many-to-one association to Agenda
 	@OneToMany(mappedBy="empleado")
@@ -300,6 +311,22 @@ public class Empleado implements Serializable {
 
 	public void setFechaIngreso(Date fechaIngreso) {
 		this.fechaIngreso = fechaIngreso;
+	}
+
+	public Date getFechaSalida() {
+		return fechaSalida;
+	}
+
+	public void setFechaSalida(Date fechaSalida) {
+		this.fechaSalida = fechaSalida;
+	}
+
+	public String getMotivoSalida() {
+		return motivoSalida;
+	}
+
+	public void setMotivoSalida(String motivoSalida) {
+		this.motivoSalida = motivoSalida;
 	}
 
 }

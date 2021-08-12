@@ -49,12 +49,14 @@ public class EmpleadosEditarC {
 	@Wire private Textbox txtDireccion;
 	@Wire private Textbox txtTelefono;
 	@Wire private Combobox cboTipoUsuario;
-	@Wire private Combobox cboDepartamento;
+	@Wire Combobox cboDepartamento;
 	@Wire private Combobox cboCargo;
 	@Wire private Textbox txtUsuario;
 	@Wire private Textbox txtClave;
+	Departamento departamentoSeleccionado;
+	TipoUsuario tipoUsuarioseleccionado;
+	Cargo cargoSeleccionado;
 	
-
 	private EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 	private Empleado empleado;
 	private Persona persona;
@@ -88,8 +90,11 @@ public class EmpleadosEditarC {
 		txtDireccion.setText(empleado.getPersona().getDireccion());
 		txtTelefono.setText(empleado.getPersona().getTelefono());
 		cboTipoUsuario.setText(empleado.getTipoUsuario().getTipoUsuario());
+		tipoUsuarioseleccionado = empleado.getTipoUsuario();
 		cboDepartamento.setText(empleado.getDepartamento().getNombre());
+		departamentoSeleccionado = empleado.getDepartamento();
 		cboCargo.setText(empleado.getCargo().getDescripcion());
+		cargoSeleccionado = empleado.getCargo();
 		txtUsuario.setText(empleado.getUsuario());
 		txtClave.setText(empleado.getClaveNormal());
 	}
@@ -146,8 +151,8 @@ public class EmpleadosEditarC {
 							empleadoDAO.getEntityManager().persist(persona);
 						}else{
 							copiarDatos();
-							empleadoDAO.getEntityManager().merge(empleado);
 							empleadoDAO.getEntityManager().merge(empleado.getPersona());
+							empleadoDAO.getEntityManager().merge(empleado);
 						}			
 						empleadoDAO.getEntityManager().getTransaction().commit();
 						Clients.showNotification("Proceso Ejecutado con exito.");
@@ -166,20 +171,18 @@ public class EmpleadosEditarC {
 		try {
 			//llear datos de persona al insertar
 			if (empleado.getIdEmpleado() == null) {
-				persona.setCedula(txtCedula.getText().toString());
-				persona.setNombre(txtNombres.getText().toString());
-				persona.setApellido(txtApellidos.getText().toString());
-				persona.setEmail(txtEmail.getText().toString());
-				persona.setDireccion(txtDireccion.getText().toString());
-				persona.setTelefono(txtTelefono.getText().toString());
+				persona.setCedula(txtCedula.getText());
+				persona.setNombre(txtNombres.getText());
+				persona.setApellido(txtApellidos.getText());
+				persona.setEmail(txtEmail.getText());
+				persona.setDireccion(txtDireccion.getText());
+				persona.setTelefono(txtTelefono.getText());
 				persona.setEstado("A");
 				List<Empleado> lista = new ArrayList<>();
-				lista.add(empleado);
 				empleado.setPersona(persona);
-				persona.setEmpleados(lista);
-				empleado.setUsuario(txtUsuario.getText().toString());
-				empleado.setClave(helper.encriptar(txtClave.getText().toString()));
-				empleado.setClaveNormal(txtClave.getText().toString());
+				empleado.setUsuario(txtUsuario.getText());
+				empleado.setClave(helper.encriptar(txtClave.getText()));
+				empleado.setClaveNormal(txtClave.getText());
 				empleado.setPrimeraVez("S");
 				empleado.setEstado("A");
 				TipoUsuario tipo = (TipoUsuario) cboTipoUsuario.getSelectedItem().getValue();
@@ -188,17 +191,19 @@ public class EmpleadosEditarC {
 				empleado.setDepartamento(dep);
 				Cargo car = (Cargo) cboCargo.getSelectedItem().getValue();
 				empleado.setCargo(car);
+				lista.add(empleado);
+				persona.setEmpleados(lista);
 			
 			}else {
-				empleado.getPersona().setCedula(txtCedula.getText().toString());
-				empleado.getPersona().setNombre(txtNombres.getText().toString());
-				empleado.getPersona().setApellido(txtApellidos.getText().toString());
-				empleado.getPersona().setEmail(txtEmail.getText().toString());
-				empleado.getPersona().setDireccion(txtDireccion.getText().toString());
-				empleado.getPersona().setTelefono(txtTelefono.getText().toString());
-				empleado.setUsuario(txtUsuario.getText().toString());
-				empleado.setClave(helper.encriptar(txtClave.getText().toString()));
-				empleado.setClaveNormal(txtClave.getText().toString());
+				empleado.getPersona().setCedula(txtCedula.getText());
+				empleado.getPersona().setNombre(txtNombres.getText());
+				empleado.getPersona().setApellido(txtApellidos.getText());
+				empleado.getPersona().setEmail(txtEmail.getText());
+				empleado.getPersona().setDireccion(txtDireccion.getText());
+				empleado.getPersona().setTelefono(txtTelefono.getText());
+				empleado.setUsuario(txtUsuario.getText());
+				empleado.setClave(helper.encriptar(txtClave.getText()));
+				empleado.setClaveNormal(txtClave.getText());
 				empleado.setPrimeraVez("S");
 				empleado.setEstado("A");
 				TipoUsuario tipo = (TipoUsuario) cboTipoUsuario.getSelectedItem().getValue();
@@ -237,12 +242,12 @@ public class EmpleadosEditarC {
 				return false;
 			}
 			if(helper.validarDeCedula(txtCedula.getText())== false) {
-				Clients.showNotification("La cÃ©dula ingresada no es vÃ¡lida!","info",txtCedula,"end_center",2000);
+				Clients.showNotification("La cédula ingresada no es válida!","info",txtCedula,"end_center",2000);
 				txtCedula.focus();
 				return false;
 			}
 			if(validarUsuarioExistente() == true) {
-				Clients.showNotification("Ya hay un empleado con el nÃºmero de cedula " + txtCedula.getText() + "!","info",txtCedula,"end_center",2000);
+				Clients.showNotification("Ya hay un empleado con el número de cedula " + txtCedula.getText() + "!","info",txtCedula,"end_center",2000);
 				txtCedula.focus();
 				return false;
 			}
@@ -267,12 +272,19 @@ public class EmpleadosEditarC {
 				txtClave.focus();
 				return false;
 			}
-			if(cboTipoUsuario.getSelectedItem().getValue() == null) {
+			if(!txtEmail.getText().isEmpty()) {
+				if(ControllerHelper.validarEmail(txtEmail.getText())) {
+					Clients.showNotification("Correo no válido","info",txtEmail,"end_center",2000);
+					txtEmail.focus();
+					return false;
+				}
+			}
+			if(tipoUsuarioseleccionado == null) {
 				Clients.showNotification("Debe seleccionar un tipo de usuario","info",cboTipoUsuario,"end_center",2000);
 				return false;
 			}
-			if(cboDepartamento.getSelectedItem().getValue() == null) {
-				Clients.showNotification("Debe seleccionar un departamento","info",cboTipoUsuario,"end_center",2000);
+			if(departamentoSeleccionado == null) {
+				Clients.showNotification("Debe seleccionar un departamento","info",cboDepartamento,"end_center",2000);
 				return false;
 			}
 			if(validarJefes() == true) {
@@ -293,10 +305,9 @@ public class EmpleadosEditarC {
 				}				
 			}
 			//ademas validar si ya existen administradores de sistemas.. solo debe haber uno
-			TipoUsuario tipo = (TipoUsuario) cboTipoUsuario.getSelectedItem().getValue();
-			if(tipo.getIdTipoUsuario() == Constantes.ID_ADMINISTRADOR_SISTEMAS) {
+			if(tipoUsuarioseleccionado.getIdTipoUsuario() == Constantes.ID_ADMINISTRADOR_SISTEMAS) {
 				if(empleado != null) {
-					if(empleado.getIdEmpleado() != null) {
+					if(empleado.getIdEmpleado() == null) {
 						List<Empleado> listaEmpleadoSistema = empleadoDAO.buscarEmpleadoPorTipoUsuario(Constantes.ID_ADMINISTRADOR_SISTEMAS);
 						if(listaEmpleadoSistema.size() > 0) {
 							Clients.showNotification("Ya existe un administrador de sistemas","info",txtCedula,"end_center",2000);
@@ -305,9 +316,9 @@ public class EmpleadosEditarC {
 					}
 				}
 			}
-			if(tipo.getIdTipoUsuario() == Constantes.ID_ADMINISTRACION_COMUNICACION) {
+			if(tipoUsuarioseleccionado.getIdTipoUsuario() == Constantes.ID_ADMINISTRACION_COMUNICACION) {
 				if(empleado != null) {
-					if(empleado.getIdEmpleado() != null) {
+					if(empleado.getIdEmpleado() == null) {
 						List<Empleado> listaEmpleadoComunicacion = empleadoDAO.buscarEmpleadoPorTipoUsuario(Constantes.ID_ADMINISTRACION_COMUNICACION);
 						if(listaEmpleadoComunicacion.size() > 0) {
 							Clients.showNotification("Ya existe un administrador de comunicacion","info",txtCedula,"end_center",2000);
@@ -338,10 +349,8 @@ public class EmpleadosEditarC {
 		//hay q validar si ya estan registrado los jefes de los departamentos cuando es un nuevo registro
 		boolean bandera = false;
 		if(empleado.getIdEmpleado() == null) {
-			TipoUsuario tipo = (TipoUsuario) cboTipoUsuario.getSelectedItem().getValue();
-			if(tipo.getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)) {
-				Departamento dep = (Departamento)cboDepartamento.getSelectedItem().getValue();
-				List<Empleado> emp = empleadoDAO.validarJefeDepartamento(Constantes.ID_JEFE_AREA, dep.getIdDepartamento());
+			if(tipoUsuarioseleccionado.getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)) {
+				List<Empleado> emp = empleadoDAO.validarJefeDepartamento(Constantes.ID_JEFE_AREA, departamentoSeleccionado.getIdDepartamento());
 				if(emp.size() > 0)
 					bandera = true;
 			}
@@ -370,18 +379,21 @@ public class EmpleadosEditarC {
 		cboDepartamento.setText("");
 		if(tipo.getIdTipoUsuario().equals(Constantes.ID_ADMINISTRADOR_SISTEMAS)) {
 			List<Departamento> dep = departamentoDAO.getDepartamentoPorId(Constantes.ID_DEPARTAMENTO_SISTEMAS);
+			departamentoSeleccionado = dep.get(0);
 			cboDepartamento.setText(dep.get(0).getNombre());
 			cboDepartamento.setDisabled(true);
 			cboDepartamento.setModel(new ListModelList(dep));
 		}else {
 			if(tipo.getIdTipoUsuario().equals(Constantes.ID_ADMINISTRACION_COMUNICACION)) {
 				List<Departamento> dep = departamentoDAO.getDepartamentoPorId(Constantes.ID_DEPARTAMENTO_COMUNICACIONES);
+				departamentoSeleccionado = dep.get(0);
 				cboDepartamento.setText(dep.get(0).getNombre());
 				cboDepartamento.setDisabled(true);
 				cboDepartamento.setModel(new ListModelList(dep));
 			}else {
 				if(tipo.getIdTipoUsuario().equals(Constantes.ID_AUTORIDAD_MAXIMA)) {
 					List<Departamento> dep = departamentoDAO.getDepartamentoPorId(Constantes.ID_DEPARTAMENTO_GOBERNACION);
+					departamentoSeleccionado = dep.get(0);
 					cboDepartamento.setText(dep.get(0).getNombre());
 					cboDepartamento.setDisabled(true);
 					cboDepartamento.setModel(new ListModelList(dep));
@@ -455,6 +467,31 @@ public class EmpleadosEditarC {
 	public void setEmpleado(Empleado empleado) {
 		this.empleado = empleado;
 	}
+	
+	public Departamento getDepartamentoSeleccionado() {
+		return departamentoSeleccionado;
+	}
+
+	public void setDepartamentoSeleccionado(Departamento departamentoSeleccionado) {
+		this.departamentoSeleccionado = departamentoSeleccionado;
+	}
+
+	public TipoUsuario getTipoUsuarioseleccionado() {
+		return tipoUsuarioseleccionado;
+	}
+
+	public void setTipoUsuarioseleccionado(TipoUsuario tipoUsuarioseleccionado) {
+		this.tipoUsuarioseleccionado = tipoUsuarioseleccionado;
+	}
+
+	public Cargo getCargoSeleccionado() {
+		return cargoSeleccionado;
+	}
+
+	public void setCargoSeleccionado(Cargo cargoSeleccionado) {
+		this.cargoSeleccionado = cargoSeleccionado;
+	}
+
 	public AImage getImagenUsuario() {
 		AImage retorno = null;
 		if (empleado.getFoto() != null) {

@@ -142,9 +142,6 @@
 
 			<hlayout hflex="1" height="1">
 				<div align="center" hflex="1">
-					<button id="btnAgregar" onClick="@command('grabar')"
-						iconSclass="z-icon-save" zclass="btn btn-primary btn btn-sm"
-						label="Agregar" />
 					<button id="btnSalir" onClick="@command('salir')"
 						iconSclass="z-icon-sign-out" zclass="btn btn-danger btn btn-sm"
 						label="Salir" />

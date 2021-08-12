@@ -35,7 +35,7 @@
 								<template name="model">
 									<comboitem label="${each.claseActividad}" />
 								</template>
-								</combobox>
+							</combobox>
 						</cell>
 					</row>
 					<row hflex="1">
@@ -48,6 +48,12 @@
 						<cell sclass="row-title">Fecha:</cell>
 						<cell>
 							<datebox id="dtpFecha" width="50%"/>
+						</cell>
+					</row>
+					<row>
+						<cell sclass="row-title">Responsable:</cell>
+						<cell>
+							<textbox id="txtResponsable" placeholder="Responsable" disabled="true"/>
 						</cell>
 					</row>
 				</rows>

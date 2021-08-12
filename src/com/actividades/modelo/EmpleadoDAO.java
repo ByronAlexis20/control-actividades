@@ -18,6 +18,14 @@ public class EmpleadoDAO extends ClaseDAO{
 		return empleado;
 	}
 	
+	public Empleado getUsuarioPorId(Integer idUsuario) {
+		Empleado empleado; 
+		Query consulta;
+		consulta = getEntityManager().createNamedQuery("Empleado.buscaUsuarioPorId");
+		consulta.setParameter("idUsuario", idUsuario);
+		empleado = (Empleado) consulta.getSingleResult();
+		return empleado;
+	}
 	@SuppressWarnings("unchecked")
 	public List<Empleado> getListausuarioBuscar(String value) {
 		List<Empleado> resultado = new ArrayList<Empleado>(); 
@@ -51,6 +59,22 @@ public class EmpleadoDAO extends ClaseDAO{
 			patron = "%" + patron.toLowerCase() + "%";
 		}
 		Query query = getEntityManager().createNamedQuery("Empleado.buscarEmpleado");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("patron", "%" + patron + "%");
+		resultado = (List<Empleado>) query.getResultList();
+		return resultado;
+	}
+	@SuppressWarnings("unchecked")
+	public List<Empleado> buscarEmpleadosJefesInactivos(String value) {
+		List<Empleado> resultado; 
+		String patron = value;
+
+		if (value == null || value.length() == 0) {
+			patron = "%";
+		}else{
+			patron = "%" + patron.toLowerCase() + "%";
+		}
+		Query query = getEntityManager().createNamedQuery("Empleado.buscarEmpleadoJefesInactivos");
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setParameter("patron", "%" + patron + "%");
 		resultado = (List<Empleado>) query.getResultList();

@@ -21,6 +21,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Tree;
@@ -30,12 +31,15 @@ import org.zkoss.zul.Treeitem;
 import org.zkoss.zul.Treerow;
 import org.zkoss.zul.Window;
 
+import com.actividades.modelo.Actividad;
+import com.actividades.modelo.ActividadDAO;
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.modelo.Menu;
 import com.actividades.modelo.MenuDAO;
 import com.actividades.modelo.Permiso;
 import com.actividades.modelo.PermisoDAO;
+import com.actividades.util.Constantes;
 import com.actividades.util.FileUtil;
 import com.actividades.util.SecurityUtil;
 
@@ -49,6 +53,7 @@ public class MenuControlC {
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	PermisoDAO permisoDAO = new PermisoDAO();
 	MenuDAO menuDAO = new MenuDAO();
+	ActividadDAO actividadDAO = new ActividadDAO();
 	List<Menu> listaPermisosPadre = new ArrayList<Menu>();
 	List<Permiso> listaPermisosHijo = new ArrayList<Permiso>();
 	
@@ -58,8 +63,33 @@ public class MenuControlC {
 		loadTree();
 		cargarFotoUsuario();
 		//startLongOperation();
+		verificarActividadesRechazadas();
 	}
-	
+	private void verificarActividadesRechazadas() {
+		List<Actividad> listaActividadesRechazadas = new ArrayList<>();
+		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
+		if(!usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)){
+			if(usuario.getPermiso() != null) {
+				if(usuario.getPermiso().equals(Constantes.USUARIO_PERMITIDO)) {
+					//hay q buscar el jefe de ese departamento
+					List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
+					if(jefeArea.size() > 0) {
+						listaActividadesRechazadas = actividadDAO.obtenerRechazada(jefeArea.get(0).getIdEmpleado());
+					}	
+				}else {
+					listaActividadesRechazadas = new ArrayList<>();
+				}
+			}else {
+				listaActividadesRechazadas = new ArrayList<>();
+			}
+			
+		}else {
+			listaActividadesRechazadas = actividadDAO.obtenerRechazada(usuario.getIdEmpleado());
+		}
+		if(listaActividadesRechazadas.size() > 0) {
+			Clients.showNotification("Tiene actividades rechazadas.. ");
+		}
+	}
 	public void loadTree() throws IOException{		
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim()); 
 		if (usuario != null){
