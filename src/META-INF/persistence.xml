@@ -18,6 +18,7 @@
 		<class>com.actividades.modelo.TipoUsuario</class>
 		<class>com.actividades.modelo.Queja</class>
 		<class>com.actividades.modelo.ClaseActividad</class>
+		<class>com.actividades.modelo.Informacion</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/control_actividades"/>
 			<property name="javax.persistence.jdbc.user" value="postgres"/>

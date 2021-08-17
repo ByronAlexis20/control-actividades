@@ -1,0 +1,37 @@
+<zk>
+	<window id="winDocumentoEditar" border="none" width="30%" apply="org.zkoss.bind.BindComposer" 
+        viewModel="@id('vm') @init('com.actividades.controlador.publicaciones.DocumentoEditarC')">
+		<vlayout>
+			<vbox hflex="1" align="center" sclass="banner-modal" height="35px" pack="center">
+				<div hflex="1" align="center">
+					<label value="Ingrese Datos" sclass="letter-modal"/>
+				</div>
+			</vbox>
+			<grid hflex="1">
+				<columns>
+					<column align="right" hflex="min" />
+					<column/>
+				</columns>
+				<rows>
+					<row>
+						<cell colspan="2" align="center">
+							<button id="btnAnadirArchivo" label="Añadir Archivo" upload="true" onUpload="@command('agregar', upEvent=event)" iconSclass="z-icon-upload"/>
+						</cell>
+					</row>
+					<row>
+						<cell colspan="2" align="center">
+							<textbox id="txtArchivo" value="Sin archivo......" hflex="1" readonly="true"/>
+						</cell>
+					</row>
+				</rows>
+			</grid>
+			
+			<hlayout hflex="1" height="1">
+				<div align="center" hflex="1">
+					<button id="btnAgregar" onClick="@command('grabar')" label="Agregar" iconSclass="z-icon-save" zclass="btn btn-primary btn btn-sm"/>
+					<button id="btnSalir" onClick="@command('salir')" label="Salir" iconSclass="z-icon-sign-out" zclass="btn btn-danger btn btn-sm"/>		
+				</div>
+			</hlayout>
+		</vlayout>
+	</window>
+</zk>

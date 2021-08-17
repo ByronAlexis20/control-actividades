@@ -16,7 +16,6 @@ import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Messagebox;
 
 import com.actividades.modelo.Publicacion;
 import com.actividades.modelo.PublicacionDAO;

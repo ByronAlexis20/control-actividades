@@ -50,9 +50,6 @@ public class PrintReport {
 			nombreArchivo = nombreArchivo + "/" + UUID.randomUUID().toString() + ".pdf";
 			//Messagebox.show("nombre de ruta y archivo: " + nombreArchivo);
 
-
-
-			System.out.println(nombreArchivo);
 			byte[] b = null;
 			b = JasperRunManager.runReportToPdf(nombreReporte, param, cn);
 			FileOutputStream fos = new FileOutputStream(nombreArchivo);

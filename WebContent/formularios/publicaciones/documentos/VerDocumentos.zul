@@ -1,7 +1,7 @@
 <?page title="Redes sociales" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<div apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('com.actividades.controlador.publicaciones.DocumentosC')" 
+		viewModel="@id('vm') @init('com.actividades.controlador.publicaciones.VerDocumentosC')" 
 		class="contenedor-formulario" hflex="1" vflex="1">
 		<vlayout vflex="1" zclass="contenido" hflex="1">
 			<groupbox>
@@ -11,14 +11,9 @@
 						sclass="p-1 text-red font-italic font-weight-bold" />
 				</div>
 			</groupbox>
-			<div>
-				<button id="btnNuevo" label="Nuevo" iconSclass="z-icon-plus" onClick="@command('nuevo')"
-					zclass="btn btn-outline-primary btn btn-sm"/>
-			</div>
 			<hlayout vflex="1" hflex="1">
-				<listbox autopaging="true" id="ltsInformacion"
+				<listbox autopaging="true" id="ltsDocumentos"
 					model="@load(vm.listaInformacion)"
-					selectedItem="@bind(vm.informacionSeleccionado)"
 					mold="paging" hflex="1" vflex="1">
 					<listhead>
 						<listheader label="Código" width="20%" sclass="lb-listheader"/>
@@ -32,12 +27,9 @@
 							<listcell label="@load(each.nombreArchivo)" sclass="lb-listcell"/>
 							<listcell label="@load(each.estado)" sclass="lb-listcell"/>
 							<listcell>
-								<button onClick="@command('editar',informacion=each)"
-									iconSclass="z-icon-pencil"
-									zclass="btn btn-outline-success btn btn-sm"/>
-								<button onClick="@command('eliminar',informacion=each)"
-									iconSclass="z-icon-trash-o"
-									zclass="btn btn-outline-danger btn btn-sm"/>
+								<button onClick="@command('ver',informacion=each)"
+									iconSclass="z-icon-download"
+									zclass="btn btn-outline-primary btn-sm"/>
 							</listcell>
 						</listitem>
 					</template>

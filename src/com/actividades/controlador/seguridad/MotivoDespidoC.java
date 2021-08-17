@@ -59,7 +59,7 @@ public class MotivoDespidoC {
 						salir();						
 					} catch (Exception e) {
 						e.printStackTrace();
-						// categoriaDao.getEntityManager().getTransaction().rollback();
+						empleadoDAO.getEntityManager().getTransaction().rollback();
 					}
 				}
 			}
@@ -71,7 +71,7 @@ public class MotivoDespidoC {
 			params.put("ID_TIPO_ACTIVIDAD", Constantes.ID_TIPO_PRIMORDIALES);
 			params.put("FECHA_INICIO", emp.getFechaIngreso());
 			params.put("FECHA_FIN", new Date());
-			params.put("FECHA_BUSQUEDA", "Fecha de Búsqueda: " + new SimpleDateFormat("dd/MM/yyyy").format(emp.getFechaIngreso()) + " - " + new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+			params.put("FECHA_BUSQUEDA", "Fecha de contrato: Del " + new SimpleDateFormat("dd/MM/yyyy").format(emp.getFechaIngreso()) + " hasta " + new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
 			params.put("ID_EMPLEADO", emp.getIdEmpleado());
 			PrintReport report = new PrintReport();
 			report.crearReporte("/reportes/actividades.jasper",empleadoDAO, params);
