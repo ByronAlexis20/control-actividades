@@ -3,7 +3,7 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Control Actividades"/>
 	<property name="ireport.zoom" value="1.2100000000000006"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="6"/>
+	<property name="ireport.y" value="36"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="243"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="746"/>
@@ -12,6 +12,7 @@
 	<parameter name="FECHA_FIN" class="java.util.Date"/>
 	<parameter name="FECHA_BUSQUEDA" class="java.lang.String"/>
 	<parameter name="ID_EMPLEADO" class="java.lang.Integer"/>
+	<parameter name="MOTIVO" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select de.id_departamento,de.nombre as departamento,(pe.nombre || ' ' || pe.apellido) as jefe,
 ac.codigo, ac.descripcion, ac.fecha
@@ -136,7 +137,7 @@ and ag.id_empleado =  $P{ID_EMPLEADO}]]>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="50"/>
+			<band/>
 		</groupFooter>
 	</group>
 	<background>
@@ -199,8 +200,8 @@ and ag.id_empleado =  $P{ID_EMPLEADO}]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="87" y="0" width="351" height="14" uuid="f92b021c-fc6a-426b-9afb-c3ba122f7f76"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="87" y="0" width="351" height="14" isPrintWhenDetailOverflows="true" uuid="f92b021c-fc6a-426b-9afb-c3ba122f7f76"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Calibri" size="8"/>
 				</textElement>
@@ -211,7 +212,7 @@ and ag.id_empleado =  $P{ID_EMPLEADO}]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Calibri" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{fecha}) ]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="21" y="14" width="514" height="1" uuid="88ba0d8f-91dc-448f-9877-cf1383caf4e8"/>
@@ -231,12 +232,27 @@ and ag.id_empleado =  $P{ID_EMPLEADO}]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="95" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="21" y="30" width="509" height="20" isPrintWhenDetailOverflows="true" uuid="247119fc-2ec7-411b-8364-4d4d3a90dbed"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{MOTIVO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="21" y="5" width="159" height="20" uuid="944efcef-46af-4d8a-8cbb-67c86727afe3"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Motivo por el que dejó el cargo:]]></text>
+			</staticText>
+		</band>
 	</summary>
 </jasperReport>

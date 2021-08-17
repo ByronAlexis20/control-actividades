@@ -61,12 +61,13 @@ public class ActAnterioresC {
 		params.put("ID_TIPO_ACTIVIDAD", Constantes.ID_TIPO_PRIMORDIALES);
 		params.put("FECHA_INICIO", empleadoSeleccionado.getFechaIngreso());
 		params.put("FECHA_FIN", new Date());
+		params.put("MOTIVO", empleadoSeleccionado.getMotivoSalida());
 		Date fechaIngreso = new Date();
 		if(empleadoSeleccionado.getFechaIngreso() != null)
 			fechaIngreso = empleadoSeleccionado.getFechaIngreso();
 		Date fechaSalida = new Date();
 		if(empleadoSeleccionado.getFechaSalida() != null)
-			fechaIngreso = empleadoSeleccionado.getFechaSalida();
+			fechaSalida = empleadoSeleccionado.getFechaSalida();
 		params.put("FECHA_BUSQUEDA", "Fecha de Búsqueda: " + new SimpleDateFormat("dd/MM/yyyy").format(fechaIngreso) + " - " + new SimpleDateFormat("dd/MM/yyyy").format(fechaSalida));
 		params.put("ID_EMPLEADO", empleadoSeleccionado.getIdEmpleado());
 		PrintReport report = new PrintReport();

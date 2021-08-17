@@ -58,6 +58,7 @@ public class PrintReport {
 			FileOutputStream fos = new FileOutputStream(nombreArchivo);
 			fos.write(b);
 			fos.close();
+			
 			Filedownload.save(new File(nombreArchivo), "pdf"); 
 			/*
 			nombreArchivo = nombreArchivo + "/" + UUID.randomUUID().toString() + ".pdf";

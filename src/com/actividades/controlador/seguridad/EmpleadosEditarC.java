@@ -139,7 +139,7 @@ public class EmpleadosEditarC {
 		if(validarDatos() == false) {
 			return;
 		}
-		Messagebox.show("Desea guardar el registro?", "ConfirmaciÃ³n de Guardar", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
+		Messagebox.show("Desea guardar el registro?", "Confirmación de Guardar", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
 			@Override
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {		
@@ -155,7 +155,7 @@ public class EmpleadosEditarC {
 							empleadoDAO.getEntityManager().merge(empleado);
 						}			
 						empleadoDAO.getEntityManager().getTransaction().commit();
-						Clients.showNotification("Proceso Ejecutado con exito.");
+						Clients.showNotification("Proceso Ejecutado con éxito.");
 						BindUtils.postGlobalCommand(null, null, "Empleado.buscarEmpleado", null);
 						salir();						
 					} catch (Exception e) {
@@ -222,7 +222,7 @@ public class EmpleadosEditarC {
 	public void cedulaValidar() {
 		try {
 			if(helper.validarDeCedula(txtCedula.getText())== false) {
-				Clients.showNotification("La cÃ©dula ingresada no es vÃ¡lida!!");
+				Clients.showNotification("La cédula ingresada no es válida!!");
 				txtCedula.focus();	
 			}
 			if(validarUsuarioExistente() == true) {
@@ -237,7 +237,7 @@ public class EmpleadosEditarC {
 	public boolean validarDatos() {
 		try {
 			if(txtCedula.getText().isEmpty()) {
-				Clients.showNotification("Debe registrar la cedula del empleado","info",txtCedula,"end_center",2000);
+				Clients.showNotification("Debe registrar la cédula del empleado","info",txtCedula,"end_center",2000);
 				txtCedula.focus();
 				return false;
 			}
@@ -247,7 +247,7 @@ public class EmpleadosEditarC {
 				return false;
 			}
 			if(validarUsuarioExistente() == true) {
-				Clients.showNotification("Ya hay un empleado con el número de cedula " + txtCedula.getText() + "!","info",txtCedula,"end_center",2000);
+				Clients.showNotification("Ya hay un empleado con el número de cédula " + txtCedula.getText() + "!","info",txtCedula,"end_center",2000);
 				txtCedula.focus();
 				return false;
 			}
@@ -263,7 +263,7 @@ public class EmpleadosEditarC {
 				return false;
 			}
 			if(txtUsuario.getText().isEmpty()) {
-				Clients.showNotification("Debe registrar el nombre de usuarioo","info",txtUsuario,"end_center",2000);
+				Clients.showNotification("Debe registrar el nombre de usuario","info",txtUsuario,"end_center",2000);
 				txtUsuario.focus();
 				return false;
 			}
@@ -273,7 +273,7 @@ public class EmpleadosEditarC {
 				return false;
 			}
 			if(!txtEmail.getText().isEmpty()) {
-				if(ControllerHelper.validarEmail(txtEmail.getText())) {
+				if(!ControllerHelper.validarEmail(txtEmail.getText())) {
 					Clients.showNotification("Correo no válido","info",txtEmail,"end_center",2000);
 					txtEmail.focus();
 					return false;
@@ -287,6 +287,7 @@ public class EmpleadosEditarC {
 				Clients.showNotification("Debe seleccionar un departamento","info",cboDepartamento,"end_center",2000);
 				return false;
 			}
+			
 			if(validarJefes() == true) {
 				Clients.showNotification("Ya existe un jefe en el Departamento!","info",cboTipoUsuario,"end_center",2000);
 				cboTipoUsuario.focus();
@@ -321,7 +322,7 @@ public class EmpleadosEditarC {
 					if(empleado.getIdEmpleado() == null) {
 						List<Empleado> listaEmpleadoComunicacion = empleadoDAO.buscarEmpleadoPorTipoUsuario(Constantes.ID_ADMINISTRACION_COMUNICACION);
 						if(listaEmpleadoComunicacion.size() > 0) {
-							Clients.showNotification("Ya existe un administrador de comunicacion","info",txtCedula,"end_center",2000);
+							Clients.showNotification("Ya existe un administrador de comunicación","info",txtCedula,"end_center",2000);
 							return false;
 						}
 					}
@@ -348,8 +349,11 @@ public class EmpleadosEditarC {
 	private boolean validarJefes() {
 		//hay q validar si ya estan registrado los jefes de los departamentos cuando es un nuevo registro
 		boolean bandera = false;
+
 		if(empleado.getIdEmpleado() == null) {
+			
 			if(tipoUsuarioseleccionado.getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)) {
+
 				List<Empleado> emp = empleadoDAO.validarJefeDepartamento(Constantes.ID_JEFE_AREA, departamentoSeleccionado.getIdDepartamento());
 				if(emp.size() > 0)
 					bandera = true;
@@ -404,7 +408,7 @@ public class EmpleadosEditarC {
 			List<Departamento> list = departamentoDAO.getDepartamentosActivos();
 			List<Departamento> listado = new ArrayList<>();
 			for(Departamento d : list) {
-				if(d.getIdDepartamento() != Constantes.ID_AUTORIDAD_MAXIMA && d.getIdDepartamento() != Constantes.ID_ADMINISTRACION_COMUNICACION && d.getIdDepartamento() != Constantes.ID_ADMINISTRADOR_SISTEMAS) {
+				if(d.getIdDepartamento() != Constantes.ID_DEPARTAMENTO_GOBERNACION && d.getIdDepartamento() != Constantes.ID_DEPARTAMENTO_COMUNICACIONES && d.getIdDepartamento() != Constantes.ID_DEPARTAMENTO_SISTEMAS) {
 					listado.add(d);
 				}
 			}
