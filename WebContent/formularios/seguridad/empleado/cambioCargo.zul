@@ -1,0 +1,49 @@
+<?page title="Lista de Empleados" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:n="native">
+	<div apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('com.actividades.controlador.seguridad.CambioCargoC')" 
+		hflex="1" vflex="1" class="contenedor-formulario">
+		<vlayout vflex="1" zclass="contenido" hflex="1">
+			<groupbox hflex="1">
+				<div align="center">
+					<label value="Cambio de cargo" style="color:#088A08;font-size:20px" sclass="p-1 text-red font-italic font-weight-bold" />
+				</div>
+			</groupbox>
+			<div>
+				<button label="Realizar cambio de cargo" iconSclass="z-icon-plus" zclass="btn btn-outline-danger btn-sm" onClick="@command('cambioCargo')" />
+			</div>
+			<hlayout>
+				<textbox value="@bind(vm.textoBuscar)" hflex="1" style="text-transform:uppercase" onOK="@command('buscar')"
+					placeholder="Busqueda por nombres o apellidoss" />
+				<button label="Buscar!" iconSclass="z-icon-search"
+					zclass="btn btn-outline-primary btn btn-sm" onClick="@command('buscar')"/>
+			</hlayout>
+			<hlayout vflex="1" hflex="1">
+				<listbox model="@load(vm.listaEmpleados)"
+					mold="paging" selectedItem="@bind(vm.empleadoSeleccionado)"
+					hflex="1" vflex="1">
+					<listhead>
+						<listheader label="Cédula" width="10%" sclass="lb-listheader"/>
+						<listheader label="Nombres" width="15%" sclass="lb-listheader"/>
+						<listheader label="Apellidos" width="15%" sclass="lb-listheader"/>
+						<listheader label="Tipo de usuario" sclass="lb-listheader"/>
+						<listheader label="Departamento" sclass="lb-listheader"/>
+						<listheader label="Cargo" sclass="lb-listheader"/>
+						<listheader label="Usuario" width="10%" sclass="lb-listheader"/>
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell label="@load(each.persona.cedula)" sclass="lb-listcell"/>
+							<listcell label="@load(each.persona.nombre)" sclass="lb-listcell"/>
+							<listcell label="@load(each.persona.apellido)" sclass="lb-listcell"/>
+							<listcell label="@load(each.tipoUsuario.tipoUsuario)" sclass="lb-listcell"/>
+							<listcell label="@load(each.departamento.nombre)" sclass="lb-listcell"/>
+							<listcell label="@load(each.cargo.descripcion)" sclass="lb-listcell"/>
+							<listcell label="@load(each.usuario)" sclass="lb-listcell"/>
+						</listitem>
+					</template>
+				</listbox>
+			</hlayout>
+		</vlayout>
+	</div>
+</zk>
