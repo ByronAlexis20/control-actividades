@@ -5,7 +5,7 @@
 			<vbox pack="start">
 				<separator orient="horizontal" height="3px"/>
 				<label style="font: 120% sans-serif; font-weight: bold; color: white" 
-					value="Sistema de Control de Actividades - Gobernación de Santa Elena" />
+					value="Control de Actividades - Gobernación de Santa Elena" onClick="@command('dashboard')"/>
 			</vbox>
 		</hbox>
 

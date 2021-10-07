@@ -9,6 +9,7 @@ import java.util.List;
 import javax.mail.MessagingException;
 
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
@@ -62,8 +63,8 @@ public class MenuControlC {
 		Selectors.wireComponents(view, this, false);
 		loadTree();
 		cargarFotoUsuario();
-		//startLongOperation();
 		verificarActividadesRechazadas();
+		areaContenido.setSrc("/formularios/dashboard/Dashboard.zul");
 	}
 	private void verificarActividadesRechazadas() {
 		List<Actividad> listaActividadesRechazadas = new ArrayList<>();
@@ -224,5 +225,10 @@ public class MenuControlC {
 	public Empleado getTipoUsuario() {
 		Empleado us = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername());
 		return us;
+	}
+	
+	@Command
+	public void dashboard() {
+		areaContenido.setSrc("/formularios/dashboard/Dashboard.zul");
 	}
 }

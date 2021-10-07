@@ -2,6 +2,7 @@
 <?script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js" ?>
 <?link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" ?>
 <?link rel="stylesheet" href="/webjars/estilos.css" ?>
+<?link rel="stylesheet" href="/webjars/estilosDashboard.css" ?>
 <zk>
 	<borderlayout hflex="1" vflex="1" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('com.actividades.controlador.MenuControlC')">

@@ -1,0 +1,71 @@
+<zk xmlns:n="native" xmlns:z="zul">
+	<style>
+		body { 
+			font-family: "Segoe UI", Tahoma, Geneva, Verdana,sans-serif; 
+		}
+		
+		* { 
+			box-sizing: 
+			border-box; 
+		} 
+		
+	</style>
+	<vlayout hflex="1" vflex="1" apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('com.actividades.controlador.dashboard.DashboardC')" style="overflow: scroll">
+		<div class="cardContainer" >
+			<div class="card caja-principales">
+				<vlayout vflex="1" hflex="1" style="padding: 10px; text-align: center;">
+					<label sclass="p">Cantidad de Empleados</label>
+					<label sclass="p1" id="lblCantidadEmpleados"/>
+				</vlayout>
+			</div>
+			<div class="card caja-principales" >
+				<vlayout vflex="1" hflex="1" style="padding: 10px; text-align: center;">
+					<label sclass="p">Actividades pendientes</label>
+					<label sclass="p1" id="lblEmergenciaLaborSocial"/>
+				</vlayout>
+			</div>
+			<div class="card caja-principales">
+				<vlayout vflex="1" hflex="1" style="padding: 10px; text-align: center;">
+					<label sclass="p">Actividades Rechazadas</label>
+					<label sclass="p1" id="lblEmergenciaPrehospitalaria"/>
+				</vlayout>
+			</div>
+			<div class="card caja-principales">
+				<vlayout vflex="1" hflex="1" style="padding: 10px; text-align: center;">
+					<label sclass="p">Quejas Realizadas</label>
+					<label sclass="p1" id="s"/>
+				</vlayout>
+			</div>
+		</div>
+		
+		<hlayout hflex="1">
+			<vlayout hflex="1" vflex="1" style="border: #000000 0px outset;box-shadow: 2px 2px 10px #592A08;background-color: #FFFFFF; margin-left: 10px;">
+				<label value="Lista de empleados" style="font-size:15px;font-weight: bold;" />
+				<listbox id="lstEmpleados" autopaging="true"
+						model="@load(vm.listaEmpleados)"
+						mold="paging"
+						hflex="1" height="200px">
+					<listhead>
+						<listheader label="Imagen" width="15%" />
+						<listheader label="Nombre" class="listheader-vehiculo"/>
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell>
+								<image src="C:/pp.jpg" height="50px" width="50px"/>
+							</listcell>
+							<listcell >
+								<label value="@load(each.persona.nombre)"/>
+								<label value=" "/>
+								<label value="@load(each.persona.apellido)"/>
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+			</vlayout>
+			<vlayout hflex="1" vflex="1" style="border: #000000 0px outset;box-shadow: 2px 2px 10px #592A08;background-color: #FFFFFF; margin-left: 10px; margin-right: 10px">
+				<label value="" style="font-size:15px;font-weight: bold;" />
+			</vlayout>
+		</hlayout>
+	</vlayout>
+</zk>

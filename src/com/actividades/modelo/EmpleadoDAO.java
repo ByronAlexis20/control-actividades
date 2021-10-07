@@ -131,6 +131,17 @@ public class EmpleadoDAO extends ClaseDAO{
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<Empleado> buscarPorDepartamentoYTipoUsuario(Integer idDepartamento, Integer idTipoUsuario) {
+		List<Empleado> resultado; 
+		Query query = getEntityManager().createNamedQuery("Empleado.buscarPorDepartamento");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idDepartamento", idDepartamento);
+		query.setParameter("idTipoUsuario", idTipoUsuario);
+		resultado = (List<Empleado>) query.getResultList();
+		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<Empleado> validarJefeDepartamento(Integer idJefeArea,Integer idDepartamento) {
 		List<Empleado> resultado; 
 		Query query = getEntityManager().createNamedQuery("Empleado.buscarJefeDepartamento");

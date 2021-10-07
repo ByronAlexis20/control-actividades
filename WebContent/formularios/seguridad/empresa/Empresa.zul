@@ -4,8 +4,8 @@
 		apply="org.zkoss.bind.BindComposer" class="contenedor-formulario"
         viewModel="@id('vm') @init('com.actividades.controlador.seguridad.EmpresaC')">
 		<hbox vflex="1" hflex="1" align="center" pack="center" zclass="contenido">
-			<vbox width="40%" align="center" pack="center">
-				<groupbox hflex="1" vflex="min">
+			<vbox width="50%" align="center" >
+				<groupbox hflex="1" vflex="1">
 					<vlayout hflex="1" vflex="1">
 						<grid style="background-color: transparent;border:none;">
 							<columns style="background-color: transparent;">
@@ -16,53 +16,54 @@
 								<row align="center">
 									<cell colspan="2" align="center">
 										<vbox  pack="center" hflex="1">
-												<div align="center">
-													<label value="Logo"/>
-												</div>
-												<div align="center">
-													<image id="imgFoto" width="130px" height="130px"
+											<div align="center">
+												<label value="Logo"/>
+											</div>
+											<div align="center">
+												<image id="imgFoto" width="130px" height="130px"
 													content="@load(vm.logoInstitucion)"
 					       							onClick="@command('descargar')"  
 													style="border:1px #cccccc solid; " />
-												</div>
-												<div align="center">
-													<button id="btnUpload" label="Cargar..."
-														upload="true,accept=.jpg" onUpload="@command('subir', upEvent=event)"
-														iconSclass="z-icon-upload" />
-												</div>
-											
+											</div>
+											<div align="center">
+												<button id="btnUpload" label="Cargar..."
+													upload="true,accept=.jpg" onUpload="@command('subir', upEvent=event)"
+													iconSclass="z-icon-upload" />
+											</div>
 										</vbox>
 									</cell>
 								</row>
 								<row align="center">
-									<cell sclass="row-title">Nombre de la Institución:</cell>
+									<cell sclass="row-title">Nombre Institución:</cell>
 									<cell> 
-										<textbox id="txtNombre" width="85%" maxlength="200"
-										value="@bind(vm.empresa.nombre)"/>
+										<textbox id="txtNombre" hflex="1" maxlength="200" value="@bind(vm.empresa.nombre)"/>
 									</cell>
 								</row>
 								<row align="center">
 									<cell sclass="row-title">Dirección:</cell>
-									<cell> <textbox id="txtDireccion" width="85%" 
-											value="@bind(vm.empresa.direccion)" maxlength="255"/> </cell>
+									<cell> 
+										<textbox id="txtDireccion" hflex="1" value="@bind(vm.empresa.direccion)" maxlength="255"/> 
+									</cell>
 								</row>
 								<row align="center">
 									<cell sclass="row-title">Teléfono:</cell>
-									<cell> <textbox id="txtTelefono" width="85%" 
-											value="@bind(vm.empresa.telefono)" maxlength="15"/> </cell>
+									<cell> 
+										<textbox id="txtTelefono" hflex="1" value="@bind(vm.empresa.telefono)" maxlength="15"/> 
+									</cell>
 								</row>
 								<row align="center">
 									<cell sclass="row-title">Correo:</cell>
-									<cell> <textbox id="txtCorreo" width="85%" 
-											constraint="/.+@.+\.[a-z]+/: No es una dirección email."
-											value="@bind(vm.empresa.email)" maxlength="100"/> </cell>
+									<cell> 
+										<textbox id="txtCorreo" hflex="1" constraint="/.+@.+\.[a-z]+/: No es una dirección email." value="@bind(vm.empresa.email)" maxlength="100"/> 
+									</cell>
+								</row>
+								<row>
+									<cell colspan="2" align="center">
+										<button id="btnGrabar" label="Grabar" onClick="@command('grabar')" iconSclass="z-icon-save" zclass="btn btn-primary btn-sm"/>
+									</cell>
 								</row>
 							</rows>
 						</grid>
-						<hbox>
-							<button id="btnGrabar" label="Grabar" onClick="@command('grabar')" iconSclass="z-icon-save"  
-							zclass="btn btn-primary btn btn-sm"/>
-						</hbox>
 					</vlayout>
 				</groupbox>
 			</vbox>

@@ -24,6 +24,7 @@ public class Constantes {
 	public static Integer ID_ADMINISTRADOR_SISTEMAS = 1;
 	public static Integer ID_ADMINISTRACION_COMUNICACION = 3;
 	public static Integer ID_AUTORIDAD_MAXIMA = 5;
+	public static Integer ID_ASISTENTE = 4;
 	
 	public static Integer ID_CARGO_JEFE = 1;
 	

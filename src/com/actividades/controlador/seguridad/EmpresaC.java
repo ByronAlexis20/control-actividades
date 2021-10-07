@@ -45,7 +45,6 @@ public class EmpresaC {
 	@Command
 	public void grabar(){
 		try {
-
 			EventListener<ClickEvent> clickListener = new EventListener<Messagebox.ClickEvent>() {
 				public void onEvent(ClickEvent event) throws Exception {
 					if(Messagebox.Button.YES.equals(event.getButton())) {
