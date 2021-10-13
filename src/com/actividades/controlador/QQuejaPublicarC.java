@@ -24,7 +24,6 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 
 import com.actividades.correo.EnviarCorreo;
-import com.actividades.correo.EnviarCorreoUtil;
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.modelo.Queja;

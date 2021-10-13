@@ -32,7 +32,6 @@ import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.util.Constantes;
 import com.actividades.util.PrintReport;
-import com.actividades.util.SecurityUtil;
 
 public class ActPorTipoAdminC {
 	String textoBuscar;

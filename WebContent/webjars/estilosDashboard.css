@@ -3,7 +3,7 @@
 .card { 
 	color: white; 
 	float: left; 
-	width: calc(25% - 20px); 
+	
 	border: #000000 0px outset; 
 	margin: 10px; 
 	height: 90px; 

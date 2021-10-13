@@ -37,35 +37,38 @@
 				</vlayout>
 			</div>
 		</div>
-		
-		<hlayout hflex="1">
-			<vlayout hflex="1" vflex="1" style="border: #000000 0px outset;box-shadow: 2px 2px 10px #592A08;background-color: #FFFFFF; margin-left: 10px;">
-				<label value="Lista de empleados" style="font-size:15px;font-weight: bold;" />
-				<listbox id="lstEmpleados" autopaging="true"
-						model="@load(vm.listaEmpleados)"
-						mold="paging"
-						hflex="1" height="200px">
-					<listhead>
-						<listheader label="Imagen" width="15%" />
-						<listheader label="Nombre" class="listheader-vehiculo"/>
-					</listhead>
-					<template name="model">
-						<listitem>
-							<listcell>
-								<image src="C:/pp.jpg" height="50px" width="50px"/>
-							</listcell>
-							<listcell >
-								<label value="@load(each.persona.nombre)"/>
-								<label value=" "/>
-								<label value="@load(each.persona.apellido)"/>
-							</listcell>
-						</listitem>
-					</template>
-				</listbox>
-			</vlayout>
-			<vlayout hflex="1" vflex="1" style="border: #000000 0px outset;box-shadow: 2px 2px 10px #592A08;background-color: #FFFFFF; margin-left: 10px; margin-right: 10px">
-				<label value="" style="font-size:15px;font-weight: bold;" />
-			</vlayout>
-		</hlayout>
+		<div class="row">
+			<div class="col-md-4" height="200px">
+				<vlayout hflex="1" vflex="1">
+					<label value="Lista de empleados" style="font-size:15px;font-weight: bold;" />
+					<listbox id="lstEmpleados" hflex="1" vflex="1" model="@load(vm.listaEmpleados)">
+						<listhead>
+							<listheader label="Imagen" width="70px" />
+							<listheader label="Nombre" class="listheader-vehiculo"/>
+						</listhead>
+						<template name="model">
+							<listitem>
+								<listcell>
+									<div sclass="user-session">
+										<image content="@load(each.foto)" height="50px" width="50px"/>
+									</div>
+								</listcell>
+								<listcell >
+									<label value="@load(each.emp.persona.nombre)"/>
+									<label value=" "/>
+									<label value="@load(each.emp.persona.apellido)"/>
+								</listcell>
+							</listitem>
+						</template>
+					</listbox>
+				</vlayout>
+			</div>
+			<div class="col-md-8" height="200px">
+				<vlayout hflex="1" vflex="1">
+					<label value="Resumen emergencias" style="font-size:15px;font-weight: bold;" />
+					<image id="imGraficoResumenEmergencia" vflex="1" hflex="1"/>
+				</vlayout>
+			</div>
+		</div>
 	</vlayout>
 </zk>
