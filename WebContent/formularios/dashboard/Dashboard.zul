@@ -65,8 +65,8 @@
 			</div>
 			<div class="col-md-8" height="200px">
 				<vlayout hflex="1" vflex="1">
-					<label value="Resumen emergencias" style="font-size:15px;font-weight: bold;" />
-					<image id="imGraficoResumenEmergencia" vflex="1" hflex="1"/>
+					<label value="Resumen de actividades" style="font-size:15px;font-weight: bold;" />
+					<image id="imGraficoActividades" vflex="1" hflex="1"/>
 				</vlayout>
 			</div>
 		</div>

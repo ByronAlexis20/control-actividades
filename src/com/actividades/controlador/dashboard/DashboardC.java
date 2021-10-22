@@ -14,6 +14,7 @@ import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Image;
 import org.zkoss.zul.Label;
 
 import com.actividades.modelo.Empleado;
@@ -23,8 +24,8 @@ import com.actividades.util.SecurityUtil;
 
 public class DashboardC {
 	
-	@Wire
-	private Label lblCantidadEmpleados;
+	@Wire private Label lblCantidadEmpleados;
+	@Wire private Image imGraficoResumenEmergencia;
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	List<Trabajadores> listaEmpleados;
 	
@@ -32,6 +33,7 @@ public class DashboardC {
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException, MessagingException{
 		Selectors.wireComponents(view, this, false);
 		contarCantidadEmpleados();
+		graficarActividades();
 	}
 	
 	private void contarCantidadEmpleados() {
@@ -54,6 +56,10 @@ public class DashboardC {
 		}catch(Exception ex) {
 			System.out.println(ex.getMessage());
 		}
+	}
+	
+	private void graficarActividades() {
+		
 	}
 
 	public List<Trabajadores> getListaEmpleados() {
