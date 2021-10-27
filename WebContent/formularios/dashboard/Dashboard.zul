@@ -21,19 +21,19 @@
 			<div class="card caja-principales" >
 				<vlayout vflex="1" hflex="1" style="padding: 10px; text-align: center;">
 					<label sclass="p">Actividades pendientes</label>
-					<label sclass="p1" id="lblEmergenciaLaborSocial"/>
+					<label sclass="p1" id="lblActividadesPendientes"/>
 				</vlayout>
 			</div>
 			<div class="card caja-principales">
 				<vlayout vflex="1" hflex="1" style="padding: 10px; text-align: center;">
 					<label sclass="p">Actividades Rechazadas</label>
-					<label sclass="p1" id="lblEmergenciaPrehospitalaria"/>
+					<label sclass="p1" id="lblActividadesRechazadas"/>
 				</vlayout>
 			</div>
 			<div class="card caja-principales">
 				<vlayout vflex="1" hflex="1" style="padding: 10px; text-align: center;">
 					<label sclass="p">Quejas Realizadas</label>
-					<label sclass="p1" id="s"/>
+					<label sclass="p1" id="lblQuejaRealizada"/>
 				</vlayout>
 			</div>
 		</div>

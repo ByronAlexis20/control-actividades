@@ -38,6 +38,9 @@ import javax.persistence.TemporalType;
 			+ " and a.claseActividad.idClaseActividad = :idClaseActividad order by a.fecha desc"),
 	@NamedQuery(name="Actividad.buscarRechazadas", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
 			+ " and a.estado = 'A' and a.estadoActividad = 'RECHAZADO'"),
+	@NamedQuery(name="Actividad.buscarPendientes", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
+			+ " and a.estado = 'A' and a.estadoActividad = 'PENDIENTE'"),
+	
 })
 public class Actividad implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -27,6 +27,15 @@ public class ActividadDAO extends ClaseDAO{
 		return resultado;
 	}
 	@SuppressWarnings("unchecked")
+	public List<Actividad> obtenerPendiente(Integer idEmpleado) {
+		List<Actividad> resultado = new ArrayList<Actividad>(); 
+		Query query = getEntityManager().createNamedQuery("Actividad.buscarPendientes");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idEmpleado", idEmpleado);
+		resultado = (List<Actividad>) query.getResultList();
+		return resultado;
+	}
+	@SuppressWarnings("unchecked")
 	public List<Actividad> obtenerCodigoActividad(Integer idAgenda) {
 		List<Actividad> resultado = new ArrayList<Actividad>(); 
 		Query query = getEntityManager().createNamedQuery("Actividad.buscarCodigoPorAgenda");

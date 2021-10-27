@@ -17,6 +17,8 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Label;
 
+import com.actividades.modelo.Actividad;
+import com.actividades.modelo.ActividadDAO;
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.util.Constantes;
@@ -25,15 +27,20 @@ import com.actividades.util.SecurityUtil;
 public class DashboardC {
 	
 	@Wire private Label lblCantidadEmpleados;
+	@Wire private Label lblActividadesPendientes;
+	@Wire private Label lblActividadesRechazadas;
+	@Wire private Label lblQuejaRealizada;
+	
 	@Wire private Image imGraficoResumenEmergencia;
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
+	ActividadDAO actividadDAO = new ActividadDAO();
 	List<Trabajadores> listaEmpleados;
 	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException, MessagingException{
 		Selectors.wireComponents(view, this, false);
 		contarCantidadEmpleados();
-		graficarActividades();
+		contarActividades();
 	}
 	
 	private void contarCantidadEmpleados() {
@@ -53,12 +60,23 @@ public class DashboardC {
 			}
 			listaEmpleados = agg;
 			lblCantidadEmpleados.setValue(String.valueOf(listaEmpleados.size()));
+			
+			//contar actividades rechazadas
+			lblActividadesRechazadas.setValue("0");
+			lblActividadesPendientes.setValue("0");
+			List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
+			if(jefeArea.size() > 0) {
+				List<Actividad> acti = actividadDAO.obtenerRechazada(jefeArea.get(0).getIdEmpleado());
+				lblActividadesRechazadas.setValue(String.valueOf(acti.size()));
+				List<Actividad> pend = actividadDAO.obtenerPendiente(jefeArea.get(0).getIdEmpleado());
+				lblActividadesPendientes.setValue(String.valueOf(pend.size()));
+			}
 		}catch(Exception ex) {
 			System.out.println(ex.getMessage());
 		}
 	}
 	
-	private void graficarActividades() {
+	private void contarActividades() {
 		
 	}
 
