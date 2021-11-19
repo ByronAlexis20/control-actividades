@@ -21,6 +21,8 @@ import com.actividades.modelo.Actividad;
 import com.actividades.modelo.ActividadDAO;
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
+import com.actividades.modelo.Queja;
+import com.actividades.modelo.QuejaDAO;
 import com.actividades.util.Constantes;
 import com.actividades.util.SecurityUtil;
 
@@ -34,16 +36,16 @@ public class DashboardC {
 	@Wire private Image imGraficoResumenEmergencia;
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	ActividadDAO actividadDAO = new ActividadDAO();
+	QuejaDAO quejaDAO = new QuejaDAO();
 	List<Trabajadores> listaEmpleados;
 	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException, MessagingException{
 		Selectors.wireComponents(view, this, false);
-		contarCantidadEmpleados();
-		contarActividades();
+		contarCantidades();
 	}
 	
-	private void contarCantidadEmpleados() {
+	private void contarCantidades() {
 		try {
 			Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
 			List<Empleado> lista = usuarioDAO.buscarPorDepartamentoYTipoUsuario(usuario.getDepartamento().getIdDepartamento(), Constantes.ID_ASISTENTE);
@@ -64,6 +66,7 @@ public class DashboardC {
 			//contar actividades rechazadas
 			lblActividadesRechazadas.setValue("0");
 			lblActividadesPendientes.setValue("0");
+			lblQuejaRealizada.setValue("0");
 			List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
 			if(jefeArea.size() > 0) {
 				List<Actividad> acti = actividadDAO.obtenerRechazada(jefeArea.get(0).getIdEmpleado());
@@ -71,13 +74,11 @@ public class DashboardC {
 				List<Actividad> pend = actividadDAO.obtenerPendiente(jefeArea.get(0).getIdEmpleado());
 				lblActividadesPendientes.setValue(String.valueOf(pend.size()));
 			}
+			List<Queja> listaQueja = quejaDAO.buscarActivos();
+			lblQuejaRealizada.setValue(String.valueOf(listaQueja.size()));
 		}catch(Exception ex) {
 			System.out.println(ex.getMessage());
 		}
-	}
-	
-	private void contarActividades() {
-		
 	}
 
 	public List<Trabajadores> getListaEmpleados() {

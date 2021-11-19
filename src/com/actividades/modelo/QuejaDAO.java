@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Query;
 
 public class QuejaDAO extends ClaseDAO{
+	
 	@SuppressWarnings("unchecked")
 	public List<Queja> buscarPorResponsable(Integer id,String value,String estado) {
 		List<Queja> resultado = new ArrayList<Queja>(); 
@@ -17,6 +18,7 @@ public class QuejaDAO extends ClaseDAO{
 		resultado = (List<Queja>) query.getResultList();
 		return resultado;
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Queja> buscarPorResponsableEstadoQuejaAtencion(Integer id,String value,String estadoQueja,String estadoAtencion) {
 		List<Queja> resultado = new ArrayList<Queja>(); 
@@ -39,12 +41,22 @@ public class QuejaDAO extends ClaseDAO{
 		resultado = (List<Queja>) query.getResultList();
 		return resultado;
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Queja> buscarQuejas(String patron) {
 		List<Queja> resultado = new ArrayList<Queja>(); 
 		Query query = getEntityManager().createNamedQuery("Queja.buscarQueja");
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setParameter("patron","%" + patron.toLowerCase() + "%");
+		resultado = (List<Queja>) query.getResultList();
+		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Queja> buscarActivos() {
+		List<Queja> resultado = new ArrayList<Queja>(); 
+		Query query = getEntityManager().createNamedQuery("Queja.buscarActivos");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		resultado = (List<Queja>) query.getResultList();
 		return resultado;
 	}

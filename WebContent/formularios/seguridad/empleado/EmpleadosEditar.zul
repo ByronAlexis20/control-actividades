@@ -74,7 +74,16 @@
 							<label value="Nombres: *" sclass="font-weight-bold col-form-label"/>
 						</cell>
 						<cell>
-							<textbox id="txtNombres" hflex="1" maxlength="60"/>
+							<textbox id="txtNombres" hflex="1" maxlength="60" xmlns:w="client">
+								<attribute w:name="doKeyPress_">
+									function(evt){ if(this.getValue().length
+									> 0 ){ if (!this._shallIgnore(evt,
+									"abcdefghijklmnopqrstuvwxyzñ ")) this.$doKeyPress_(evt);
+									}else{ if (!this._shallIgnore(evt,
+									"abcdefghijklmnopqrstuvwxyzñ ")) this.$doKeyPress_(evt); }
+									}
+								</attribute>
+							</textbox>
 						</cell>
 					</row>
 					<row>
@@ -82,7 +91,16 @@
 							<label value="Apellidos: *" sclass="font-weight-bold col-form-label"/>
 						</cell>
 						<cell>
-							<textbox id="txtApellidos" hflex="1" maxlength="60"/>
+							<textbox id="txtApellidos" hflex="1" maxlength="60" xmlns:w="client">
+								<attribute w:name="doKeyPress_">
+									function(evt){ if(this.getValue().length
+									> 0 ){ if (!this._shallIgnore(evt,
+									"abcdefghijklmnopqrstuvwxyzñ ")) this.$doKeyPress_(evt);
+									}else{ if (!this._shallIgnore(evt,
+									"abcdefghijklmnopqrstuvwxyzñ ")) this.$doKeyPress_(evt); }
+									}
+								</attribute>
+							</textbox>
 						</cell>
 					</row>
 					<row>

@@ -26,6 +26,7 @@ import javax.persistence.TemporalType;
 			+ "and q.estadoQueja = :estado"),
 	@NamedQuery(name="Queja.buscarQueja", query="SELECT q FROM Queja q where q.estado = 'A' and lower(q.empleado.departamento.nombre) like lower(:patron)"
 			+ " and q.estadoQueja = 'PUBLICADO'  order by q.fechaAceptacion desc"),
+	@NamedQuery(name="Queja.buscarActivos", query="SELECT q FROM Queja q where q.estado = 'A' "),
 })
 public class Queja implements Serializable{
 	private static final long serialVersionUID = 1L;
