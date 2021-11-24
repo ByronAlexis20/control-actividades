@@ -2,7 +2,10 @@ package com.actividades.controlador.dashboard;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -16,6 +19,7 @@ import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Label;
+import org.zkoss.zul.Textbox;
 
 import com.actividades.modelo.Actividad;
 import com.actividades.modelo.ActividadDAO;
@@ -33,18 +37,59 @@ public class DashboardC {
 	@Wire private Label lblActividadesRechazadas;
 	@Wire private Label lblQuejaRealizada;
 	
+	@Wire private Textbox txtAnio;
+	
 	@Wire private Image imGraficoResumenEmergencia;
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	ActividadDAO actividadDAO = new ActividadDAO();
 	QuejaDAO quejaDAO = new QuejaDAO();
 	List<Trabajadores> listaEmpleados;
+	List<Mes> listaMes;
+	Mes mesSeleccionado;
 	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException, MessagingException{
 		Selectors.wireComponents(view, this, false);
-		contarCantidades();
+		this.contarCantidades();
+		this.cargarListadoMeses();
+		
+		Date date = new Date();
+        ZoneId timeZone = ZoneId.systemDefault();
+        LocalDate getLocalDate = date.toInstant().atZone(timeZone).toLocalDate();
+		txtAnio.setValue(String.valueOf(getLocalDate.getYear()));
 	}
-	
+	private void cargarListadoMeses() {
+		try {
+			List<Mes> lista = new ArrayList<>();
+			Mes mes1 = new Mes(1, "Enero");
+			lista.add(mes1);
+			Mes mes2 = new Mes(2, "Febrero");
+			lista.add(mes2);
+			Mes mes3 = new Mes(3, "Marzo");
+			lista.add(mes3);
+			Mes mes4 = new Mes(4, "Abril");
+			lista.add(mes4);
+			Mes mes5 = new Mes(5, "Mayo");
+			lista.add(mes5);
+			Mes mes6 = new Mes(6, "Junio");
+			lista.add(mes6);
+			Mes mes7 = new Mes(7, "Julio");
+			lista.add(mes7);
+			Mes mes8 = new Mes(8, "Agosto");
+			lista.add(mes8);
+			Mes mes9 = new Mes(9, "Septiembre");
+			lista.add(mes9);
+			Mes mes10 = new Mes(10, "Octubre");
+			lista.add(mes10);
+			Mes mes11 = new Mes(11, "Noviembre");
+			lista.add(mes11);
+			Mes mes12 = new Mes(12, "Diciembre");
+			lista.add(mes12);
+			listaMes = lista;
+		}catch(Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
 	private void contarCantidades() {
 		try {
 			Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
@@ -80,13 +125,23 @@ public class DashboardC {
 			System.out.println(ex.getMessage());
 		}
 	}
-
 	public List<Trabajadores> getListaEmpleados() {
 		return listaEmpleados;
 	}
-
 	public void setListaEmpleados(List<Trabajadores> listaEmpleados) {
 		this.listaEmpleados = listaEmpleados;
+	}
+	public List<Mes> getListaMes() {
+		return listaMes;
+	}
+	public void setListaMes(List<Mes> listaMes) {
+		this.listaMes = listaMes;
+	}
+	public Mes getMesSeleccionado() {
+		return mesSeleccionado;
+	}
+	public void setMesSeleccionado(Mes mesSeleccionado) {
+		this.mesSeleccionado = mesSeleccionado;
 	}
 
 	public class Trabajadores {
@@ -105,5 +160,26 @@ public class DashboardC {
 			this.foto = foto;
 		}
 		
+	}
+	public class Mes {
+		private Integer idMes;
+		private String mes;
+		public Mes(Integer idMes, String mes) {
+			super();
+			this.idMes = idMes;
+			this.mes = mes;
+		}
+		public Integer getIdMes() {
+			return idMes;
+		}
+		public void setIdMes(Integer idMes) {
+			this.idMes = idMes;
+		}
+		public String getMes() {
+			return mes;
+		}
+		public void setMes(String mes) {
+			this.mes = mes;
+		}
 	}
 }

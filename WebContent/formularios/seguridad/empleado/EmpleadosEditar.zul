@@ -105,7 +105,16 @@
 					</row>
 					<row>
 						<label value="Dirección: " sclass="font-weight-bold col-form-label"/>
-						<textbox id="txtDireccion" hflex="1" maxlength="250"/>
+						<textbox id="txtDireccion" hflex="1" maxlength="250" xmlns:w="client">
+							<attribute w:name="doKeyPress_">
+									function(evt){ if(this.getValue().length
+									> 0 ){ if (!this._shallIgnore(evt,
+									"abcdefghijklmnopqrstuvwxyzñ 0987654321")) this.$doKeyPress_(evt);
+									}else{ if (!this._shallIgnore(evt,
+									"abcdefghijklmnopqrstuvwxyzñ ")) this.$doKeyPress_(evt); }
+									}
+								</attribute>
+						</textbox>
 					</row>
 					<row>
 						<label value="Email: " sclass="font-weight-bold col-form-label"/>

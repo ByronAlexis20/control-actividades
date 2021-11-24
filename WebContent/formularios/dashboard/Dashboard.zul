@@ -11,6 +11,28 @@
 		
 	</style>
 	<vlayout hflex="1" vflex="1" apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('com.actividades.controlador.dashboard.DashboardC')" style="overflow: scroll">
+		<div class="cardContainer">
+			<label value="Mes: " style="font-weight: bold;"/>
+			<combobox id="cboMes"
+				model="@load(vm.listaMes)" readonly="true"
+				selectedItem="@bind(vm.mesSeleccionado)">
+				<template name="model">
+					<comboitem label="${each.mes}" />
+				</template>
+			</combobox>
+			<label value="Año: " style="font-weight: bold;"/>
+			<textbox id="txtAnio" maxlength="4" xmlns:w="client">
+				<attribute w:name="doKeyPress_">
+					function(evt){ if(this.getValue().length
+					> 0 ){ if (!this._shallIgnore(evt,
+					"0123456789")) this.$doKeyPress_(evt);
+					}else{ if (!this._shallIgnore(evt,
+					"0123456789")) this.$doKeyPress_(evt); }
+					}
+				</attribute>
+			</textbox>
+			<button iconSclass="z-icon-refresh" onClick="@command('actualizar')"/>
+		</div>
 		<div class="cardContainer" >
 			<div class="card caja-principales">
 				<vlayout vflex="1" hflex="1" style="padding: 10px; text-align: center;">
