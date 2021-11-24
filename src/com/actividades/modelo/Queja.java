@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
 @Table(name="queja")
 @NamedQueries({
 	@NamedQuery(name="Queja.buscarPorResponsable", query="SELECT q FROM Queja q where q.empleado.idEmpleado = :id and q.estado = 'A' "
-			+ "and q.estadoQueja = :estado and lower(q.problema) like lower(:patron)"),
+			+ "and lower(q.estadoQueja) like lower(:estado) and lower(q.problema) like lower(:patron)"),
 	@NamedQuery(name="Queja.buscarPorResponsableEstadoQuejaAtencion", query="SELECT q FROM Queja q where q.empleado.idEmpleado = :id and q.estado = 'A' "
 			+ "and q.estadoQueja = :estadoQueja and q.estadoAtencion = :estadoAtencion and lower(q.problema) like lower(:patron)"),
 	@NamedQuery(name="Queja.buscarPorEstado", query="SELECT q FROM Queja q where q.estado = 'A' "

@@ -11,12 +11,14 @@ import java.util.List;
 import javax.mail.MessagingException;
 
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Textbox;
@@ -50,13 +52,14 @@ public class DashboardC {
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException, MessagingException{
 		Selectors.wireComponents(view, this, false);
-		this.contarCantidades();
 		this.cargarListadoMeses();
 		
 		Date date = new Date();
         ZoneId timeZone = ZoneId.systemDefault();
         LocalDate getLocalDate = date.toInstant().atZone(timeZone).toLocalDate();
 		txtAnio.setValue(String.valueOf(getLocalDate.getYear()));
+		
+		this.contarCantidades();
 	}
 	private void cargarListadoMeses() {
 		try {
@@ -86,6 +89,16 @@ public class DashboardC {
 			Mes mes12 = new Mes(12, "Diciembre");
 			lista.add(mes12);
 			listaMes = lista;
+			
+			Date date = new Date();
+	        ZoneId timeZone = ZoneId.systemDefault();
+	        LocalDate getLocalDate = date.toInstant().atZone(timeZone).toLocalDate();
+			
+			for(Mes m : lista) {
+				if(m.getIdMes() == getLocalDate.getMonthValue()) {
+					mesSeleccionado = m;
+				}
+			}
 		}catch(Exception ex) {
 			System.out.println(ex.getMessage());
 		}
@@ -113,17 +126,55 @@ public class DashboardC {
 			lblActividadesPendientes.setValue("0");
 			lblQuejaRealizada.setValue("0");
 			List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
+			Integer cont = 0;
 			if(jefeArea.size() > 0) {
 				List<Actividad> acti = actividadDAO.obtenerRechazada(jefeArea.get(0).getIdEmpleado());
-				lblActividadesRechazadas.setValue(String.valueOf(acti.size()));
+				for(Actividad ac : acti) {
+					ZoneId timeZone = ZoneId.systemDefault();
+			        LocalDate getLocalDate = ac.getFecha().toInstant().atZone(timeZone).toLocalDate();
+			        if(getLocalDate.getYear() == Integer.parseInt(txtAnio.getText()) && getLocalDate.getMonthValue() == mesSeleccionado.getIdMes()) {
+			        	cont = cont + 1;
+			        }
+				}
+				lblActividadesRechazadas.setValue(String.valueOf(cont));
+				cont = 0;
+				
 				List<Actividad> pend = actividadDAO.obtenerPendiente(jefeArea.get(0).getIdEmpleado());
-				lblActividadesPendientes.setValue(String.valueOf(pend.size()));
+				for(Actividad ac : pend) {
+					ZoneId timeZone = ZoneId.systemDefault();
+			        LocalDate getLocalDate = ac.getFecha().toInstant().atZone(timeZone).toLocalDate();
+			        if(getLocalDate.getYear() == Integer.parseInt(txtAnio.getText()) && getLocalDate.getMonthValue() == mesSeleccionado.getIdMes()) {
+			        	cont = cont + 1;
+			        }
+				}
+				lblActividadesPendientes.setValue(String.valueOf(cont));
+				
+				cont = 0;
+				List<Queja> listaQueja = quejaDAO.buscarPorResponsable(jefeArea.get(0).getIdEmpleado(), "", "");
+				for(Queja q : listaQueja) {
+					ZoneId timeZone = ZoneId.systemDefault();
+			        LocalDate getLocalDate = q.getFechaEnvio().toInstant().atZone(timeZone).toLocalDate();
+			        if(getLocalDate.getYear() == Integer.parseInt(txtAnio.getText()) && getLocalDate.getMonthValue() == mesSeleccionado.getIdMes()) {
+			        	cont = cont + 1;
+			        }
+				}
+				lblQuejaRealizada.setValue(String.valueOf(cont));
 			}
-			List<Queja> listaQueja = quejaDAO.buscarActivos();
-			lblQuejaRealizada.setValue(String.valueOf(listaQueja.size()));
 		}catch(Exception ex) {
 			System.out.println(ex.getMessage());
 		}
+	}
+	@Command
+	public void actualizar(){
+		if(mesSeleccionado == null) {
+			Clients.showNotification("Debe seleccionar un mes");
+			return;
+		}
+		if(txtAnio.getText().isEmpty()) {
+			Clients.showNotification("Debe registrar un año");
+			return;
+		}
+		this.contarCantidades();
 	}
 	public List<Trabajadores> getListaEmpleados() {
 		return listaEmpleados;

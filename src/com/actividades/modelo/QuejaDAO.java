@@ -14,7 +14,7 @@ public class QuejaDAO extends ClaseDAO{
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setParameter("id", id);
 		query.setParameter("patron","%" + value.toLowerCase() + "%");
-		query.setParameter("estado",estado);
+		query.setParameter("estado","%" + estado + "%");
 		resultado = (List<Queja>) query.getResultList();
 		return resultado;
 	}
