@@ -18,9 +18,6 @@ public class EnviarCorreo {
 	private String asunto;
 	private String mensaje;
 	
-	
-	
-	
 	public EnviarCorreo(String adjunto, String[] adjuntos, String[] destinatarios, int servidor, String asunto,
 			String mensaje) {
 		super();
@@ -31,6 +28,7 @@ public class EnviarCorreo {
 		this.asunto = asunto;
 		this.mensaje = mensaje;
 	}
+	
 	public static boolean ComprobarConexionInternet(){
 		String dirWeb = "www.google.com";
 		int puerto = 80;
@@ -47,9 +45,11 @@ public class EnviarCorreo {
 		}
 		return true;
 	}
+	
 	public void detenElHilo(){
 		this.continuar = false;
 	}
+	
 	int i = 0;
 	public void enviarCorreo() {
 		while (this.continuar) {

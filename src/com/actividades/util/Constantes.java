@@ -41,7 +41,7 @@ public class Constantes {
 	public static String USUARIO_NO_PERMITIDO = "NO PERMITIDO";
 	
 	public static String CORREO_ORIGEN = "departamentoCGOB@gmail.com";
-	public static String CONTRASENIA_ORIGEN = "2020santaelena";
+	public static String CONTRASENIA_ORIGEN = "2021santaelena";
 	
 	
 	//tipo de actividades

@@ -41,13 +41,13 @@ public class QQuejaPublicarC {
 	QuejaDAO quejaDAO = new QuejaDAO();
 	EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 	
-	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
 		textoBuscar="";
 		buscar();
 	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GlobalCommand("Queja.buscarPorResponsable")
 	@Command
@@ -99,9 +99,8 @@ public class QQuejaPublicarC {
 				}
 			}
 		});
-//		EnviarCorreoUtil util = new EnviarCorreoUtil();
-//		util.SendMail();
 	}
+	
 	private void enviarCorreoGobernador(int contadorQuejas) {
 		List<Empleado> resultado = empleadoDAO.buscarEmpleadoPorTipoUsuarioDepartamento(Constantes.ID_AUTORIDAD_MAXIMA, Constantes.ID_DEPARTAMENTO_GOBERNACION);
 		if(resultado.size() > 0) {
