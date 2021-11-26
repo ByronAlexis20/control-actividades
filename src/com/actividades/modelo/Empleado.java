@@ -39,6 +39,9 @@ import java.util.List;
 	@NamedQuery(name="Empleado.buscarPorTipoUsuarioDepartamento", query="SELECT e FROM Empleado e where e.tipoUsuario.idTipoUsuario = :idTipoUsuario and e.estado = 'A' "
 			+ "and e.departamento.idDepartamento = :idDepartamento"),
 	@NamedQuery(name="Empleado.buscarPorTipoUsuario", query="SELECT e FROM Empleado e where e.tipoUsuario.idTipoUsuario = :idTipoUsuario and e.estado = 'A' "),
+	@NamedQuery(name="Empleado.buscarPorCargoPatronBusqueda", query="SELECT e FROM "
+			+ "Empleado e where e.cargo.idCargo = :idTipoUsuario and e.estado = 'A' and e.tipoUsuario.idTipoUsuario <> 5 and "
+			+ "(lower(e.persona.nombre) like(:patron) or lower(e.persona.apellido) like(:patron)) "),
 })
 public class Empleado implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -180,4 +180,14 @@ public class EmpleadoDAO extends ClaseDAO{
 		resultado = (List<Empleado>) query.getResultList();
 		return resultado;
 	}
+	@SuppressWarnings("unchecked")
+	public List<Empleado> buscarPorCargoPatronBusqueda(Integer idTipoUsuario, String patron) {
+		List<Empleado> resultado; 
+		Query query = getEntityManager().createNamedQuery("Empleado.buscarPorCargoPatronBusqueda");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idTipoUsuario", idTipoUsuario);
+		query.setParameter("patron", "%" + patron + "%");
+		resultado = (List<Empleado>) query.getResultList();
+		return resultado;
+	}
 }

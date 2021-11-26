@@ -28,6 +28,9 @@ import javax.persistence.TemporalType;
 @NamedQueries({
 	@NamedQuery(name="Actividad.buscarPorAgenda", query="SELECT a FROM Actividad a where a.estado = 'A' "
 			+ "and a.agenda.idAgenda = :idAgenda and a.tipoActividad.idTipoActividad = :idTipoActividad order by a.fecha desc"),
+	@NamedQuery(name="Actividad.buscarPorAgendaNoAsignado", query="SELECT a FROM Actividad a where a.estado = 'A' "
+			+ "and a.agenda.idAgenda = :idAgenda and a.tipoActividad.idTipoActividad = :idTipoActividad and "
+			+ "a.estadoActividad = :idTipoEstadoActividad order by a.fecha desc"),
 	@NamedQuery(name="Actividad.buscarCodigoPorAgenda", query="SELECT a FROM Actividad a "
 			+ "where a.agenda.idAgenda = :idAgenda and a.estado = 'A' order by a.fecha desc"),
 	@NamedQuery(name="Actividad.buscarPorFecha", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "

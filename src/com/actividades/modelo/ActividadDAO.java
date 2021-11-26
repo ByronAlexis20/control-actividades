@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import com.actividades.util.Constantes;
+
 public class ActividadDAO extends ClaseDAO{
 	@SuppressWarnings("unchecked")
 	public List<Actividad> obtenerActividad(Integer idAgenda,Integer idTipoActividad) {
@@ -17,6 +19,19 @@ public class ActividadDAO extends ClaseDAO{
 		resultado = (List<Actividad>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Actividad> obtenerActividadNoAsignado(Integer idAgenda,Integer idTipoActividad) {
+		List<Actividad> resultado = new ArrayList<Actividad>(); 
+		Query query = getEntityManager().createNamedQuery("Actividad.buscarPorAgendaNoAsignado");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idAgenda", idAgenda);
+		query.setParameter("idTipoActividad", idTipoActividad);
+		query.setParameter("idTipoEstadoActividad", Constantes.ESTADO_NO_ASIGNADO);
+		resultado = (List<Actividad>) query.getResultList();
+		return resultado;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Actividad> obtenerRechazada(Integer idEmpleado) {
 		List<Actividad> resultado = new ArrayList<Actividad>(); 

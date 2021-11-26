@@ -100,7 +100,7 @@
 									<button id="btnNuevaActividad" onClick="@command('nuevaActividad')"
 										iconSclass="z-icon-plus" width="80px" zclass="btn btn-outline-primary btn btn-sm">
 										Nuevo
-									</button>    
+									</button>  
 									<button id="btnEditarActividad" onClick="@command('editarActividad')"
 										iconSclass="z-icon-pencil" width="80px" zclass="btn btn-outline-success btn btn-sm">
 										Editar
