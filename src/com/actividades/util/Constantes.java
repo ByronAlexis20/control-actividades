@@ -12,6 +12,7 @@ public class Constantes {
 	public static String ESTADO_PENDIENTE = "PENDIENTE";
 	public static String ESTADO_EN_PROCESO = "EN PROCESO";
 	public static String ESTADO_REALIZADO = "REALIZADO";
+	public static String ESTADO_ASIGNADO = "ASIGNADO";
 	public static String ESTADO_NO_ASIGNADO = "NO ASIGNADO";
 	
 	public static String QUEJA_PENDIENTE = "PENDIENTE";

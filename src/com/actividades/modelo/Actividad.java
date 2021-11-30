@@ -18,11 +18,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
-/**
- * The persistent class for the actividad database table.
- * 
- */
 @Entity
 @Table(name="actividad")
 @NamedQueries({

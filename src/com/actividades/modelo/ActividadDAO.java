@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import com.actividades.util.Constantes;
 
 public class ActividadDAO extends ClaseDAO{
+	
 	@SuppressWarnings("unchecked")
 	public List<Actividad> obtenerActividad(Integer idAgenda,Integer idTipoActividad) {
 		List<Actividad> resultado = new ArrayList<Actividad>(); 
@@ -41,6 +42,7 @@ public class ActividadDAO extends ClaseDAO{
 		resultado = (List<Actividad>) query.getResultList();
 		return resultado;
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Actividad> obtenerPendiente(Integer idEmpleado) {
 		List<Actividad> resultado = new ArrayList<Actividad>(); 
@@ -50,6 +52,7 @@ public class ActividadDAO extends ClaseDAO{
 		resultado = (List<Actividad>) query.getResultList();
 		return resultado;
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Actividad> obtenerCodigoActividad(Integer idAgenda) {
 		List<Actividad> resultado = new ArrayList<Actividad>(); 

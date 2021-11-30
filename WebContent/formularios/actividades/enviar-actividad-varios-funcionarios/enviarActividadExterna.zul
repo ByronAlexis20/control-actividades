@@ -1,0 +1,46 @@
+<zk>
+	<div apply="org.zkoss.bind.BindComposer" id="winRegistrarActividadJefe"
+		viewModel="@id('vm') @init('com.actividades.controlador.actividades.EnviarActividadExternaC')" vflex="1">
+		<vlayout vflex="1" hflex="1">
+			<groupbox hflex="1">
+				<div align="center">
+					<label value="Actividades"
+						style="color:#088A08;font-size:20px"
+						sclass="p-1 text-red font-italic font-weight-bold" />
+				</div>
+			</groupbox>
+			<div>
+				<button id="btnNuevaActividad" onClick="@command('nuevaActividad')"
+					iconSclass="z-icon-plus" zclass="btn btn-outline-primary btn btn-sm">
+					Nueva actividad
+				</button>
+				<button id="btnEliminarActividad" onClick="@command('eliminarActividad')"
+					iconSclass="z-icon-trash-o" zclass="btn btn-outline-danger btn-sm">
+					Eliminar actividad
+				</button>
+				<button id="btnEnviarActividad" onClick="@command('enviarActividad')"
+					iconSclass="z-icon-check" zclass="btn btn-outline-success btn-sm">
+					Enviar actividad
+				</button>
+			</div>
+			<hlayout vflex="1" hflex="1">
+				<listbox id="lstActividades" hflex="1" model="@load(vm.listaActividadExterna)" selectedItem="@bind(vm.actividadExternaSeleccionado)" vflex="1" >
+					<listhead>
+						<listheader label="Código" width="10%" sclass="lb-listheader"/>
+						<listheader label="Actividad" sclass="lb-listheader"/>
+						<listheader label="Fecha" width="10%" sclass="lb-listheader"/>
+						<listheader label="Estado" width="12%" sclass="lb-listheader"/>
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell label="@load(each.idActividadExterna)" style="font-family: Calibri;font-weight: bold;"/>
+							<listcell label="@load(each.descripcion)" style="font-family: Calibri;"/>
+							<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;" />
+							<listcell label="@load(each.estadoActividad)" style="font-family: Calibri;"/>
+						</listitem>
+					</template>
+				</listbox>
+			</hlayout>
+		</vlayout>
+	</div>
+</zk>

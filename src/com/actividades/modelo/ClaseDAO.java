@@ -9,7 +9,7 @@ import javax.persistence.Persistence;
 
 public abstract class ClaseDAO {
 	// Crea una sola instancia de EntityManagerFactory para toda la applicacion.
-	private static final String PERSISTENCE_UNIT_NAME = "sistema-control-actividades";
+	private static final String PERSISTENCE_UNIT_NAME = "control-actividades";
 	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
 	// Objeto Entity Manager para cada instancia de un objeto que 
