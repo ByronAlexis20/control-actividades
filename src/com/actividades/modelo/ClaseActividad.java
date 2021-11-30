@@ -35,6 +35,9 @@ public class ClaseActividad implements Serializable {
 	@OneToMany(mappedBy="claseActividad")
 	private List<Actividad> actividades;
 
+	@OneToMany(mappedBy="claseActividad")
+	private List<ActividadExterna> actividadesExternas;
+	
 	public Integer getIdClaseActividad() {
 		return idClaseActividad;
 	}
@@ -79,5 +82,27 @@ public class ClaseActividad implements Serializable {
 		actividad.setClaseActividad(null);
 
 		return actividad;
+	}
+
+	public List<ActividadExterna> getActividadesExternas() {
+		return actividadesExternas;
+	}
+
+	public void setActividadesExternas(List<ActividadExterna> actividadesExternas) {
+		this.actividadesExternas = actividadesExternas;
+	}
+
+	public ActividadExterna addActividadesExternas(ActividadExterna actividadExterna) {
+		getActividadesExternas().add(actividadExterna);
+		actividadExterna.setClaseActividad(this);
+
+		return actividadExterna;
+	}
+
+	public ActividadExterna removeActividadesExternas(ActividadExterna actividadExterna) {
+		getActividadesExternas().remove(actividadExterna);
+		actividadExterna.setClaseActividad(null);
+
+		return actividadExterna;
 	}
 }

@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -26,6 +28,10 @@ public class ActividadExterna implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_actividad_externa")
 	private Integer idActividadExterna;
+	
+	@ManyToOne
+	@JoinColumn(name="id_tipo_actividad")
+	private ClaseActividad claseActividad;
 	
 	private String descripcion;
 	
@@ -75,6 +81,14 @@ public class ActividadExterna implements Serializable {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	public ClaseActividad getClaseActividad() {
+		return claseActividad;
+	}
+
+	public void setClaseActividad(ClaseActividad claseActividad) {
+		this.claseActividad = claseActividad;
 	}
 	
 }
