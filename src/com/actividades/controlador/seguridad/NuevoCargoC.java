@@ -23,7 +23,6 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
 import com.actividades.modelo.Cargo;
-import com.actividades.modelo.CargoDAO;
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.util.Constantes;
@@ -33,7 +32,6 @@ public class NuevoCargoC {
 	@Wire Combobox cboCargo;
 	@Wire Window winNuevoCargo;
 	
-	private CargoDAO cargoDAO = new CargoDAO();
 	private List<Cargo> cargos;
 	Cargo cargoSeleccionado;
 	
@@ -96,7 +94,6 @@ public class NuevoCargoC {
 		winNuevoCargo.detach();
 	}
 	public List<Cargo> getCargos() {
-		List<Cargo> lista = this.cargoDAO.getCargosActivos();
 		return cargos;
 	}
 	public void setCargos(List<Cargo> cargos) {

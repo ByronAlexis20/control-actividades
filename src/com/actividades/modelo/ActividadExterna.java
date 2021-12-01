@@ -19,7 +19,8 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="actividad_externa")
 @NamedQueries({
-	@NamedQuery(name="ActividadExterna.buscarActivas", query="SELECT a FROM ActividadExterna a where a.estado = 'A' and a.estadoActividad = 'NO ASIGNADO'")
+	@NamedQuery(name="ActividadExterna.buscarActivas", query="SELECT a FROM ActividadExterna a where a.estado = 'A' and a.estadoActividad = 'NO ASIGNADO'"),
+	@NamedQuery(name="ActividadExterna.buscarPendienteAsignacion", query="SELECT a FROM ActividadExterna a where a.estado = 'A' and a.estadoActividad = 'PENDINTE DE ASIGNACION'"),
 })
 public class ActividadExterna implements Serializable {
 	private static final long serialVersionUID = 1L;

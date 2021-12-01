@@ -25,6 +25,8 @@ import org.zkoss.zul.Textbox;
 
 import com.actividades.modelo.Actividad;
 import com.actividades.modelo.ActividadDAO;
+import com.actividades.modelo.ActividadExterna;
+import com.actividades.modelo.ActividadExternaDAO;
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.modelo.Queja;
@@ -44,6 +46,7 @@ public class DashboardC {
 	@Wire private Image imGraficoResumenEmergencia;
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	ActividadDAO actividadDAO = new ActividadDAO();
+	ActividadExternaDAO actividadExternaDAO = new ActividadExternaDAO();
 	QuejaDAO quejaDAO = new QuejaDAO();
 	List<Trabajadores> listaEmpleados;
 	List<Mes> listaMes;
@@ -58,8 +61,14 @@ public class DashboardC {
         ZoneId timeZone = ZoneId.systemDefault();
         LocalDate getLocalDate = date.toInstant().atZone(timeZone).toLocalDate();
 		txtAnio.setValue(String.valueOf(getLocalDate.getYear()));
-		
+		this.verificarActividadesExternas();
 		this.contarCantidades();
+	}
+	private void verificarActividadesExternas() {
+		List<ActividadExterna> listaExterna = this.actividadExternaDAO.obtenerActividadesPendienteAsignacion();
+		if(listaExterna.size() > 0) {
+			Clients.showNotification("Gobernadora ha publicado actividades a realizar... Revisar!!");
+		}
 	}
 	private void cargarListadoMeses() {
 		try {

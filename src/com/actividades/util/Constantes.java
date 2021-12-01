@@ -12,8 +12,9 @@ public class Constantes {
 	public static String ESTADO_PENDIENTE = "PENDIENTE";
 	public static String ESTADO_EN_PROCESO = "EN PROCESO";
 	public static String ESTADO_REALIZADO = "REALIZADO";
-	public static String ESTADO_ASIGNADO = "ASIGNADO";
+	public static String ESTADO_PENDIENTE_ASIGNACION = "PENDINTE DE ASIGNACION";
 	public static String ESTADO_NO_ASIGNADO = "NO ASIGNADO";
+	public static String ESTADO_ASIGNADO = "ASIGNADO";
 	
 	public static String QUEJA_PENDIENTE = "PENDIENTE";
 	public static String QUEJA_REVISION = "REVISION";
@@ -53,4 +54,13 @@ public class Constantes {
 	public static String PATH_ARCHIVOS_SISTEMA = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/") + "temp\\";
 	public static String PATH_IMAGENES = "img\\";
 	public static String PATH_REPORTE = "rpt\\";
+	
+	//dias de la semana
+	public static Integer NUMERO_DIA_DOMINGO = 1;
+	public static Integer NUMERO_DIA_LUNES = 2;
+	public static Integer NUMERO_DIA_MARTES = 3;
+	public static Integer NUMERO_DIA_MIERCOLES = 4;
+	public static Integer NUMERO_DIA_JUEVES = 5;
+	public static Integer NUMERO_DIA_VIERNES = 6;
+	public static Integer NUMERO_DIA_SABADO = 7;
 }

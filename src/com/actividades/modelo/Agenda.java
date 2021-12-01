@@ -17,6 +17,8 @@ import java.util.List;
 			+ "a.empleado.idEmpleado = :idEmpleado order by a.fechaInicio desc"),
 	@NamedQuery(name="Agenda.buscarUltimaAgenda", query="SELECT a FROM Agenda a where "
 			+ "a.empleado.idEmpleado = :idEmpleado and a.estado = 'A' order by a.fechaInicio desc"),
+	@NamedQuery(name="Agenda.buscarPorFechaEmpleado", query="SELECT a FROM Agenda a where "
+			+ "a.empleado.idEmpleado = :idEmpleado and a.estado = 'A' and (a.fechaInicio >= :fecha and a.fechaFin <= :fecha)"),
 })
 public class Agenda implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -138,6 +140,13 @@ public class Agenda implements Serializable {
 
 	public void setEmpleado(Empleado empleado) {
 		this.empleado = empleado;
+	}
+
+	@Override
+	public String toString() {
+		return "Agenda [idAgenda=" + idAgenda + ", descripcion=" + descripcion + ", codigo=" + codigo + ", secuencia="
+				+ secuencia + ", estado=" + estado + ", fechaFin=" + fechaFin + ", fechaInicio=" + fechaInicio
+				+ ", actividads=" + actividads + ", empleado=" + empleado + "]";
 	}
 
 }

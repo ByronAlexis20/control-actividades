@@ -1,8 +1,8 @@
 <?page title="Actividad" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window id="winActividadEditar" border="none" width="37%" 
+	<window id="winActividadExternaEditar" border="none" width="37%" 
 		apply="org.zkoss.bind.BindComposer" position="center"
-		viewModel="@id('vm') @init('com.actividades.controlador.actividades.RegistrarNuevaActividadC')">
+		viewModel="@id('vm') @init('com.actividades.controlador.actividades.NuevaActividadExternaC')">
 		<vlayout>
 			<vbox hflex="1" align="center" sclass="banner-modal" height="35px" pack="center">
 				<div hflex="1" align="center">
@@ -36,12 +36,6 @@
 						<cell sclass="row-title">Fecha:</cell>
 						<cell>
 							<datebox id="dtpFecha" width="50%"/>
-						</cell>
-					</row>
-					<row>
-						<cell sclass="row-title">Responsable:</cell>
-						<cell>
-							<textbox id="txtResponsable" placeholder="Responsable" disabled="true"/>
 						</cell>
 					</row>
 				</rows>

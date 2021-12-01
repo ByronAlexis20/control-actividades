@@ -53,6 +53,7 @@ public class NuevaActividadC {
 	ClaseActividadDAO claseActividadDAO = new ClaseActividadDAO();
 	String tipoActividad = "";
 	Empleado empleado;
+	
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);

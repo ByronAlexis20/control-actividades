@@ -16,4 +16,13 @@ public class ActividadExternaDAO extends ClaseDAO {
 		return resultado;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<ActividadExterna> obtenerActividadesPendienteAsignacion() {
+		List<ActividadExterna> resultado = new ArrayList<ActividadExterna>(); 
+		Query query = getEntityManager().createNamedQuery("ActividadExterna.buscarPendienteAsignacion");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		resultado = (List<ActividadExterna>) query.getResultList();
+		return resultado;
+	}
+	
 }

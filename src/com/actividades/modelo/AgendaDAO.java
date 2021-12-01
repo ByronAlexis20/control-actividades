@@ -45,4 +45,15 @@ public class AgendaDAO extends ClaseDAO {
 		resultado = (List<Agenda>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Agenda> obtenerPorFechaEmpleado(Integer idEmpleado,Date fecha) {
+		List<Agenda> resultado = new ArrayList<Agenda>(); 
+		Query query = getEntityManager().createNamedQuery("Agenda.buscarPorFechaEmpleado");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idEmpleado",idEmpleado);
+		query.setParameter("fecha",fecha);
+		resultado = (List<Agenda>) query.getResultList();
+		return resultado;
+	}
 }
