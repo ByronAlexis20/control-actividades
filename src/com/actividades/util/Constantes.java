@@ -63,4 +63,10 @@ public class Constantes {
 	public static Integer NUMERO_DIA_JUEVES = 5;
 	public static Integer NUMERO_DIA_VIERNES = 6;
 	public static Integer NUMERO_DIA_SABADO = 7;
+	
+	public static Integer CODIGO_CLASE_ACTIVIDAD_POLITICO = 1;
+	public static Integer CODIGO_CLASE_ACTIVIDAD_CULTURAL = 2;
+	public static Integer CODIGO_CLASE_ACTIVIDAD_DEPORTIVO = 3;
+	public static Integer CODIGO_CLASE_ACTIVIDAD_INTERNO = 4;
+	public static Integer CODIGO_CLASE_ACTIVIDAD_SALUD = 5;
 }

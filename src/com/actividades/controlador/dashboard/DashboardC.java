@@ -173,6 +173,35 @@ public class DashboardC {
 			System.out.println(ex.getMessage());
 		}
 	}
+	private void cargarGraficoActividades() {
+		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
+		List<Actividad> actividades = this.actividadDAO.buscarPorEmpleadoTipoActividad(usuario.getIdEmpleado(), Constantes.ID_TIPO_PRIMORDIALES);
+		Integer contadorActividadesPoliticas = 0;
+		Integer contadorActividadesCultural = 0;
+		Integer contadorActividadesDeportivo = 0;
+		Integer contadorActividadesInterno = 0;
+		Integer contadorActividadesSalud = 0;
+		
+		for(Actividad ac : actividades) {
+			ZoneId timeZone = ZoneId.systemDefault();
+	        LocalDate getLocalDate = ac.getFecha().toInstant().atZone(timeZone).toLocalDate();
+	        if(getLocalDate.getYear() == Integer.parseInt(txtAnio.getText()) && getLocalDate.getMonthValue() == mesSeleccionado.getIdMes()) {
+	        	if(ac.getClaseActividad().getIdClaseActividad() == Constantes.CODIGO_CLASE_ACTIVIDAD_POLITICO) {
+	        		contadorActividadesPoliticas ++;
+	        	}else if(ac.getClaseActividad().getIdClaseActividad() == Constantes.CODIGO_CLASE_ACTIVIDAD_CULTURAL) {
+	        		contadorActividadesCultural ++;
+	        	}else if(ac.getClaseActividad().getIdClaseActividad() == Constantes.CODIGO_CLASE_ACTIVIDAD_DEPORTIVO) {
+	        		contadorActividadesDeportivo ++;
+	        	}else if(ac.getClaseActividad().getIdClaseActividad() == Constantes.CODIGO_CLASE_ACTIVIDAD_INTERNO) {
+	        		contadorActividadesInterno ++;
+	        	}else if(ac.getClaseActividad().getIdClaseActividad() == Constantes.CODIGO_CLASE_ACTIVIDAD_SALUD) {
+	        		contadorActividadesSalud ++;
+	        	}
+	        }
+	        
+	        
+		}
+	}
 	@Command
 	public void actualizar(){
 		if(mesSeleccionado == null) {
