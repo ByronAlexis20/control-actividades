@@ -1,5 +1,7 @@
 package com.actividades.controlador.actividades;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.zkoss.bind.BindUtils;
@@ -49,6 +51,8 @@ public class NuevaActividadExternaC {
 				cboTipoActivivdad.setText(actividadExterna.getClaseActividad().getClaseActividad());
 			}
 		}
+		dtpFecha.setValue(new Date());
+		dtpFecha.setConstraint("after " + new SimpleDateFormat("yyyyMMdd").format(new Date()));
 	}
 	@Command
 	public void grabar(){

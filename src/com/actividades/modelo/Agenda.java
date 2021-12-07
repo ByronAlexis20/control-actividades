@@ -52,6 +52,9 @@ public class Agenda implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_empleado")
 	private Empleado empleado;
+	
+	@Column(name="tipo_agenda")
+	private String tipoAgenda;
 
 	public Agenda() {
 	}
@@ -140,6 +143,14 @@ public class Agenda implements Serializable {
 
 	public void setEmpleado(Empleado empleado) {
 		this.empleado = empleado;
+	}
+
+	public String getTipoAgenda() {
+		return tipoAgenda;
+	}
+
+	public void setTipoAgenda(String tipoAgenda) {
+		this.tipoAgenda = tipoAgenda;
 	}
 
 	@Override

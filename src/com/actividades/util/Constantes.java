@@ -69,4 +69,6 @@ public class Constantes {
 	public static Integer CODIGO_CLASE_ACTIVIDAD_DEPORTIVO = 3;
 	public static Integer CODIGO_CLASE_ACTIVIDAD_INTERNO = 4;
 	public static Integer CODIGO_CLASE_ACTIVIDAD_SALUD = 5;
+	
+	public static String CODIGO_TIPO_AGENDA_ENVIADA_GOBERNADOR = "GOBERNADOR";
 }

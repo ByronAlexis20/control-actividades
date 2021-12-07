@@ -139,11 +139,10 @@ public class ReceptarActividadC {
 							c.add(Calendar.DATE, Constantes.NUMERO_DIA_VIERNES - dayOfWeek);
 							dt = c.getTime();
 							agenda.setFechaFin(dt);
-							agenda.setDescripcion("Agenda automática desde " + new SimpleDateFormat("dd/MM/yyyy").format(actividadExternaSeleccionado.getFecha()) + " " + new SimpleDateFormat("dd/MM/yyyy").format(dt));
+							agenda.setDescripcion("Agenda solicitada desde " + new SimpleDateFormat("dd/MM/yyyy").format(actividadExternaSeleccionado.getFecha()) + " " + new SimpleDateFormat("dd/MM/yyyy").format(dt));
 							
 							actividadExternaDAO.getEntityManager().persist(agenda);
 							
-							System.out.println(agenda.toString());
 							//actividad
 							Actividad actividad = new Actividad();
 							actividad.setAgenda(agenda);

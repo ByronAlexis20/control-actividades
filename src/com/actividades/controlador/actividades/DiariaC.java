@@ -93,6 +93,12 @@ public class DiariaC {
 			Messagebox.show("Debe seleccionar una agenda");
 			return; 
 		}
+		if(agendaSeleccionada.getTipoAgenda() != null) {
+			if(agendaSeleccionada.getTipoAgenda().equals(Constantes.CODIGO_TIPO_AGENDA_ENVIADA_GOBERNADOR)) {
+				Messagebox.show("No se puede editar agenda, enviada por el gobernador/a");
+				return;
+			}
+		}
 		// Actualiza la instancia antes de enviarla a editar.
 		agendaDAO.getEntityManager().refresh(agendaSeleccionada);
 		Map<String, Object> params = new HashMap<String, Object>();
