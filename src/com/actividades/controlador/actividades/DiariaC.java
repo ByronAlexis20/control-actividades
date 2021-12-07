@@ -172,6 +172,16 @@ public class DiariaC {
 				Messagebox.show("Debe seleccionar una agenda");
 				return;
 			}
+			btnNuevaActividad.setDisabled(false);
+			btnEditarActividad.setDisabled(false);
+			btnEliminarActividad.setDisabled(false);
+			if(agendaSeleccionada.getTipoAgenda() != null) {
+				if(agendaSeleccionada.getTipoAgenda().equals(Constantes.CODIGO_TIPO_AGENDA_ENVIADA_GOBERNADOR)) {
+					btnNuevaActividad.setDisabled(true);
+					btnEditarActividad.setDisabled(true);
+					btnEliminarActividad.setDisabled(true);
+				}
+			}
 			habilitarCampos();
 			txtAgendaSeleccionada.setText(agendaSeleccionada.getDescripcion());
 			txtFechaInicio.setText(new SimpleDateFormat("dd/MM/yyyy").format(agendaSeleccionada.getFechaInicio()));

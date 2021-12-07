@@ -1,5 +1,7 @@
 package com.actividades.controlador.dashboard;
 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -10,6 +12,12 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.encoders.EncoderUtil;
+import org.jfree.chart.encoders.ImageFormat;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
@@ -43,7 +51,7 @@ public class DashboardC {
 	
 	@Wire private Textbox txtAnio;
 	
-	@Wire private Image imGraficoResumenEmergencia;
+	@Wire private Image imGraficoActividades;
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	ActividadDAO actividadDAO = new ActividadDAO();
 	ActividadExternaDAO actividadExternaDAO = new ActividadExternaDAO();
@@ -63,6 +71,7 @@ public class DashboardC {
 		txtAnio.setValue(String.valueOf(getLocalDate.getYear()));
 		this.verificarActividadesExternas();
 		this.contarCantidades();
+		this.cargarGraficoActividades();
 	}
 	private void verificarActividadesExternas() {
 		List<ActividadExterna> listaExterna = this.actividadExternaDAO.obtenerActividadesPendienteAsignacion();
@@ -173,7 +182,7 @@ public class DashboardC {
 			System.out.println(ex.getMessage());
 		}
 	}
-	private void cargarGraficoActividades() {
+	private void cargarGraficoActividades() throws IOException {
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
 		List<Actividad> actividades = this.actividadDAO.buscarPorEmpleadoTipoActividad(usuario.getIdEmpleado(), Constantes.ID_TIPO_PRIMORDIALES);
 		Integer contadorActividadesPoliticas = 0;
@@ -198,12 +207,26 @@ public class DashboardC {
 	        		contadorActividadesSalud ++;
 	        	}
 	        }
-	        
-	        
 		}
+
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		dataset.addValue(contadorActividadesPoliticas, "Actividades", "Políticas");
+		dataset.addValue(contadorActividadesCultural, "Actividades", "Cultural");
+		dataset.addValue(contadorActividadesDeportivo, "Actividades", "Deportivo");
+		dataset.addValue(contadorActividadesInterno, "Actividades", "Interno");
+		dataset.addValue(contadorActividadesSalud, "Actividades", "Salud");
+		
+		JFreeChart chart = ChartFactory.createBarChart("Cantidad de actividades " + mesSeleccionado.getMes(), null, null, dataset, PlotOrientation.VERTICAL, true, true, false);
+		chart.setBackgroundPaint( Color.white );
+		
+		BufferedImage bi = chart.createBufferedImage(700, 350, BufferedImage.SCALE_REPLICATE , null);
+		byte[] bytes = EncoderUtil.encode(bi, ImageFormat.PNG, true);
+		AImage imagen = new AImage("Actividades", bytes);
+		
+		imGraficoActividades.setContent(imagen);
 	}
 	@Command
-	public void actualizar(){
+	public void actualizar() throws IOException{
 		if(mesSeleccionado == null) {
 			Clients.showNotification("Debe seleccionar un mes");
 			return;
@@ -213,6 +236,7 @@ public class DashboardC {
 			return;
 		}
 		this.contarCantidades();
+		this.cargarGraficoActividades();
 	}
 	public List<Trabajadores> getListaEmpleados() {
 		return listaEmpleados;
