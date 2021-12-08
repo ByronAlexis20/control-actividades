@@ -8,7 +8,8 @@ import javax.persistence.Query;
 import com.actividades.util.Constantes;
 
 
-public class EmpleadoDAO extends ClaseDAO{
+public class EmpleadoDAO extends ClaseDAO {
+	
 	public Empleado getUsuario(String nombreUsuario) {
 		Empleado empleado; 
 		Query consulta;
@@ -26,6 +27,7 @@ public class EmpleadoDAO extends ClaseDAO{
 		empleado = (Empleado) consulta.getSingleResult();
 		return empleado;
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Empleado> getListausuarioBuscar(String value) {
 		List<Empleado> resultado = new ArrayList<Empleado>(); 
@@ -35,7 +37,6 @@ public class EmpleadoDAO extends ClaseDAO{
 		resultado = (List<Empleado>) query.getResultList();
 		return resultado;
 	}
-	
 	
 	@SuppressWarnings("unchecked")
 	public List<Empleado> getBuscarUsuario(String value,Integer idUsuario) {
@@ -64,6 +65,7 @@ public class EmpleadoDAO extends ClaseDAO{
 		resultado = (List<Empleado>) query.getResultList();
 		return resultado;
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Empleado> buscarEmpleadosJefesInactivos(String value) {
 		List<Empleado> resultado; 
@@ -80,6 +82,7 @@ public class EmpleadoDAO extends ClaseDAO{
 		resultado = (List<Empleado>) query.getResultList();
 		return resultado;
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Empleado> getValidarUsuarioExistente(String cedulaUsuario) {
 		List<Empleado> resultado; 
@@ -89,6 +92,7 @@ public class EmpleadoDAO extends ClaseDAO{
 		resultado = (List<Empleado>) query.getResultList();
 		return resultado;
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Empleado> getValidarUsuarioExistenteDiferente(String cedulaUsuario,Integer idEmpleado) {
 		List<Empleado> resultado; 
@@ -99,6 +103,7 @@ public class EmpleadoDAO extends ClaseDAO{
 		resultado = (List<Empleado>) query.getResultList();
 		return resultado;
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Empleado> getValidarUsuarioNuevo(String usuario) {
 		List<Empleado> resultado; 
@@ -108,6 +113,7 @@ public class EmpleadoDAO extends ClaseDAO{
 		resultado = (List<Empleado>) query.getResultList();
 		return resultado;
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Empleado> getValidarUsuarioRegistrado(String cedulaUsuario,String usuario) {
 		List<Empleado> resultado; 
@@ -161,6 +167,7 @@ public class EmpleadoDAO extends ClaseDAO{
 		resultado = (List<Empleado>) query.getResultList();
 		return resultado;
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Empleado> buscarEmpleadoPorTipoUsuarioDepartamento(Integer idTipoUsuario, Integer idDepartamento) {
 		List<Empleado> resultado; 
@@ -171,6 +178,7 @@ public class EmpleadoDAO extends ClaseDAO{
 		resultado = (List<Empleado>) query.getResultList();
 		return resultado;
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Empleado> buscarEmpleadoPorTipoUsuario(Integer idTipoUsuario) {
 		List<Empleado> resultado; 
@@ -180,6 +188,7 @@ public class EmpleadoDAO extends ClaseDAO{
 		resultado = (List<Empleado>) query.getResultList();
 		return resultado;
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Empleado> buscarPorCargoPatronBusqueda(Integer idTipoUsuario, String patron) {
 		List<Empleado> resultado; 

@@ -100,4 +100,13 @@ public class ActividadDAO extends ClaseDAO{
 		resultado = (List<Actividad>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Actividad> buscarActividadesPublicadas() {
+		List<Actividad> resultado = new ArrayList<Actividad>(); 
+		Query query = getEntityManager().createNamedQuery("Actividad.buscarActividadesPublicadas");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		resultado = (List<Actividad>) query.getResultList();
+		return resultado;
+	}
 }

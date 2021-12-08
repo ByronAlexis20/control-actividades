@@ -40,7 +40,7 @@ import javax.persistence.TemporalType;
 			+ " and a.estado = 'A' and a.estadoActividad = 'PENDIENTE'"),
 	@NamedQuery(name="Actividad.buscarPorEmpleadoTipoActividad", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
 			+ " and a.estado = 'A' and a.tipoActividad.idTipoActividad = :idTipoActividad"),
-	
+	@NamedQuery(name="Actividad.buscarActividadesPublicadas", query="SELECT a FROM Actividad a where a.estado = 'A' and a.estadoPublicado = 'PUBLICADO'"),
 })
 public class Actividad implements Serializable {
 	private static final long serialVersionUID = 1L;

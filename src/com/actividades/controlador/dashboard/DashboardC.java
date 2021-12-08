@@ -74,9 +74,12 @@ public class DashboardC {
 		this.cargarGraficoActividades();
 	}
 	private void verificarActividadesExternas() {
-		List<ActividadExterna> listaExterna = this.actividadExternaDAO.obtenerActividadesPendienteAsignacion();
-		if(listaExterna.size() > 0) {
-			Clients.showNotification("Gobernadora ha publicado actividades a realizar... Revisar!!");
+		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
+		if(usuario.getTipoUsuario().getIdTipoUsuario() != Constantes.ID_AUTORIDAD_MAXIMA) {
+			List<ActividadExterna> listaExterna = this.actividadExternaDAO.obtenerActividadesPendienteAsignacion();
+			if(listaExterna.size() > 0) {
+				Clients.showNotification("Gobernadora ha publicado actividades a realizar... Revisar!!");
+			}
 		}
 	}
 	private void cargarListadoMeses() {
@@ -123,21 +126,46 @@ public class DashboardC {
 	}
 	private void contarCantidades() {
 		try {
+			//Listado de empleados
 			Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
-			List<Empleado> lista = usuarioDAO.buscarPorDepartamentoYTipoUsuario(usuario.getDepartamento().getIdDepartamento(), Constantes.ID_ASISTENTE);
-			List<Trabajadores> agg = new ArrayList<>();
-			for(Empleado emp : lista) {
-				Trabajadores t = new Trabajadores();
-				t.setEmp(emp);
-				if(emp.getFoto() != null) {
-					File archivo = new File(emp.getFoto());
-					if(archivo.exists())
-						t.setFoto(new AImage(emp.getFoto()));
+			//verificar si es jefe o si es la maxima autoridad
+			if(usuario.getTipoUsuario().getIdTipoUsuario() != Constantes.ID_AUTORIDAD_MAXIMA) {
+				List<Empleado> lista = usuarioDAO.buscarPorDepartamentoYTipoUsuario(usuario.getDepartamento().getIdDepartamento(), Constantes.ID_ASISTENTE);
+				List<Trabajadores> agg = new ArrayList<>();
+				for(Empleado emp : lista) {
+					Trabajadores t = new Trabajadores();
+					t.setEmp(emp);
+					if(emp.getFoto() != null) {
+						File archivo = new File(emp.getFoto());
+						if(archivo.exists())
+							t.setFoto(new AImage(emp.getFoto()));
+					}
+					agg.add(t);
 				}
-				agg.add(t);
+				listaEmpleados = agg;
+				lblCantidadEmpleados.setValue(String.valueOf(listaEmpleados.size()));
+			}else {//es la maxima autoridad
+				List<Empleado> lista = usuarioDAO.getListausuarioBuscar("");
+				List<Empleado> emp = new ArrayList<>();
+				for(Empleado ls : lista) {
+					if(ls.getTipoUsuario().getIdTipoUsuario() != Constantes.ID_AUTORIDAD_MAXIMA)
+						emp.add(ls);
+				}
+				List<Trabajadores> agg = new ArrayList<>();
+				for(Empleado e : emp) {
+					Trabajadores t = new Trabajadores();
+					e.getPersona().setApellido(e.getPersona().getApellido() + " - " + e.getCargo().getDescripcion().toUpperCase() + " DE " + e.getDepartamento().getNombre().toUpperCase());
+					t.setEmp(e);
+					if(e.getFoto() != null) {
+						File archivo = new File(e.getFoto());
+						if(archivo.exists())
+							t.setFoto(new AImage(e.getFoto()));
+					}
+					agg.add(t);
+				}
+				listaEmpleados = agg;
+				lblCantidadEmpleados.setValue(String.valueOf(listaEmpleados.size()));
 			}
-			listaEmpleados = agg;
-			lblCantidadEmpleados.setValue(String.valueOf(listaEmpleados.size()));
 			
 			//contar actividades rechazadas
 			lblActividadesRechazadas.setValue("0");
@@ -183,8 +211,14 @@ public class DashboardC {
 		}
 	}
 	private void cargarGraficoActividades() throws IOException {
+		List<Actividad> actividades = new ArrayList<>();
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
-		List<Actividad> actividades = this.actividadDAO.buscarPorEmpleadoTipoActividad(usuario.getIdEmpleado(), Constantes.ID_TIPO_PRIMORDIALES);
+		if(usuario.getTipoUsuario().getIdTipoUsuario() != Constantes.ID_AUTORIDAD_MAXIMA) {
+			actividades = this.actividadDAO.buscarPorEmpleadoTipoActividad(usuario.getIdEmpleado(), Constantes.ID_TIPO_PRIMORDIALES);
+		}else {
+			actividades = this.actividadDAO.buscarActividadesPublicadas();
+		}
+		
 		Integer contadorActividadesPoliticas = 0;
 		Integer contadorActividadesCultural = 0;
 		Integer contadorActividadesDeportivo = 0;
