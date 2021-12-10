@@ -134,6 +134,8 @@ public class DashboardC {
 				List<Trabajadores> agg = new ArrayList<>();
 				for(Empleado emp : lista) {
 					Trabajadores t = new Trabajadores();
+					emp.getPersona().setNombre(emp.getPersona().getNombre().toUpperCase());
+					emp.getPersona().setApellido(emp.getPersona().getApellido().toUpperCase());
 					t.setEmp(emp);
 					if(emp.getFoto() != null) {
 						File archivo = new File(emp.getFoto());
@@ -154,7 +156,8 @@ public class DashboardC {
 				List<Trabajadores> agg = new ArrayList<>();
 				for(Empleado e : emp) {
 					Trabajadores t = new Trabajadores();
-					e.getPersona().setApellido(e.getPersona().getApellido() + " - " + e.getCargo().getDescripcion().toUpperCase() + " DE " + e.getDepartamento().getNombre().toUpperCase());
+					e.getPersona().setNombre(e.getPersona().getNombre().toUpperCase());
+					e.getPersona().setApellido(e.getPersona().getApellido().toUpperCase() + " - " + e.getCargo().getDescripcion().toUpperCase() + " DE " + e.getDepartamento().getNombre().toUpperCase());
 					t.setEmp(e);
 					if(e.getFoto() != null) {
 						File archivo = new File(e.getFoto());
