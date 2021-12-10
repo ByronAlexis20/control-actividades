@@ -1,0 +1,6 @@
+<zk>
+  
+  <window border="normal" title="Visualizar pdf" apply="com.actividades.controlador.publicaciones.VisualizarPDF" closable="true">
+        <iframe id="report" height="700px" width="900px" autohide="true"></iframe>
+  </window>
+</zk>
