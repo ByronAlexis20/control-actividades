@@ -1,20 +1,16 @@
 <?page title="Cargo" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<div apply="org.zkoss.bind.BindComposer"
+	<window apply="org.zkoss.bind.BindComposer" id="winActividades"
 		viewModel="@id('vm') @init('com.actividades.controlador.administracion.CargoListaC')" 
 		class="contenedor-formulario" hflex="1" vflex="1">
 		<vlayout vflex="1" zclass="contenido" hflex="1">
 			<groupbox>
 				<div align="center">
-					<label value="Cargos"
+					<label value="Actividades"
 						style="color:#088A08;font-size:20px"
 						sclass="p-1 text-red font-italic font-weight-bold" />
 				</div>
 			</groupbox>
-			<div>
-				<button id="btnNuevo" label="Nuevo cargo" iconSclass="z-icon-plus" onClick="@command('nuevo')"
-					zclass="btn btn-outline-primary btn btn-sm"/>
-			</div>
 			<hlayout>
 				<textbox hflex="1" id="txtBuscar" value="@bind(vm.textoBuscar)" 
 					style="text-transform:uppercase" onOK="@command('buscar')"
@@ -51,5 +47,5 @@
 				</listbox>
 			</hlayout>
 		</vlayout>
-	</div>
+	</window>
 </zk>

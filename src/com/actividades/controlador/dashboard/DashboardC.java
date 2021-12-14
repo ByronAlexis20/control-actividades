@@ -8,7 +8,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 
@@ -19,22 +21,27 @@ import org.jfree.chart.encoders.ImageFormat;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Label;
+import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Window;
 
 import com.actividades.modelo.Actividad;
 import com.actividades.modelo.ActividadDAO;
 import com.actividades.modelo.ActividadExterna;
 import com.actividades.modelo.ActividadExternaDAO;
+import com.actividades.modelo.Cargo;
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.modelo.Queja;
@@ -48,6 +55,7 @@ public class DashboardC {
 	@Wire private Label lblActividadesPendientes;
 	@Wire private Label lblActividadesRechazadas;
 	@Wire private Label lblQuejaRealizada;
+	@Wire private Listheader listHeaderVer;
 	
 	@Wire private Textbox txtAnio;
 	
@@ -63,6 +71,7 @@ public class DashboardC {
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException, MessagingException{
 		Selectors.wireComponents(view, this, false);
+		listHeaderVer.setVisible(false);
 		this.cargarListadoMeses();
 		
 		Date date = new Date();
@@ -73,6 +82,19 @@ public class DashboardC {
 		this.contarCantidades();
 		this.cargarGraficoActividades();
 	}
+	
+	@Command
+	public void verActividades(@BindingParam("empleado") Trabajadores emp){
+		if(emp == null) {
+			Clients.showNotification("Seleccione una opción de la lista.");
+			return;
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("Empleado", emp.getEmp());
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/dashboard/ListadoActividades.zul", null, params);
+		ventanaCargar.doModal();
+	}
+	
 	private void verificarActividadesExternas() {
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
 		if(usuario.getTipoUsuario().getIdTipoUsuario() != Constantes.ID_AUTORIDAD_MAXIMA) {
@@ -80,6 +102,8 @@ public class DashboardC {
 			if(listaExterna.size() > 0) {
 				Clients.showNotification("Gobernadora ha publicado actividades a realizar... Revisar!!");
 			}
+		}else {
+			listHeaderVer.setVisible(true);
 		}
 	}
 	private void cargarListadoMeses() {
