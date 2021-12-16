@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listheader;
@@ -41,7 +43,8 @@ import com.actividades.modelo.Actividad;
 import com.actividades.modelo.ActividadDAO;
 import com.actividades.modelo.ActividadExterna;
 import com.actividades.modelo.ActividadExternaDAO;
-import com.actividades.modelo.Cargo;
+import com.actividades.modelo.Departamento;
+import com.actividades.modelo.DepartamentoDAO;
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.modelo.Queja;
@@ -56,22 +59,29 @@ public class DashboardC {
 	@Wire private Label lblActividadesRechazadas;
 	@Wire private Label lblQuejaRealizada;
 	@Wire private Listheader listHeaderVer;
+	@Wire private Div divQuejas;
 	
 	@Wire private Textbox txtAnio;
 	
 	@Wire private Image imGraficoActividades;
+	@Wire private Image imGraficoQuejas;
+	@Wire private Label lblQuejas;
+	
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	ActividadDAO actividadDAO = new ActividadDAO();
 	ActividadExternaDAO actividadExternaDAO = new ActividadExternaDAO();
+	DepartamentoDAO departamentoDAO = new DepartamentoDAO();
 	QuejaDAO quejaDAO = new QuejaDAO();
 	List<Trabajadores> listaEmpleados;
 	List<Mes> listaMes;
 	Mes mesSeleccionado;
+	SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
 	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException, MessagingException{
 		Selectors.wireComponents(view, this, false);
 		listHeaderVer.setVisible(false);
+		divQuejas.setVisible(false);
 		this.cargarListadoMeses();
 		
 		Date date = new Date();
@@ -81,6 +91,7 @@ public class DashboardC {
 		this.verificarActividadesExternas();
 		this.contarCantidades();
 		this.cargarGraficoActividades();
+		this.cargarGraficoQuejas();
 	}
 	
 	@Command
@@ -104,6 +115,7 @@ public class DashboardC {
 			}
 		}else {
 			listHeaderVer.setVisible(true);
+			divQuejas.setVisible(true);
 		}
 	}
 	private void cargarListadoMeses() {
@@ -285,6 +297,24 @@ public class DashboardC {
 		AImage imagen = new AImage("Actividades", bytes);
 		
 		imGraficoActividades.setContent(imagen);
+	}
+	private void cargarGraficoQuejas() throws IOException {
+		lblQuejas.setValue("Gráfica de quejas realizadas el dia " + formatoFecha.format(new Date()));
+		List<Departamento> listaDepartamentos = this.departamentoDAO.getDepartamentosActivos();
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		for(Departamento dep : listaDepartamentos) {
+			List<Queja> listaQuejas = this.quejaDAO.buscarPorDepartamento(dep.getIdDepartamento());
+			dataset.addValue(listaQuejas.size(), "Quejas", dep.getNombre());
+		}
+		
+		JFreeChart chart = ChartFactory.createBarChart("Cantidad de quejas", null, null, dataset, PlotOrientation.VERTICAL, true, true, false);
+		chart.setBackgroundPaint( Color.white );
+		
+		BufferedImage bi = chart.createBufferedImage(700, 350, BufferedImage.SCALE_REPLICATE , null);
+		byte[] bytes = EncoderUtil.encode(bi, ImageFormat.PNG, true);
+		AImage imagen = new AImage("Quejas", bytes);
+		
+		imGraficoQuejas.setContent(imagen);
 	}
 	@Command
 	public void actualizar() throws IOException{
