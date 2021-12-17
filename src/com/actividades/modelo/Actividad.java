@@ -40,10 +40,12 @@ import javax.persistence.TemporalType;
 			+ " and a.estado = 'A' and a.estadoActividad = 'PENDIENTE'"),
 	@NamedQuery(name="Actividad.buscarPorEmpleadoTipoActividad", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
 			+ " and a.estado = 'A' and a.tipoActividad.idTipoActividad = :idTipoActividad"),
-	@NamedQuery(name="Actividad.buscarActividadesPublicadas", query="SELECT a FROM Actividad a where a.estado = 'A' and a.estadoPublicado = 'PUBLICADO'"),
+	@NamedQuery(name="Actividad.buscarActividadesPublicadas", query="SELECT a FROM Actividad a where a.estado = 'A' "),
 	@NamedQuery(name="Actividad.buscarPorFechaEmpleado", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
 			+ " and a.fecha = :fecha and a.estado = 'A' and a.tipoActividad.idTipoActividad = :idTipoActividad"
 			+ " order by a.fecha desc"),
+	@NamedQuery(name="Actividad.buscarPorDepartamento", query="SELECT a FROM Actividad a where a.agenda.empleado.departamento.idDepartamento = :idDepartamento "
+			+ "and a.estado = 'A' and a.tipoActividad.idTipoActividad = 1"),//principales
 })
 public class Actividad implements Serializable {
 	private static final long serialVersionUID = 1L;

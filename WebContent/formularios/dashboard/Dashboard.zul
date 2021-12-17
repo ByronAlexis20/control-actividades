@@ -98,14 +98,17 @@
 		</div>
 		
 		<div class="row">
-			<div class="col-md-7" height="300px" id="divQuejas">
+			<div class="col-md-6" height="300px" id="divQuejas">
 				<vlayout hflex="1" vflex="1">
 					<label id="lblQuejas" style="font-size:15px;font-weight: bold;" />
 					<image id="imGraficoQuejas" vflex="1" hflex="1"/>
 				</vlayout>
 			</div>
-			<div class="col-md-5" height="300px">
-				
+			<div class="col-md-6" height="300px" id="divActividadesDepartamento">
+				<vlayout hflex="1" vflex="1">
+					<label id="lblActividadesPorDepartamento" style="font-size:15px;font-weight: bold;" />
+					<image id="imGraficoActividadesPorDepartamento" vflex="1" hflex="1"/>
+				</vlayout>
 			</div>
 		</div>
 	</vlayout>

@@ -121,4 +121,14 @@ public class ActividadDAO extends ClaseDAO{
 		resultado = (List<Actividad>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Actividad> buscarActividadesPrincipalesPorDepartamento(Integer idDepartamento) {
+		List<Actividad> resultado = new ArrayList<Actividad>(); 
+		Query query = getEntityManager().createNamedQuery("Actividad.buscarPorDepartamento");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idDepartamento", idDepartamento);
+		resultado = (List<Actividad>) query.getResultList();
+		return resultado;
+	}
 }

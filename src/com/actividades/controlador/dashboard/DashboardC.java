@@ -1,6 +1,7 @@
 package com.actividades.controlador.dashboard;
 
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -17,9 +18,13 @@ import javax.mail.MessagingException;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.encoders.EncoderUtil;
 import org.jfree.chart.encoders.ImageFormat;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
@@ -60,12 +65,16 @@ public class DashboardC {
 	@Wire private Label lblQuejaRealizada;
 	@Wire private Listheader listHeaderVer;
 	@Wire private Div divQuejas;
+	@Wire private Div divActividadesDepartamento;
 	
 	@Wire private Textbox txtAnio;
 	
 	@Wire private Image imGraficoActividades;
 	@Wire private Image imGraficoQuejas;
 	@Wire private Label lblQuejas;
+	
+	@Wire private Image imGraficoActividadesPorDepartamento;
+	@Wire private Label lblActividadesPorDepartamento;
 	
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	ActividadDAO actividadDAO = new ActividadDAO();
@@ -82,6 +91,7 @@ public class DashboardC {
 		Selectors.wireComponents(view, this, false);
 		listHeaderVer.setVisible(false);
 		divQuejas.setVisible(false);
+		divActividadesDepartamento.setVisible(false);
 		this.cargarListadoMeses();
 		
 		Date date = new Date();
@@ -92,6 +102,7 @@ public class DashboardC {
 		this.contarCantidades();
 		this.cargarGraficoActividades();
 		this.cargarGraficoQuejas();
+		this.cargarGraficoActividadesPorDepartamento();
 	}
 	
 	@Command
@@ -116,6 +127,7 @@ public class DashboardC {
 		}else {
 			listHeaderVer.setVisible(true);
 			divQuejas.setVisible(true);
+			divActividadesDepartamento.setVisible(true);
 		}
 	}
 	private void cargarListadoMeses() {
@@ -258,40 +270,90 @@ public class DashboardC {
 			actividades = this.actividadDAO.buscarActividadesPublicadas();
 		}
 		
-		Integer contadorActividadesPoliticas = 0;
-		Integer contadorActividadesCultural = 0;
-		Integer contadorActividadesDeportivo = 0;
-		Integer contadorActividadesInterno = 0;
-		Integer contadorActividadesSalud = 0;
+		Integer contadorActividadesPoliticasPublicadas = 0;
+		Integer contadorActividadesCulturalPublicadas = 0;
+		Integer contadorActividadesDeportivoPublicadas = 0;
+		Integer contadorActividadesInternoPublicadas = 0;
+		Integer contadorActividadesSaludPublicadas = 0;
+		
+		Integer contadorActividadesPoliticasNoPublicadas = 0;
+		Integer contadorActividadesCulturalNoPublicadas = 0;
+		Integer contadorActividadesDeportivoNoPublicadas = 0;
+		Integer contadorActividadesInternoNoPublicadas = 0;
+		Integer contadorActividadesSaludNoPublicadas = 0;
 		
 		for(Actividad ac : actividades) {
 			ZoneId timeZone = ZoneId.systemDefault();
 	        LocalDate getLocalDate = ac.getFecha().toInstant().atZone(timeZone).toLocalDate();
 	        if(getLocalDate.getYear() == Integer.parseInt(txtAnio.getText()) && getLocalDate.getMonthValue() == mesSeleccionado.getIdMes()) {
 	        	if(ac.getClaseActividad().getIdClaseActividad() == Constantes.CODIGO_CLASE_ACTIVIDAD_POLITICO) {
-	        		contadorActividadesPoliticas ++;
+	        		if(ac.getEstadoPublicado().equals(Constantes.ESTADO_PUBLICADO))
+	        			contadorActividadesPoliticasPublicadas ++;
+	        		else
+	        			contadorActividadesPoliticasNoPublicadas ++;
 	        	}else if(ac.getClaseActividad().getIdClaseActividad() == Constantes.CODIGO_CLASE_ACTIVIDAD_CULTURAL) {
-	        		contadorActividadesCultural ++;
+	        		if(ac.getEstadoPublicado().equals(Constantes.ESTADO_PUBLICADO))
+	        			contadorActividadesCulturalPublicadas ++;
+	        		else
+	        			contadorActividadesCulturalNoPublicadas ++;
 	        	}else if(ac.getClaseActividad().getIdClaseActividad() == Constantes.CODIGO_CLASE_ACTIVIDAD_DEPORTIVO) {
-	        		contadorActividadesDeportivo ++;
+	        		if(ac.getEstadoPublicado().equals(Constantes.ESTADO_PUBLICADO))
+	        			contadorActividadesDeportivoPublicadas ++;
+	        		else
+	        			contadorActividadesDeportivoNoPublicadas ++;
 	        	}else if(ac.getClaseActividad().getIdClaseActividad() == Constantes.CODIGO_CLASE_ACTIVIDAD_INTERNO) {
-	        		contadorActividadesInterno ++;
+	        		if(ac.getEstadoPublicado().equals(Constantes.ESTADO_PUBLICADO))
+	        			contadorActividadesInternoPublicadas ++;
+	        		else
+	        			contadorActividadesInternoNoPublicadas ++;
 	        	}else if(ac.getClaseActividad().getIdClaseActividad() == Constantes.CODIGO_CLASE_ACTIVIDAD_SALUD) {
-	        		contadorActividadesSalud ++;
+	        		if(ac.getEstadoPublicado().equals(Constantes.ESTADO_PUBLICADO))
+	        			contadorActividadesSaludPublicadas ++;
+	        		else
+	        			contadorActividadesSaludNoPublicadas ++;
 	        	}
 	        }
 		}
 
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		dataset.addValue(contadorActividadesPoliticas, "Actividades", "Políticas");
-		dataset.addValue(contadorActividadesCultural, "Actividades", "Cultural");
-		dataset.addValue(contadorActividadesDeportivo, "Actividades", "Deportivo");
-		dataset.addValue(contadorActividadesInterno, "Actividades", "Interno");
-		dataset.addValue(contadorActividadesSalud, "Actividades", "Salud");
+		dataset.addValue(contadorActividadesPoliticasPublicadas, "Publicadas", "Políticas");
+		dataset.addValue(contadorActividadesCulturalPublicadas, "Publicadas", "Cultural");
+		dataset.addValue(contadorActividadesDeportivoPublicadas, "Publicadas", "Deportivo");
+		dataset.addValue(contadorActividadesInternoPublicadas, "Publicadas", "Interno");
+		dataset.addValue(contadorActividadesSaludPublicadas, "Publicadas", "Salud");
+		
+		dataset.addValue(contadorActividadesPoliticasNoPublicadas, "No Publicadas", "Políticas");
+		dataset.addValue(contadorActividadesCulturalNoPublicadas, "No Publicadas", "Cultural");
+		dataset.addValue(contadorActividadesDeportivoNoPublicadas, "No Publicadas", "Deportivo");
+		dataset.addValue(contadorActividadesInternoNoPublicadas, "No Publicadas", "Interno");
+		dataset.addValue(contadorActividadesSaludNoPublicadas, "No Publicadas", "Salud");
 		
 		JFreeChart chart = ChartFactory.createBarChart("Cantidad de actividades " + mesSeleccionado.getMes(), null, null, dataset, PlotOrientation.VERTICAL, true, true, false);
-		chart.setBackgroundPaint( Color.white );
+		chart.setBackgroundPaint( Color.WHITE );
 		
+		CategoryPlot plot = (CategoryPlot) chart.getPlot();
+		//fondo del grafico
+		plot.setBackgroundPaint( Color.WHITE );
+		//lineas divisoras
+		plot.setDomainGridlinesVisible( true );
+        plot.setRangeGridlinePaint( Color.BLACK );
+		
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setDrawBarOutline(false);
+        
+        //Dar color a ada barra
+        GradientPaint gp0= new GradientPaint(0.0f,0.0f,Color.blue,0.0f,0.0f,new Color(0,0,64));
+        GradientPaint gp1= new GradientPaint(0.0f,0.0f,Color.green,0.0f,0.0f,new Color(0,64,0));
+        
+        renderer.setSeriesPaint(0,gp0);
+        renderer.setSeriesPaint(1,gp1);
+
+        CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setCategoryLabelPositions(
+                CategoryLabelPositions.createUpRotationLabelPositions(Math.PI/6.0));
+        
+        
+        
 		BufferedImage bi = chart.createBufferedImage(700, 350, BufferedImage.SCALE_REPLICATE , null);
 		byte[] bytes = EncoderUtil.encode(bi, ImageFormat.PNG, true);
 		AImage imagen = new AImage("Actividades", bytes);
@@ -304,17 +366,90 @@ public class DashboardC {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for(Departamento dep : listaDepartamentos) {
 			List<Queja> listaQuejas = this.quejaDAO.buscarPorDepartamento(dep.getIdDepartamento());
-			dataset.addValue(listaQuejas.size(), "Quejas", dep.getNombre());
+			dataset.addValue(listaQuejas.size(), "Quejas", dep.getNombre().substring(0, 6));
 		}
 		
 		JFreeChart chart = ChartFactory.createBarChart("Cantidad de quejas", null, null, dataset, PlotOrientation.VERTICAL, true, true, false);
 		chart.setBackgroundPaint( Color.white );
+		
+		CategoryPlot plot = (CategoryPlot) chart.getPlot();
+		//fondo del grafico
+		plot.setBackgroundPaint( Color.WHITE );
+		//lineas divisoras
+		plot.setDomainGridlinesVisible( true );
+        plot.setRangeGridlinePaint( Color.BLACK );
+		
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setDrawBarOutline(false);
+        
+        //Dar color a ada barra
+        GradientPaint gp0= new GradientPaint(0.0f,0.0f,Color.cyan,0.0f,0.0f,new Color(0,0,64));
+        
+        renderer.setSeriesPaint(0,gp0);
+
+        CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setCategoryLabelPositions(
+                CategoryLabelPositions.createUpRotationLabelPositions(Math.PI/4.0));
 		
 		BufferedImage bi = chart.createBufferedImage(700, 350, BufferedImage.SCALE_REPLICATE , null);
 		byte[] bytes = EncoderUtil.encode(bi, ImageFormat.PNG, true);
 		AImage imagen = new AImage("Quejas", bytes);
 		
 		imGraficoQuejas.setContent(imagen);
+	}
+	private void cargarGraficoActividadesPorDepartamento() throws IOException {
+		lblActividadesPorDepartamento.setValue("Gráfica de actividades realizadas el dia " + formatoFecha.format(new Date()));
+		List<Departamento> listaDepartamentos = this.departamentoDAO.getDepartamentosActivos();
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		for(Departamento dep : listaDepartamentos) {
+			List<Actividad> listaActividades = this.actividadDAO.buscarActividadesPrincipalesPorDepartamento(dep.getIdDepartamento());
+			Integer cantidadPublicadas = 0;
+			Integer cantidadNoPublicadas = 0;
+			
+			for(Actividad ac : listaActividades) {
+				ZoneId timeZone = ZoneId.systemDefault();
+		        LocalDate getLocalDate = ac.getFecha().toInstant().atZone(timeZone).toLocalDate();
+		        if(getLocalDate.getYear() == Integer.parseInt(txtAnio.getText()) && getLocalDate.getMonthValue() == mesSeleccionado.getIdMes()) {
+		        	if(ac.getEstadoPublicado().equals(Constantes.ESTADO_PUBLICADO))
+						cantidadPublicadas ++;
+					else
+						cantidadNoPublicadas ++;
+		        }
+			}
+			dataset.addValue(cantidadPublicadas, "Publicadas", dep.getNombre().substring(0, 6));
+			dataset.addValue(cantidadNoPublicadas, "No Publicadas", dep.getNombre().substring(0, 6));
+		}
+		
+		JFreeChart chart = ChartFactory.createBarChart("Cantidad de actividades", null, null, dataset, PlotOrientation.VERTICAL, true, true, false);
+		chart.setBackgroundPaint( Color.white );
+		
+		CategoryPlot plot = (CategoryPlot) chart.getPlot();
+		//fondo del grafico
+		plot.setBackgroundPaint( Color.WHITE );
+		//lineas divisoras
+		plot.setDomainGridlinesVisible( true );
+        plot.setRangeGridlinePaint( Color.BLACK );
+		
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setDrawBarOutline(false);
+        
+        //Dar color a ada barra
+        GradientPaint gp0= new GradientPaint(0.0f,0.0f,Color.gray,0.0f,0.0f,new Color(0,0,64));
+        GradientPaint gp1= new GradientPaint(0.0f,0.0f,Color.magenta,0.0f,0.0f,new Color(0,0,64));
+        
+        renderer.setSeriesPaint(0,gp0);
+        renderer.setSeriesPaint(1,gp1);
+
+        CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setCategoryLabelPositions(
+                CategoryLabelPositions.createUpRotationLabelPositions(Math.PI/4.0));
+		
+		
+		BufferedImage bi = chart.createBufferedImage(700, 350, BufferedImage.SCALE_REPLICATE , null);
+		byte[] bytes = EncoderUtil.encode(bi, ImageFormat.PNG, true);
+		AImage imagen = new AImage("Actividades", bytes);
+		
+		imGraficoActividadesPorDepartamento.setContent(imagen);
 	}
 	@Command
 	public void actualizar() throws IOException{
@@ -328,6 +463,7 @@ public class DashboardC {
 		}
 		this.contarCantidades();
 		this.cargarGraficoActividades();
+		this.cargarGraficoActividadesPorDepartamento();
 	}
 	public List<Trabajadores> getListaEmpleados() {
 		return listaEmpleados;
