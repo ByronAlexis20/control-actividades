@@ -15,7 +15,7 @@
 	<parameter name="ID_EMPLEADO" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[select de.id_departamento,de.nombre as departamento,(pe.nombre || ' ' || pe.apellido) as jefe,
-ac.codigo, ac.descripcion, ac.fecha
+ac.codigo, ac.descripcion, to_char(ac.fecha,'DD/MM/YYYY') as fecha
 from actividad ac, agenda ag,empleado em, persona pe, departamento de, tipo_usuario tu
 where ac.id_agenda = ag.id_agenda and ag.id_empleado = em.id_empleado and
 pe.id_persona = em.id_persona and em.id_departamento = de.id_departamento and
@@ -49,7 +49,7 @@ and ag.id_empleado =  $P{ID_EMPLEADO} order by ac.fecha asc]]>
 		<property name="com.jaspersoft.studio.field.label" value="descripcion"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="actividad"/>
 	</field>
-	<field name="fecha" class="java.sql.Date">
+	<field name="fecha" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="fecha"/>
 		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="actividad"/>

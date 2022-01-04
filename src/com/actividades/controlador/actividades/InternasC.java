@@ -3,6 +3,7 @@ package com.actividades.controlador.actividades;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +70,9 @@ public class InternasC {
 	private ActividadDAO actividadDAO = new ActividadDAO();
 	private Actividad actividadSeleccionada;
 	private Actividad actividadSeleccionadaInterna;
+	
+	SimpleDateFormat formatoFechaMonth = new SimpleDateFormat("MM");
+	SimpleDateFormat formatoFechaYear = new SimpleDateFormat("yyyy");
 
 	private EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	@AfterCompose
@@ -222,6 +226,24 @@ public class InternasC {
 				return;
 			}
 			habilitarCampos();
+			//verificar si se ha pasado el mes
+			Integer mesAgenda = Integer.parseInt(formatoFechaMonth.format(agendaSeleccionada.getFechaFin()));
+			Integer mesActual = Integer.parseInt(formatoFechaMonth.format(new Date()));
+			Integer anioAgenda = Integer.parseInt(formatoFechaYear.format(agendaSeleccionada.getFechaFin()));
+			Integer anioActual = Integer.parseInt(formatoFechaYear.format(new Date()));
+			
+			if(anioAgenda.equals(anioActual)) {
+				if(mesAgenda < mesActual) {
+					System.out.println("menor");
+					deshabilitarCampos();
+					Clients.showNotification("Ya no puede realizar modificaciones en las actividades");
+				}
+			}else {
+				System.out.println("anios diferentes");
+				deshabilitarCampos();
+				Clients.showNotification("Ya no puede realizar modificaciones en las actividades");
+			}
+			
 			txtAgendaSeleccionada.setText(agendaSeleccionada.getDescripcion());
 			txtFechaInicio.setText(new SimpleDateFormat("dd/MM/yyyy").format(agendaSeleccionada.getFechaInicio()));
 			txtFechaFin.setText(new SimpleDateFormat("dd/MM/yyyy").format(agendaSeleccionada.getFechaFin()));
@@ -298,6 +320,10 @@ public class InternasC {
 		if (agendaSeleccionada == null) {
 			Messagebox.show("Debe seleccionar una Agenda");
 			return; 
+		}
+		if(agendaSeleccionada.getTipoAgenda() != null && agendaSeleccionada.getTipoAgenda().equals(Constantes.CODIGO_TIPO_AGENDA_ENVIADA_GOBERNADOR)) {
+			Clients.showNotification("No se puede registrar actividad, en una agenda enviada por el gobernador");
+			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Ventana", this);

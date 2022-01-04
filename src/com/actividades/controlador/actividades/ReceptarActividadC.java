@@ -78,9 +78,10 @@ public class ReceptarActividadC {
 						actividadExternaDAO.getEntityManager().getTransaction().begin();
 						actividadExternaDAO.getEntityManager().merge(actividadExternaSeleccionado);
 						
-						//copiar actividad a la actividad principal
+						//copiar actividad a la actividad principal,
+						//ademas verificar si fue enviado por el gobernador
 						Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
-						List<Agenda> listaAgenda = agendaDAO.obtenerPorFechaEmpleado(usuario.getIdEmpleado(), actividadExternaSeleccionado.getFecha());
+						List<Agenda> listaAgenda = agendaDAO.obtenerPorFechaEmpleadoEnviadaPorGobernador(usuario.getIdEmpleado(), actividadExternaSeleccionado.getFecha());
 						if(listaAgenda.size() > 0) {//si hay agenda en esa fecha.. se agrega la actividad
 							Actividad actividad = new Actividad();
 							actividad.setAgenda(listaAgenda.get(0));
@@ -140,6 +141,7 @@ public class ReceptarActividadC {
 							dt = c.getTime();
 							agenda.setFechaFin(dt);
 							agenda.setDescripcion("Agenda solicitada desde " + new SimpleDateFormat("dd/MM/yyyy").format(actividadExternaSeleccionado.getFecha()) + " " + new SimpleDateFormat("dd/MM/yyyy").format(dt));
+							agenda.setTipoAgenda(Constantes.CODIGO_TIPO_AGENDA_ENVIADA_GOBERNADOR);
 							
 							actividadExternaDAO.getEntityManager().persist(agenda);
 							

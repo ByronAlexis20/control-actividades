@@ -19,6 +19,9 @@ import java.util.List;
 			+ "a.empleado.idEmpleado = :idEmpleado and a.estado = 'A' order by a.fechaInicio desc"),
 	@NamedQuery(name="Agenda.buscarPorFechaEmpleado", query="SELECT a FROM Agenda a where "
 			+ "a.empleado.idEmpleado = :idEmpleado and a.estado = 'A' and (a.fechaInicio >= :fecha and a.fechaFin <= :fecha)"),
+	@NamedQuery(name="Agenda.buscarPorFechaEmpleadoEnviadaPorGobernador", query="SELECT a FROM Agenda a where "
+			+ "a.empleado.idEmpleado = :idEmpleado and a.estado = 'A' and (a.fechaInicio >= :fecha and a.fechaFin <= :fecha) and "
+			+ "a.tipoAgenda = 'GOBERNADOR'"),
 })
 public class Agenda implements Serializable {
 	private static final long serialVersionUID = 1L;

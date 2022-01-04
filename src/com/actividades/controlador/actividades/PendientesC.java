@@ -3,6 +3,7 @@ package com.actividades.controlador.actividades;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,11 @@ public class PendientesC {
 	@Wire private Textbox txtFechaInicio;
 	@Wire private Textbox txtFechaFin;
 	@Wire private Button btnPublicar;
+	
+	@Wire private Button btnEditarActividad;
+	@Wire private Button btnEliminarActividad;
+	
+	
 	@Wire private Datebox dtpFechaInicio;
 	@Wire private Datebox dtpFechaFin;
 
@@ -58,6 +64,9 @@ public class PendientesC {
 	private ActividadDAO actividadDAO = new ActividadDAO();
 	private Actividad actividadSeleccionada;
 
+	SimpleDateFormat formatoFechaMonth = new SimpleDateFormat("MM");
+	SimpleDateFormat formatoFechaYear = new SimpleDateFormat("yyyy");
+	
 	private EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
@@ -74,6 +83,8 @@ public class PendientesC {
 		txtAgendaSeleccionada.setText("");
 		txtFechaFin.setText("");
 		txtFechaInicio.setText("");
+		btnEliminarActividad.setDisabled(true);
+		btnEditarActividad.setDisabled(true);
 		
 		listaActividad = new ArrayList<>();
 		lstActividades.setModel(new ListModelList(listaActividad));
@@ -83,6 +94,8 @@ public class PendientesC {
 		txtAgendaSeleccionada.setText("");
 		txtFechaFin.setText("");
 		txtFechaInicio.setText("");
+		btnEliminarActividad.setDisabled(false);
+		btnEditarActividad.setDisabled(false);
 	}
 
 	@Command
@@ -93,6 +106,24 @@ public class PendientesC {
 				return;
 			}
 			habilitarCampos();
+			//verificar si se ha pasado el mes
+			Integer mesAgenda = Integer.parseInt(formatoFechaMonth.format(agendaSeleccionada.getFechaFin()));
+			Integer mesActual = Integer.parseInt(formatoFechaMonth.format(new Date()));
+			Integer anioAgenda = Integer.parseInt(formatoFechaYear.format(agendaSeleccionada.getFechaFin()));
+			Integer anioActual = Integer.parseInt(formatoFechaYear.format(new Date()));
+			
+			if(anioAgenda.equals(anioActual)) {
+				if(mesAgenda < mesActual) {
+					System.out.println("menor");
+					deshabilitarCampos();
+					Clients.showNotification("Ya no puede realizar modificaciones en las actividades");
+				}
+			}else {
+				System.out.println("anios diferentes");
+				deshabilitarCampos();
+				Clients.showNotification("Ya no puede realizar modificaciones en las actividades");
+			}
+			
 			txtAgendaSeleccionada.setText(agendaSeleccionada.getDescripcion());
 			txtFechaInicio.setText(new SimpleDateFormat("dd/MM/yyyy").format(agendaSeleccionada.getFechaInicio()));
 			txtFechaFin.setText(new SimpleDateFormat("dd/MM/yyyy").format(agendaSeleccionada.getFechaFin()));
