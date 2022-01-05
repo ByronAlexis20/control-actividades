@@ -1,7 +1,8 @@
 package com.actividades.controlador.dashboard;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.zkoss.bind.annotation.AfterCompose;
@@ -28,6 +29,9 @@ public class ListadoActividadesC {
 	@Wire Listbox lstActividades;
 	
 	Empleado empleado;
+	Integer anio;
+	Integer mes;
+	
 	List<Actividad> listaActividad;
 	ActividadDAO actividadDAO = new ActividadDAO();
 	
@@ -35,6 +39,8 @@ public class ListadoActividadesC {
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
 		empleado = (Empleado) Executions.getCurrent().getArg().get("Empleado");
+		anio = (Integer) Executions.getCurrent().getArg().get("Anio");
+		mes = (Integer) Executions.getCurrent().getArg().get("Mes");
 		cargarActividades();
 	}
 	
@@ -51,9 +57,18 @@ public class ListadoActividadesC {
 		estados.add(Constantes.ESTADO_RECHAZADO);
 		
 		List<Actividad> lista = new ArrayList<>();
-		List<Actividad> resultado = actividadDAO.buscarPorFechaEmpleado(new Date(),empleado.getIdEmpleado() ,Constantes.ID_TIPO_PRIMORDIALES);
+		List<Actividad> resultado = actividadDAO.buscarPorEmpleadoTipoActividad(empleado.getIdEmpleado() ,Constantes.ID_TIPO_PRIMORDIALES);
+		List<Actividad> actividadesDelMes = new ArrayList<>();
+		for(Actividad act : resultado) {
+			ZoneId timeZone = ZoneId.systemDefault();
+	        LocalDate getLocalDate = act.getFecha().toInstant().atZone(timeZone).toLocalDate();
+	        if(getLocalDate.getYear() == anio && getLocalDate.getMonthValue() == mes) {
+	        	actividadesDelMes.add(act);
+	        }
+		}
+		
 		for(String est : estados) {
-			for(Actividad act : resultado) {
+			for(Actividad act : actividadesDelMes) {
 				if(est.equals(act.getEstadoPublicado())) {
 					lista.add(act);
 				}

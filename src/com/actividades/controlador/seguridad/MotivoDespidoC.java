@@ -46,9 +46,9 @@ public class MotivoDespidoC {
 			@Override
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {		
-					try {						
-						empleadoDAO.getEntityManager().getTransaction().begin();
+					try {
 						imprimirActividades(empleado);
+						empleadoDAO.getEntityManager().getTransaction().begin();
 						empleado.setMotivoSalida(txtMotivo.getText());
 						empleado.setFechaSalida(new Date());
 						empleado.setEstado("I");
@@ -66,7 +66,9 @@ public class MotivoDespidoC {
 		});
 	}	
 	private void imprimirActividades(Empleado emp) {
-		if(emp.getTipoUsuario().getIdTipoUsuario() == Constantes.ID_CARGO_JEFE) {
+		if(emp.getCargo().getIdCargo() == Constantes.ID_CARGO_JEFE) {
+			System.out.println("Debe imprimir el reporte");
+			System.out.println(emp.getIdEmpleado());
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("ID_TIPO_ACTIVIDAD", Constantes.ID_TIPO_PRIMORDIALES);
 			params.put("FECHA_INICIO", emp.getFechaIngreso());

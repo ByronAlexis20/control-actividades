@@ -199,4 +199,14 @@ public class EmpleadoDAO extends ClaseDAO {
 		resultado = (List<Empleado>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Empleado> buscarPorCargo(Integer idCargo) {
+		List<Empleado> resultado; 
+		Query query = getEntityManager().createNamedQuery("Empleado.buscarPorCargo");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idCargo", idCargo);
+		resultado = (List<Empleado>) query.getResultList();
+		return resultado;
+	}
 }
