@@ -42,7 +42,7 @@ import java.util.List;
 	@NamedQuery(name="Empleado.buscarPorCargoPatronBusqueda", query="SELECT e FROM "
 			+ "Empleado e where e.cargo.idCargo = :idTipoUsuario and e.estado = 'A' and e.tipoUsuario.idTipoUsuario <> 5 and "
 			+ "(lower(e.persona.nombre) like(:patron) or lower(e.persona.apellido) like(:patron)) "),
-	@NamedQuery(name="Empleado.buscarPorCargo", query="SELECT e FROM Empleado e where e.cargo.idcargo = :idCargo and e.estado = 'A' "),
+	@NamedQuery(name="Empleado.buscarPorCargo", query="SELECT e FROM Empleado e where e.cargo.idCargo = :idCargo and e.estado = 'A' "),
 })
 public class Empleado implements Serializable {
 	private static final long serialVersionUID = 1L;

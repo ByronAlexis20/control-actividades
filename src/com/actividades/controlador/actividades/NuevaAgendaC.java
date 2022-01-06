@@ -53,7 +53,7 @@ public class NuevaAgendaC {
 			dtpFechaFin.setValue(agenda.getFechaFin());
 			dtpFechaInicio.setDisabled(true);
 			dtpFechaFin.setDisabled(true);
-			validarActividades();
+			//validarActividades();
 		}else {
 			agenda = new Agenda();
 			//dtpFechaInicio.setValue(new Date());

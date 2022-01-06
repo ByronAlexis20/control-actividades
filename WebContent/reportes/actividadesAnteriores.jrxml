@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="actividadesAnteriores" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d9e0e455-a5f9-4292-ae13-6b9dd07a348b">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="control_actividades"/>
 	<property name="ireport.zoom" value="1.2100000000000006"/>
@@ -15,7 +15,16 @@
 	<parameter name="ID_EMPLEADO" class="java.lang.Integer"/>
 	<parameter name="MOTIVO" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[]]>
+		<![CDATA[select de.id_departamento,de.nombre as departamento,(pe.nombre || ' ' || pe.apellido) as jefe,
+ac.codigo, ac.descripcion, ac.fecha
+from actividad ac, agenda ag,empleado em, persona pe, departamento de, tipo_usuario tu
+where ac.id_agenda = ag.id_agenda and ag.id_empleado = em.id_empleado and
+pe.id_persona = em.id_persona and em.id_departamento = de.id_departamento and
+em.id_tipo_usuario = tu.id_tipo_usuario and ac.estado = 'A' and ag.estado = 'A' and
+em.estado = 'I' and pe.estado = 'A' and de.estado = 'A' and tu.estado = 'A'
+and ac.id_tipo_actividad =  $P{ID_TIPO_ACTIVIDAD}
+and ac.fecha between  $P{FECHA_INICIO} and  $P{FECHA_FIN}
+and ag.id_empleado =  $P{ID_EMPLEADO}]]>
 	</queryString>
 	<field name="id_departamento" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="id_departamento"/>
@@ -192,7 +201,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField>
 				<reportElement x="87" y="0" width="351" height="14" isPrintWhenDetailOverflows="true" uuid="f92b021c-fc6a-426b-9afb-c3ba122f7f76"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Calibri" size="8"/>
@@ -231,7 +240,7 @@
 	</pageFooter>
 	<summary>
 		<band height="95" splitType="Stretch">
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement x="21" y="30" width="509" height="20" isPrintWhenDetailOverflows="true" uuid="247119fc-2ec7-411b-8364-4d4d3a90dbed"/>
 				<textElement>
 					<font fontName="Calibri"/>

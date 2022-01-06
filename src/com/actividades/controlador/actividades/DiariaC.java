@@ -570,7 +570,7 @@ public class DiariaC {
 					
 					agendaDAO.getEntityManager().getTransaction().commit();
 					Messagebox.show("Datos grabados con exito");
-					cargarActividades();
+					BindUtils.postGlobalCommand(null, null, "Actividad.buscarPorAgenda", null);
 				}
 			}
 		};
