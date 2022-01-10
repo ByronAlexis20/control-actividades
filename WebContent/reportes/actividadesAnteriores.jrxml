@@ -99,9 +99,6 @@ and ag.id_empleado =  $P{ID_EMPLEADO}]]>
 					<reportElement x="21" y="79" width="514" height="1" uuid="8e684ceb-9c2e-4d63-bb51-dffae20aab05"/>
 				</line>
 				<line>
-					<reportElement x="21" y="98" width="514" height="1" uuid="d0e974ac-b198-4a6c-84df-9a2d9c4b8333"/>
-				</line>
-				<line>
 					<reportElement x="21" y="56" width="514" height="1" uuid="c2277633-7146-43f4-9070-999c2f0e5560"/>
 				</line>
 				<line>
@@ -216,9 +213,6 @@ and ag.id_empleado =  $P{ID_EMPLEADO}]]>
 				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{fecha})]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="21" y="14" width="514" height="1" uuid="88ba0d8f-91dc-448f-9877-cf1383caf4e8"/>
-			</line>
-			<line>
 				<reportElement x="535" y="-2" width="1" height="15" uuid="dce357be-24e0-43e8-8994-c64aa5a18aac"/>
 			</line>
 			<line>
@@ -229,6 +223,11 @@ and ag.id_empleado =  $P{ID_EMPLEADO}]]>
 			</line>
 			<line>
 				<reportElement x="19" y="-2" width="1" height="15" uuid="b51283df-e884-46d5-9543-80df3266b7c1"/>
+			</line>
+			<line>
+				<reportElement x="19" y="0" width="514" height="1" uuid="f5c64fcb-4fb2-4197-add9-e43579f84124">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
 			</line>
 		</band>
 	</detail>
@@ -254,6 +253,9 @@ and ag.id_empleado =  $P{ID_EMPLEADO}]]>
 				</textElement>
 				<text><![CDATA[Motivo por el que dejó el cargo:]]></text>
 			</staticText>
+			<line>
+				<reportElement x="22" y="1" width="514" height="1" uuid="c78e25e4-9fa1-4886-ab22-bc09a02a41bd"/>
+			</line>
 		</band>
 	</summary>
 </jasperReport>
