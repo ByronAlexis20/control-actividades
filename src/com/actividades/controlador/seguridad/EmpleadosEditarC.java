@@ -272,6 +272,10 @@ public class EmpleadosEditarC {
 				txtClave.focus();
 				return false;
 			}
+			//hacer la validacion de la contrasenia
+			if(validarClave(txtClave.getText()) == false) {
+				return false;
+			}
 			if(!txtEmail.getText().isEmpty()) {
 				if(!ControllerHelper.validarEmail(txtEmail.getText())) {
 					Clients.showNotification("Correo no válido","info",txtEmail,"end_center",2000);
@@ -333,6 +337,19 @@ public class EmpleadosEditarC {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	private boolean validarClave(String clave) {
+		if(clave.length() < 8) {
+			Clients.showNotification("Clave debe contener al menos 8 caracteres","info",txtClave,"end_center",2000);
+			txtClave.focus();
+			return false;
+		}
+		if(ControllerHelper.validarContrasenia(clave) == false) {
+			Clients.showNotification("Clave debe tener una mayúscula, un caracter especial, un número!","info",txtClave,"end_center",2000);
+			txtClave.focus();
+			return false;
+		}
+		return true;
 	}
 	private boolean validarUsuarioNuevo() {
 		try {

@@ -144,7 +144,7 @@
 						<label value="Usuario: *" sclass="font-weight-bold col-form-label"/>
 						<textbox id="txtUsuario" value="@bind(vm.empleado.usuario)" hflex="1" maxlength="13"/>
 						<label value="Clave: *" sclass="font-weight-bold col-form-label"/>
-						<textbox id="txtClave" type="password" hflex="1" maxlength="13"/>
+						<textbox id="txtClave" type="password" hflex="1" maxlength="20"/>
 					</row>
 					<row>
 						<label value=" "></label>

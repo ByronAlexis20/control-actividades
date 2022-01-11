@@ -102,4 +102,19 @@ public class ControllerHelper {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public static boolean validarContrasenia(String pwd) {
+		try {
+			boolean respuesta = false;
+			String pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=./*-+])(?=\\S+$).{8,}$";
+			if(!pwd.matches(pattern)) {
+				respuesta = false;
+			}else {
+				respuesta = true;
+			}
+			return respuesta;
+		}catch(Exception ex) {
+			return false;
+		}
+	}
 }
