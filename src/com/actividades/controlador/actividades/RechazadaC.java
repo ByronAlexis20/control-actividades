@@ -170,7 +170,7 @@ public class RechazadaC {
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
-	@NotifyChange({"listaActividad", "listaActividadInterna"})
+	@NotifyChange({"listaActividad", "listaAgenda"})
 	public void buscarPorFiltroFechas() {
 		if(dtpFechaInicio.getValue() == null) {
 			Clients.showNotification("Debe seleccionar fecha Inicio");

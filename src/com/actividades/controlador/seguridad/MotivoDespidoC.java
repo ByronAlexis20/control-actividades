@@ -66,9 +66,19 @@ public class MotivoDespidoC {
 		});
 	}	
 	private void imprimirActividades(Empleado emp) {
+		if(emp.getTipoUsuario().getIdTipoUsuario() == Constantes.ID_AUTORIDAD_MAXIMA) {
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("ID_TIPO_ACTIVIDAD", Constantes.ID_TIPO_PRIMORDIALES);
+			params.put("GOBERNADOR", emp.getPersona().getNombre() + " " + emp.getPersona().getApellido());
+			params.put("PERIODO", "Del " + new SimpleDateFormat("dd/MM/yyyy").format(emp.getFechaIngreso()) + " hasta " + new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+			params.put("MOTIVO", txtMotivo.getText());
+			params.put("FECHA_INICIO", emp.getFechaIngreso());
+			params.put("FECHA_FIN", new Date());
+			PrintReport report = new PrintReport();
+			report.crearReporte("/reportes/rptInformeGobernador.jasper",empleadoDAO, params);
+			return;
+		}
 		if(emp.getCargo().getIdCargo() == Constantes.ID_CARGO_JEFE) {
-			System.out.println("Debe imprimir el reporte");
-			System.out.println(emp.getIdEmpleado());
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("ID_TIPO_ACTIVIDAD", Constantes.ID_TIPO_PRIMORDIALES);
 			params.put("FECHA_INICIO", emp.getFechaIngreso());

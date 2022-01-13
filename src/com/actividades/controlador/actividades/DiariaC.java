@@ -42,36 +42,36 @@ import com.actividades.util.Constantes;
 import com.actividades.util.SecurityUtil;
 
 public class DiariaC {
-	@Wire private Window winActividades;
-	@Wire private Listbox lstActividades;
-	@Wire private Listbox lstAgenda;
+	@Wire Window winActividades;
+	@Wire Listbox lstActividades;
+	@Wire Listbox lstAgenda;
 	
-	@Wire private Textbox txtAgendaSeleccionada;
-	@Wire private Textbox txtFechaInicio;
-	@Wire private Textbox txtFechaFin;
-	@Wire private Button btnNuevaActividad;
-	@Wire private Button btnEditarActividad;
-	@Wire private Button btnEliminarActividad;
-	@Wire private Datebox dtpFechaInicio;
-	@Wire private Datebox dtpFechaFin;
+	@Wire Textbox txtAgendaSeleccionada;
+	@Wire Textbox txtFechaInicio;
+	@Wire Textbox txtFechaFin;
+	@Wire Button btnNuevaActividad;
+	@Wire Button btnEditarActividad;
+	@Wire Button btnEliminarActividad;
+	@Wire Datebox dtpFechaInicio;
+	@Wire Datebox dtpFechaFin;
 	
-	@Wire private Button btnPublicar;
+	@Wire Button btnPublicar;
 	
-	@Wire private Button btnNuevoAgenda;
-	@Wire private Button btnEditarAgenda;
-	@Wire private Button btnEliminarAgenda;
-	@Wire private Button btnMarcarRealizado;
-	@Wire private Button btnMarcarPendiente;
+	@Wire Button btnNuevoAgenda;
+	@Wire Button btnEditarAgenda;
+	@Wire Button btnEliminarAgenda;
+	@Wire Button btnMarcarRealizado;
+	@Wire Button btnMarcarPendiente;
 
 
-	private Agenda agendaSeleccionada;
-	private List<Agenda> listaAgenda;
-	private List<Actividad> listaActividad;
-	private AgendaDAO agendaDAO = new AgendaDAO();
-	private ActividadDAO actividadDAO = new ActividadDAO();
-	private Actividad actividadSeleccionada;
+	Agenda agendaSeleccionada;
+	List<Agenda> listaAgenda;
+	List<Actividad> listaActividad;
+	AgendaDAO agendaDAO = new AgendaDAO();
+	ActividadDAO actividadDAO = new ActividadDAO();
+	Actividad actividadSeleccionada;
 
-	private EmpleadoDAO usuarioDAO = new EmpleadoDAO();
+	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	
 	SimpleDateFormat formatoFechaMonth = new SimpleDateFormat("MM");
 	SimpleDateFormat formatoFechaYear = new SimpleDateFormat("yyyy");
@@ -221,7 +221,7 @@ public class DiariaC {
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
-	@NotifyChange({"listaActividad", "listaActividadInterna"})
+	@NotifyChange({"listaActividad", "listaAgenda"})
 	public void buscarPorFiltroFechas() {
 		if(dtpFechaInicio.getValue() == null) {
 			Clients.showNotification("Debe seleccionar fecha Inicio");
@@ -234,6 +234,7 @@ public class DiariaC {
 		if (listaAgenda != null)
 			listaAgenda = null; 
 		listaAgenda = new ArrayList<>();
+		lstAgenda.setModel(new ListModelList(listaAgenda));
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
 		if(!usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)){
 			if(usuario.getPermiso() != null) {

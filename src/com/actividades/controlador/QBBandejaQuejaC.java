@@ -67,7 +67,7 @@ public class QBBandejaQuejaC {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Ventana", this);
 		params.put("Queja", quejaSeleccionada);
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/quejas/bandeja/QBQuejaAtender.zul", null, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/quejas/bandeja/QuejaAtender.zul", null, params);
 		ventanaCargar.doModal();
 	}
 	public List<Queja> getListaQuejas() {

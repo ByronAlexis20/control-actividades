@@ -42,32 +42,32 @@ import com.actividades.util.Constantes;
 import com.actividades.util.SecurityUtil;
 
 public class PendientesC {
-	@Wire private Window winActividades;
-	@Wire private Listbox lstActividades;
-	@Wire private Listbox lstAgenda;
-	@Wire private Textbox txtAgendaSeleccionada;
-	@Wire private Textbox txtFechaInicio;
-	@Wire private Textbox txtFechaFin;
-	@Wire private Button btnPublicar;
+	@Wire Window winActividades;
+	@Wire Listbox lstActividades;
+	@Wire Listbox lstAgenda;
+	@Wire Textbox txtAgendaSeleccionada;
+	@Wire Textbox txtFechaInicio;
+	@Wire Textbox txtFechaFin;
+	@Wire Button btnPublicar;
 	
-	@Wire private Button btnEditarActividad;
-	@Wire private Button btnEliminarActividad;
+	@Wire Button btnEditarActividad;
+	@Wire Button btnEliminarActividad;
 	
 	
-	@Wire private Datebox dtpFechaInicio;
-	@Wire private Datebox dtpFechaFin;
+	@Wire Datebox dtpFechaInicio;
+	@Wire Datebox dtpFechaFin;
 
-	private Agenda agendaSeleccionada;
-	private List<Agenda> listaAgenda;
-	private List<Actividad> listaActividad;
-	private AgendaDAO agendaDAO = new AgendaDAO();
-	private ActividadDAO actividadDAO = new ActividadDAO();
-	private Actividad actividadSeleccionada;
+	Agenda agendaSeleccionada;
+	List<Agenda> listaAgenda;
+	List<Actividad> listaActividad;
+	AgendaDAO agendaDAO = new AgendaDAO();
+	ActividadDAO actividadDAO = new ActividadDAO();
+	Actividad actividadSeleccionada;
 
 	SimpleDateFormat formatoFechaMonth = new SimpleDateFormat("MM");
 	SimpleDateFormat formatoFechaYear = new SimpleDateFormat("yyyy");
 	
-	private EmpleadoDAO usuarioDAO = new EmpleadoDAO();
+	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
@@ -132,9 +132,10 @@ public class PendientesC {
 			System.out.println(ex.getMessage());
 		}
 	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
-	@NotifyChange({"listaActividad", "listaActividadInterna"})
+	@NotifyChange({"listaActividad", "listaAgenda"})
 	public void buscarPorFiltroFechas() {
 		if(dtpFechaInicio.getValue() == null) {
 			Clients.showNotification("Debe seleccionar fecha Inicio");
@@ -170,7 +171,6 @@ public class PendientesC {
 		deshabilitarCampos();
 		agendaSeleccionada = null;	
 		
-		
 		if(listaActividad != null)
 			listaActividad = null;
 		List<String> estados = new ArrayList<>();
@@ -181,6 +181,7 @@ public class PendientesC {
 		List<Actividad> lista = new ArrayList<>();
 		listaActividad = lista;
 	}
+	
 	@GlobalCommand("Actividad.buscarPorAgenda")
 	@Command
 	@NotifyChange({"listaActividad"})

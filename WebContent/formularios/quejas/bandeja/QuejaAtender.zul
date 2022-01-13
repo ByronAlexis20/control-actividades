@@ -13,7 +13,7 @@
 					<row hflex="1">
 						<cell>Problema:</cell>
 						<cell hflex="1">
-							<textbox class="form-control form-control-sm" placeholder="Problema" hflex="1"
+							<textbox class="form-control form-control-sm" placeholder="Problema" hflex="1" readonly="true"
 								id="txtProblema" value="@bind(vm.queja.problema)" />
 						
 						</cell>
@@ -22,7 +22,7 @@
 						<cell>Descripción:</cell>
 						<cell hflex="1">
 							<textbox class="form-control form-control-sm" placeholder="Problema" multiline="true" height="100px" hflex="1"
-								id="txtDescripcion" value="@bind(vm.queja.descripcion)" />
+								id="txtDescripcion" value="@bind(vm.queja.descripcion)" readonly="true" />
 						</cell>
 					</row>
 					<row>
