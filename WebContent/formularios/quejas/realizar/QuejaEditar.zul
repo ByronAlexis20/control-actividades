@@ -13,6 +13,17 @@
 					<column/>
 				</columns>
 				<rows>
+					<row>
+						<cell sclass="row-title">Tipo de queja:</cell>
+						<cell>
+							<combobox id="cboTipoQueja" model="@load(vm.tipoQuejas)" 
+								placeholder="Tipo de queja" hflex="1" style="text-transform:uppercase">
+								<template name="model">
+									<comboitem label="${each.tipoQueja}" />
+								</template>
+							</combobox>
+						</cell>
+					</row>
 					<row hflex="1">
 						<cell>Problema:</cell>
 						<cell hflex="1">

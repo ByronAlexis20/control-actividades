@@ -71,6 +71,10 @@ public class Queja implements Serializable{
 	@JoinColumn(name="id_empleado")
 	private Empleado empleado;
 
+	@ManyToOne
+	@JoinColumn(name="id_tipo_queja")
+	private TipoQueja tipoQueja;
+	
 	public Integer getIdQueja() {
 		return idQueja;
 	}
@@ -166,6 +170,13 @@ public class Queja implements Serializable{
 	public void setArchivoAdjunto(String archivoAdjunto) {
 		this.archivoAdjunto = archivoAdjunto;
 	}
-	
-	
+
+	public TipoQueja getTipoQueja() {
+		return tipoQueja;
+	}
+
+	public void setTipoQueja(TipoQueja tipoQueja) {
+		this.tipoQueja = tipoQueja;
+	}
+		
 }

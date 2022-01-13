@@ -1,6 +1,7 @@
 package com.actividades.controlador;
 
 import java.util.Date;
+import java.util.List;
 
 import org.zkoss.bind.BindContext;
 import org.zkoss.bind.BindUtils;
@@ -16,6 +17,7 @@ import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
@@ -24,6 +26,8 @@ import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
 import com.actividades.modelo.Queja;
 import com.actividades.modelo.QuejaDAO;
+import com.actividades.modelo.TipoQueja;
+import com.actividades.modelo.TipoQuejaDAO;
 import com.actividades.util.Constantes;
 import com.actividades.util.FileUtil;
 import com.actividades.util.SecurityUtil;
@@ -34,8 +38,11 @@ public class QQuejaEditarC {
 	@Wire private Textbox txtProblema;
 	@Wire private Textbox txtDescripcion;
 	@Wire private Textbox txtArchivo;
+	@Wire private Combobox cboTipoQueja;
+	
 	QuejaDAO quejaDAO = new QuejaDAO();
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
+	TipoQuejaDAO tipoQuejaDAO = new TipoQuejaDAO();
 	
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -67,6 +74,10 @@ public class QQuejaEditarC {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
 	public void grabar() {
+		if(cboTipoQueja.getSelectedIndex() == -1) {
+			Clients.showNotification("Debe seleccionar Tipo de queja","info",cboTipoQueja,"end_center",2000);
+			return;
+		}
 		if(txtProblema.getText().isEmpty()) {
 			Messagebox.show("Debe registrar un problema");
 			return;
@@ -81,6 +92,7 @@ public class QQuejaEditarC {
 				if (event.getName().equals("onYes")) {		
 					try {
 						quejaDAO.getEntityManager().getTransaction().begin();
+						queja.setTipoQueja((TipoQueja)cboTipoQueja.getSelectedItem().getValue());
 						if (queja.getIdQueja() == null) {
 							quejaDAO.getEntityManager().persist(queja);
 						}else{
@@ -109,5 +121,7 @@ public class QQuejaEditarC {
 	public void setQueja(Queja queja) {
 		this.queja = queja;
 	}
-	
+	public List<TipoQueja> getTipoQuejas(){
+		return tipoQuejaDAO.obtenerListaTipoQueja();
+	}
 }
