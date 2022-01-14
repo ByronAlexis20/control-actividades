@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptInformeGobernador" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d62d62e4-e441-44c5-8db2-4c1da038607f">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ConexionControlActividadesPG"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -61,53 +62,48 @@ order by ac.fecha asc]]>
 		<groupHeader>
 			<band height="55">
 				<textField>
-					<reportElement uuid="70f6ec22-0593-4ee8-836c-722a5862624e" x="90" y="19" width="320" height="14"/>
-					<textElement/>
+					<reportElement x="90" y="19" width="320" height="14" uuid="70f6ec22-0593-4ee8-836c-722a5862624e"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
 					<textFieldExpression><![CDATA[$F{departamento}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="d9eed7bf-94ee-4982-991c-e19ce33e0f0a" x="90" y="6" width="320" height="13"/>
-					<textElement/>
+					<reportElement x="90" y="6" width="320" height="13" uuid="d9eed7bf-94ee-4982-991c-e19ce33e0f0a"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
 					<textFieldExpression><![CDATA[$F{jefe}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement uuid="547338db-8d07-44dc-9818-6694572e60ab" x="25" y="6" width="62" height="13"/>
+					<reportElement x="25" y="6" width="62" height="13" uuid="547338db-8d07-44dc-9818-6694572e60ab"/>
 					<textElement>
-						<font isBold="true"/>
+						<font fontName="Times New Roman" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Funcionario:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="dd4980a0-3e0f-4451-879b-3965f9c0b4e9" x="25" y="19" width="62" height="13"/>
+					<reportElement x="25" y="19" width="62" height="13" uuid="dd4980a0-3e0f-4451-879b-3965f9c0b4e9"/>
 					<textElement>
-						<font isBold="true"/>
+						<font fontName="Times New Roman" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Departamento:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="e1622bc9-b672-4d05-a3c5-e1bd718d2972" x="20" y="37" width="67" height="13">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="66be8af5-e9dc-4e91-af30-2db8858b4807"/>
-					</reportElement>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font isBold="true"/>
-					</textElement>
-					<text><![CDATA[Código]]></text>
-				</staticText>
-				<staticText>
-					<reportElement uuid="b5316285-78cd-40c0-9ad8-dcd4fa0b4e44" x="91" y="37" width="375" height="13">
+					<reportElement x="50" y="37" width="416" height="13" uuid="b5316285-78cd-40c0-9ad8-dcd4fa0b4e44">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8d6388f0-512b-4ba0-bd64-bfe427f4de40"/>
 					</reportElement>
 					<textElement textAlignment="Center">
-						<font isBold="true"/>
+						<font fontName="Times New Roman" isBold="true"/>
 					</textElement>
-					<text><![CDATA[descripcion]]></text>
+					<text><![CDATA[Actividades]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="ebc4bf9a-01e6-47bf-83a2-38ff061e8503" x="470" y="37" width="65" height="13">
+					<reportElement x="470" y="37" width="65" height="13" uuid="ebc4bf9a-01e6-47bf-83a2-38ff061e8503">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dca8234c-dbe1-4118-8c96-b21a7d4b143f"/>
 					</reportElement>
 					<textElement textAlignment="Center">
-						<font isBold="true"/>
+						<font fontName="Times New Roman" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Fecha]]></text>
 				</staticText>
@@ -125,62 +121,68 @@ order by ac.fecha asc]]>
 	<title>
 		<band height="107" splitType="Stretch">
 			<line>
-				<reportElement uuid="7c2b8b4d-9219-4b43-86a0-79e04e8e70e3" x="21" y="8" width="514" height="1"/>
+				<reportElement x="21" y="8" width="514" height="1" uuid="7c2b8b4d-9219-4b43-86a0-79e04e8e70e3"/>
 				<graphicElement>
 					<pen lineWidth="2.0"/>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement uuid="315e6539-a4ed-4efa-bb07-7846c31f5c75" x="21" y="50" width="514" height="1"/>
+				<reportElement x="21" y="50" width="514" height="1" uuid="315e6539-a4ed-4efa-bb07-7846c31f5c75"/>
 				<graphicElement>
 					<pen lineWidth="2.0"/>
 				</graphicElement>
 			</line>
 			<image scaleImage="FillFrame">
-				<reportElement uuid="faaba372-6225-4e04-9052-72eaaad1f5a5" stretchType="RelativeToTallestObject" x="21" y="9" width="97" height="41"/>
+				<reportElement stretchType="RelativeToTallestObject" x="21" y="9" width="97" height="41" uuid="faaba372-6225-4e04-9052-72eaaad1f5a5"/>
 				<imageExpression><![CDATA["logo_gobernacion.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement uuid="1ce16b16-f987-4507-93de-aa2c7a07515a" x="118" y="13" width="417" height="31"/>
+				<reportElement x="118" y="13" width="417" height="31" uuid="1ce16b16-f987-4507-93de-aa2c7a07515a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="20" isBold="true"/>
 				</textElement>
 				<text><![CDATA[INFORME DE GOBERNADOR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="a724f9a0-d07f-41dc-ac3a-3aca2bd1717b" x="25" y="61" width="110" height="13"/>
+				<reportElement x="25" y="61" width="110" height="13" uuid="a724f9a0-d07f-41dc-ac3a-3aca2bd1717b"/>
 				<textElement>
-					<font isBold="true"/>
+					<font fontName="Times New Roman" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nombre gobernador/a:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="6e87d512-746c-4a53-ad01-5718185547de" x="25" y="74" width="62" height="13"/>
+				<reportElement x="25" y="74" width="62" height="13" uuid="6e87d512-746c-4a53-ad01-5718185547de"/>
 				<textElement>
-					<font isBold="true"/>
+					<font fontName="Times New Roman" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Periodo:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="e99aa765-7965-44d2-a113-c177a84b2b78" x="25" y="87" width="62" height="13"/>
+				<reportElement x="25" y="87" width="62" height="13" uuid="e99aa765-7965-44d2-a113-c177a84b2b78"/>
 				<textElement>
-					<font isBold="true"/>
+					<font fontName="Times New Roman" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Motivo:]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="a242e849-c271-4f6b-8629-d04fb9354ab2" x="137" y="61" width="380" height="13"/>
-				<textElement/>
+				<reportElement x="137" y="61" width="380" height="13" uuid="a242e849-c271-4f6b-8629-d04fb9354ab2"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{GOBERNADOR}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="f770642a-6b00-4e8c-8c35-3c432498e272" x="90" y="74" width="427" height="13"/>
-				<textElement/>
+				<reportElement x="90" y="74" width="427" height="13" uuid="f770642a-6b00-4e8c-8c35-3c432498e272"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{PERIODO}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement uuid="c6df281a-0fd6-4b49-b6de-cb2e0dc21da0" x="90" y="87" width="427" height="13" isPrintWhenDetailOverflows="true"/>
-				<textElement/>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="90" y="87" width="427" height="13" isPrintWhenDetailOverflows="true" uuid="c6df281a-0fd6-4b49-b6de-cb2e0dc21da0"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{MOTIVO}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -191,41 +193,46 @@ order by ac.fecha asc]]>
 	<columnHeader>
 		<band height="35" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="69e9499c-a934-4c4f-a3fa-a5436e830920" x="25" y="6" width="492" height="19"/>
+				<reportElement x="25" y="6" width="492" height="19" uuid="69e9499c-a934-4c4f-a3fa-a5436e830920"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Actividades realizadas por los funcionarios]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="15" splitType="Stretch">
+		<band height="17" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
-				<reportElement uuid="1fb0f88f-d99a-4771-b48d-b5a65f7c8a64" x="20" y="0" width="67" height="14">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="66be8af5-e9dc-4e91-af30-2db8858b4807"/>
+				<reportElement x="50" y="0" width="416" height="16" uuid="7331ee07-144f-4ec9-8ecb-4b50cb67b916">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8d6388f0-512b-4ba0-bd64-bfe427f4de40"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font size="8"/>
+					<font fontName="Times New Roman"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="7331ee07-144f-4ec9-8ecb-4b50cb67b916" x="91" y="0" width="375" height="14">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8d6388f0-512b-4ba0-bd64-bfe427f4de40"/>
-				</reportElement>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="ead2cad2-f66b-4a8b-87f9-2b5232c0937a" x="470" y="0" width="65" height="14">
+				<reportElement x="470" y="0" width="65" height="14" uuid="ead2cad2-f66b-4a8b-87f9-2b5232c0937a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dca8234c-dbe1-4118-8c96-b21a7d4b143f"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="28" y="1" width="22" height="16" uuid="74a8527e-daaa-44fa-aad9-f200a25fc942">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[*]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<columnFooter>
