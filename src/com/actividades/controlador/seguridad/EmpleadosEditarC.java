@@ -21,6 +21,7 @@ import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Messagebox;
@@ -53,6 +54,7 @@ public class EmpleadosEditarC {
 	@Wire private Combobox cboCargo;
 	@Wire private Textbox txtUsuario;
 	@Wire private Textbox txtClave;
+	@Wire private Button btnMostrarClave;
 	Departamento departamentoSeleccionado;
 	TipoUsuario tipoUsuarioseleccionado;
 	Cargo cargoSeleccionado;
@@ -132,6 +134,19 @@ public class EmpleadosEditarC {
 	public void setCargos(List<Cargo> cargos) {
 		this.cargos = cargos;
 	}
+	
+	@Command
+	public void mostrarClave() {
+		try {
+			if(txtClave.getType().equals("password")) {
+				txtClave.setType("text");
+			}else {
+				txtClave.setType("password");
+			}
+		}catch(Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
@@ -172,8 +187,8 @@ public class EmpleadosEditarC {
 			//llear datos de persona al insertar
 			if (empleado.getIdEmpleado() == null) {
 				persona.setCedula(txtCedula.getText());
-				persona.setNombre(txtNombres.getText());
-				persona.setApellido(txtApellidos.getText());
+				persona.setNombre(txtNombres.getText().toUpperCase());
+				persona.setApellido(txtApellidos.getText().toUpperCase());
 				persona.setEmail(txtEmail.getText());
 				persona.setDireccion(txtDireccion.getText());
 				persona.setTelefono(txtTelefono.getText());
@@ -196,8 +211,8 @@ public class EmpleadosEditarC {
 			
 			}else {
 				empleado.getPersona().setCedula(txtCedula.getText());
-				empleado.getPersona().setNombre(txtNombres.getText());
-				empleado.getPersona().setApellido(txtApellidos.getText());
+				empleado.getPersona().setNombre(txtNombres.getText().toUpperCase());
+				empleado.getPersona().setApellido(txtApellidos.getText().toUpperCase());
 				empleado.getPersona().setEmail(txtEmail.getText());
 				empleado.getPersona().setDireccion(txtDireccion.getText());
 				empleado.getPersona().setTelefono(txtTelefono.getText());
@@ -287,7 +302,7 @@ public class EmpleadosEditarC {
 				Clients.showNotification("Debe seleccionar un tipo de usuario","info",cboTipoUsuario,"end_center",2000);
 				return false;
 			}
-			if(departamentoSeleccionado == null) {
+			if(cboDepartamento.getSelectedIndex() == -1) {
 				Clients.showNotification("Debe seleccionar un departamento","info",cboDepartamento,"end_center",2000);
 				return false;
 			}

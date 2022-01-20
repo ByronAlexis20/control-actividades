@@ -16,6 +16,7 @@
 					<listheader label="Actividad" sclass="lb-listheader"/>
 					<listheader label="Fecha" width="10%" sclass="lb-listheader"/>
 					<listheader label="Estado" width="12%" sclass="lb-listheader"/>
+					<listheader label="Evidencias" width="12%" sclass="lb-listheader"/>
 				</listhead>
 				<template name="model">
 					<listitem>
@@ -23,6 +24,11 @@
 						<listcell label="@load(each.descripcion)" style="font-family: Calibri;"/>
 						<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')" style="font-family: Calibri;"/>
 						<listcell label="@load(each.estadoActividad)" style="font-family: Calibri;"/>
+						<listcell>
+							<button onClick="@command('verEvidencias',actividad=each)" zclass="btn-editar btn-size">
+								Ver
+							</button>
+						</listcell>
 					</listitem>
 				</template>
 			</listbox>

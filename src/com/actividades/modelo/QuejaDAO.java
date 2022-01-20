@@ -1,7 +1,6 @@
 package com.actividades.modelo;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -68,7 +67,6 @@ public class QuejaDAO extends ClaseDAO{
 		Query query = getEntityManager().createNamedQuery("Queja.buscarPorDepartamento");
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setParameter("idDepartamento", idDepartamento);
-		query.setParameter("fecha", new Date());
 		resultado = (List<Queja>) query.getResultList();
 		return resultado;
 	}

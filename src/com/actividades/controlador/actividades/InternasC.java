@@ -2,6 +2,8 @@ package com.actividades.controlador.actividades;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -89,6 +91,7 @@ public class InternasC {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Ventana", this);
 		params.put("Agenda", null);
+		params.put("tipoAgenda", Constantes.TIPO_AGENDA_INTERNAS);
 		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/NuevaAgenda.zul", winActividades, params);
 		ventanaCargar.doModal();
 	}
@@ -104,6 +107,7 @@ public class InternasC {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Ventana", this);
 		params.put("Agenda", agendaSeleccionada);
+		params.put("tipoAgenda", Constantes.TIPO_AGENDA_INTERNAS);
 		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/NuevaAgenda.zul", winActividades, params);
 		ventanaCargar.doModal();
 	}
@@ -178,6 +182,8 @@ public class InternasC {
 		if (listaAgenda != null)
 			listaAgenda = null; 
 		listaAgenda = new ArrayList<>();
+		List<Agenda> lista = new ArrayList<>();
+		
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
 		if(!usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)){
 			if(usuario.getPermiso() != null) {
@@ -185,24 +191,26 @@ public class InternasC {
 					//hay q buscar el jefe de ese departamento
 					List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
 					if(jefeArea.size() > 0) {
-						listaAgenda = agendaDAO.obtenerAgendaActivaYFechas(jefeArea.get(0).getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
+						lista = agendaDAO.obtenerAgendaActivaYFechasInternas(jefeArea.get(0).getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
 					}	
 				}else {
-					listaAgenda = new ArrayList<>();
+					lista = new ArrayList<>();
 					btnNuevoAgenda.setDisabled(true);
 					btnEditarAgenda.setDisabled(true);
 					btnEliminarAgenda.setDisabled(true);
 				}
 			}else {
-				listaAgenda = new ArrayList<>();
+				lista = new ArrayList<>();
 				btnNuevoAgenda.setDisabled(true);
 				btnEditarAgenda.setDisabled(true);
 				btnEliminarAgenda.setDisabled(true);
 			}
 			
 		}else {
-			listaAgenda = agendaDAO.obtenerAgendaActivaYFechas(usuario.getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
+			lista = agendaDAO.obtenerAgendaActivaYFechasInternas(usuario.getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
 		}
+		listaAgenda = lista;
+		
 		lstAgenda.setModel(new ListModelList(listaAgenda));
 		deshabilitarCampos();
 		agendaSeleccionada = null;	
@@ -215,8 +223,8 @@ public class InternasC {
 		estados.add(Constantes.ESTADO_PUBLICADO);
 		estados.add(Constantes.ESTADO_RECHAZADO);
 		
-		List<Actividad> lista = new ArrayList<>();
-		listaActividadInterna = lista;
+		List<Actividad> listaA = new ArrayList<>();
+		listaActividadInterna = listaA;
 	}
 	@Command
 	public void seleccionarAgenda() {
@@ -291,7 +299,7 @@ public class InternasC {
 					//hay q buscar el jefe de ese departamento
 					List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
 					if(jefeArea.size() > 0) {
-						listaAgenda = agendaDAO.obtenerAgendaActiva(jefeArea.get(0).getIdEmpleado());
+						listaAgenda = agendaDAO.obtenerAgendaActiva(jefeArea.get(0).getIdEmpleado(), Constantes.TIPO_AGENDA_INTERNAS);
 					}	
 				}else {
 					listaAgenda = new ArrayList<>();
@@ -307,7 +315,7 @@ public class InternasC {
 			}
 			
 		}else {
-			listaAgenda = agendaDAO.obtenerAgendaActiva(usuario.getIdEmpleado());
+			listaAgenda = agendaDAO.obtenerAgendaActiva(usuario.getIdEmpleado(), Constantes.TIPO_AGENDA_INTERNAS);
 		}
 		
 		lstAgenda.setModel(new ListModelList(listaAgenda));

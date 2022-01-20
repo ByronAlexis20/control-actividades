@@ -18,7 +18,7 @@
 					<row>
 						<cell>Nuevo Cargo:</cell>
 						<cell>
-							<combobox id="cboCargo" selectedItem="@bind(vm.cargoSeleccionado)"
+							<combobox id="cboCargo" selectedItem="@bind(vm.cargoSeleccionado)" readonly="true"
 								model="@load(vm.cargos)" placeholder="Cargo" hflex="1">
 							</combobox>
 						</cell>

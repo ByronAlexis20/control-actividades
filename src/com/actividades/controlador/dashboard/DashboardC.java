@@ -363,12 +363,23 @@ public class DashboardC {
 		imGraficoActividades.setContent(imagen);
 	}
 	private void cargarGraficoQuejas() throws IOException {
-		lblQuejas.setValue("Gráfica de quejas realizadas el dia " + formatoFecha.format(new Date()));
+		lblQuejas.setValue("Gráfica de quejas realizadas el mes de " + mesSeleccionado.getMes() + " del año " + txtAnio.getText());
+		
 		List<Departamento> listaDepartamentos = this.departamentoDAO.getDepartamentosActivos();
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for(Departamento dep : listaDepartamentos) {
-			List<Queja> listaQuejas = this.quejaDAO.buscarPorDepartamento(dep.getIdDepartamento());
-			dataset.addValue(listaQuejas.size(), "Quejas", dep.getNombre().substring(0, 6));
+			if(dep.getEmpleados().size() > 0) {
+				List<Queja> listaQuejas = this.quejaDAO.buscarPorDepartamento(dep.getIdDepartamento());
+				Integer cantidadQuejas = 0;
+				for(Queja q : listaQuejas) {
+					ZoneId timeZone = ZoneId.systemDefault();
+			        LocalDate getLocalDate = q.getFechaAceptacion().toInstant().atZone(timeZone).toLocalDate();
+			        if(getLocalDate.getYear() == Integer.parseInt(txtAnio.getText()) && getLocalDate.getMonthValue() == mesSeleccionado.getIdMes()) {
+			        	cantidadQuejas = cantidadQuejas + 1;
+			        }
+				}
+				dataset.addValue(cantidadQuejas, "Quejas", dep.getNombre().substring(0, 6));
+			}
 		}
 		
 		JFreeChart chart = ChartFactory.createBarChart("Cantidad de quejas", null, null, dataset, PlotOrientation.VERTICAL, true, true, false);
@@ -400,7 +411,7 @@ public class DashboardC {
 		imGraficoQuejas.setContent(imagen);
 	}
 	private void cargarGraficoActividadesPorDepartamento() throws IOException {
-		lblActividadesPorDepartamento.setValue("Gráfica de actividades realizadas el dia " + formatoFecha.format(new Date()));
+		lblActividadesPorDepartamento.setValue("Gráfica de actividades realizadas el mes de " + mesSeleccionado.getMes() + " del año " + txtAnio.getText());
 		List<Departamento> listaDepartamentos = this.departamentoDAO.getDepartamentosActivos();
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for(Departamento dep : listaDepartamentos) {
@@ -466,6 +477,7 @@ public class DashboardC {
 		this.contarCantidades();
 		this.cargarGraficoActividades();
 		this.cargarGraficoActividadesPorDepartamento();
+		this.cargarGraficoQuejas();
 	}
 	public List<Trabajadores> getListaEmpleados() {
 		return listaEmpleados;

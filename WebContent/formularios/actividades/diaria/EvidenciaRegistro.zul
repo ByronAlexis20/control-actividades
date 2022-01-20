@@ -16,7 +16,7 @@
 					<row hflex="1">
 						<cell>Tipo de evidencia:</cell>
 						<cell hflex="1">
-							<combobox id="cboTipoEvidencia" model="@load(vm.tipoEvidencia)" 
+							<combobox id="cboTipoEvidencia" model="@load(vm.tipoEvidencia)" readonly="true"
 								placeholder="Tipo de evidencia" hflex="1" style="text-transform:uppercase"
 								onSelect="@command('cambioFormato')">
 							</combobox>

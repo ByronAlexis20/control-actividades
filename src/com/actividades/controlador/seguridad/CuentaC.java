@@ -63,6 +63,20 @@ public class CuentaC {
 		txtUsuario.setText(empleado.getUsuario());
 		txtClave.setText(empleado.getClaveNormal());
 	}
+	
+	@Command
+	public void mostrarClave() {
+		try {
+			if(txtClave.getType().equals("password")) {
+				txtClave.setType("text");
+			}else {
+				txtClave.setType("password");
+			}
+		}catch(Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
 	public void grabar(){
@@ -91,8 +105,8 @@ public class CuentaC {
 	private void copiarDatos() {
 		try {
 			empleado.getPersona().setCedula(txtCedula.getText().toString());
-			empleado.getPersona().setNombre(txtNombres.getText().toString());
-			empleado.getPersona().setApellido(txtApellidos.getText().toString());
+			empleado.getPersona().setNombre(txtNombres.getText().toString().toUpperCase());
+			empleado.getPersona().setApellido(txtApellidos.getText().toString().toUpperCase());
 			empleado.getPersona().setEmail(txtEmail.getText().toString());
 			empleado.getPersona().setDireccion(txtDireccion.getText().toString());
 			empleado.getPersona().setTelefono(txtTelefono.getText().toString());

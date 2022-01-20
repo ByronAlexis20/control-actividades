@@ -10,13 +10,21 @@ import java.util.List;
 @NamedQueries({
 	@NamedQuery(name="Agenda.buscarActivos", query="SELECT a FROM Agenda a where a.estado = 'A'  order by a.idAgenda asc"),
 	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeado", query="SELECT a FROM Agenda a where a.estado = 'A' "
-			+ "and a.empleado.idEmpleado = :idEmpleado order by a.fechaInicio desc"),
+			+ "and a.empleado.idEmpleado = :idEmpleado and a.tipoAgenda = :tipoAgenda order by a.fechaInicio desc"),
+	@NamedQuery(name="Agenda.obtenerAgendaActivaYGobernador", query="SELECT a FROM Agenda a where a.estado = 'A' "
+			+ "and a.empleado.idEmpleado = :idEmpleado and (a.tipoAgenda = :tipoAgenda or a.tipoAgenda = :tipoAgendaGobernador) order by a.fechaInicio desc"),
 	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeadoYFechas", query="SELECT a FROM Agenda a where a.estado = 'A' "
 			+ "and a.empleado.idEmpleado = :idEmpleado and (a.fechaInicio between :fechaInicio and :fechaFin) order by a.fechaInicio desc"),
+	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeadoYFechasInternas", query="SELECT a FROM Agenda a where a.estado = 'A' "
+			+ "and a.empleado.idEmpleado = :idEmpleado and (a.fechaInicio between :fechaInicio and :fechaFin) "
+			+ "and a.tipoAgenda = :tipoAgenda order by a.fechaInicio desc"),
+	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeadoYFechasTipoActividad", query="SELECT a FROM Agenda a where a.estado = 'A' "
+			+ "and a.empleado.idEmpleado = :idEmpleado and (a.fechaInicio between :fechaInicio and :fechaFin) "
+			+ "and (a.tipoAgenda = :tipoAgendaPrincipal or a.tipoAgenda = :tipoAgendaGobernador)  order by a.fechaInicio desc"),
 	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeadoCodigoAgenda", query="SELECT a FROM Agenda a where "
 			+ "a.empleado.idEmpleado = :idEmpleado order by a.fechaInicio desc"),
 	@NamedQuery(name="Agenda.buscarUltimaAgenda", query="SELECT a FROM Agenda a where "
-			+ "a.empleado.idEmpleado = :idEmpleado and a.estado = 'A' order by a.fechaInicio desc"),
+			+ "a.empleado.idEmpleado = :idEmpleado and a.estado = 'A' and a.tipoAgenda = :tipoAgenda order by a.fechaInicio desc"),
 	@NamedQuery(name="Agenda.buscarPorFechaEmpleado", query="SELECT a FROM Agenda a where "
 			+ "a.empleado.idEmpleado = :idEmpleado and a.estado = 'A' and (a.fechaInicio >= :fecha and a.fechaFin <= :fecha)"),
 	@NamedQuery(name="Agenda.buscarPorFechaEmpleadoEnviadaPorGobernador", query="SELECT a FROM Agenda a where "
@@ -48,7 +56,7 @@ public class Agenda implements Serializable {
 	private Date fechaInicio;
 
 	//bi-directional many-to-one association to Actividad
-	@OneToMany(mappedBy="agenda")
+	@OneToMany(mappedBy="agenda", cascade = CascadeType.ALL)
 	private List<Actividad> actividads;
 
 	//bi-directional many-to-one association to Empleado

@@ -88,6 +88,14 @@ public class TEvidenciaListaC {
 			Messagebox.show("Debe seleccionar un tipo de evidencia para eliminar!");
 			return; 
 		}
+		List<TipoEvidencia> listaTipo = tipoEvidenciaDAO.buscarPorId(tip.getIdTipoEvidencia());
+		if(listaTipo.size() != 0) {
+			if(listaTipo.get(0).getEvidencias().size() > 0) {
+				Messagebox.show("No se puede eliminar, es utilizada en otros registros!");
+				return;
+			}
+		}
+		
 		Messagebox.show("Desea eliminar el registro seleccionado?", "Confirmación de Eliminación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {	
 			@Override
 			public void onEvent(Event event) throws Exception {

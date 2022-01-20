@@ -31,6 +31,7 @@ import com.actividades.modelo.Departamento;
 import com.actividades.modelo.DepartamentoDAO;
 import com.actividades.modelo.Empleado;
 import com.actividades.modelo.EmpleadoDAO;
+import com.actividades.util.Constantes;
 
 public class ActividadesC {
 	@Wire private Listbox lstDepartamento;
@@ -114,7 +115,7 @@ public class ActividadesC {
 		if(listaAgendas != null)
 			listaAgendas = null;
 		
-		listaAgendas = agendaDAO.obtenerAgendaActiva(departamentoSeleccionado.getEmpleado().getIdEmpleado());
+		listaAgendas = agendaDAO.obtenerAgendaActiva(departamentoSeleccionado.getEmpleado().getIdEmpleado(), Constantes.TIPO_AGENDA_PRINCIPALES);
 		lstAgendas.setModel(new ListModelList(listaAgendas));
 	}
 	

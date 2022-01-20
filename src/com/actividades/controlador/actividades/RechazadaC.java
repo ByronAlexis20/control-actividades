@@ -162,7 +162,7 @@ public class RechazadaC {
 		if (listaAgenda != null)
 			listaAgenda = null; 
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
-		listaAgenda = agendaDAO.obtenerAgendaActiva(usuario.getIdEmpleado());
+		listaAgenda = agendaDAO.obtenerAgendaActiva(usuario.getIdEmpleado(), Constantes.TIPO_AGENDA_PRINCIPALES);
 		lstAgenda.setModel(new ListModelList(listaAgenda));
 		deshabilitarCampos();
 		agendaSeleccionada = null;	

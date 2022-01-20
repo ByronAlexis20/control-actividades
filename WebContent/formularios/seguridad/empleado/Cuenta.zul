@@ -77,7 +77,7 @@
 								<label value="Nombres: *" sclass="font-weight-bold col-form-label"/>
 							</cell>
 							<cell>
-								<textbox id="txtNombres" hflex="1" maxlength="60"/>
+								<textbox id="txtNombres" hflex="1" maxlength="60" style="text-transform:uppercase"/>
 							</cell>
 						</row>
 						<row>
@@ -85,7 +85,7 @@
 								<label value="Apellidos: *" sclass="font-weight-bold col-form-label"/>
 							</cell>
 							<cell>
-								<textbox id="txtApellidos" hflex="1" maxlength="60"/>
+								<textbox id="txtApellidos" hflex="1" maxlength="60" style="text-transform:uppercase"/>
 							</cell>
 						</row>
 						<row>
@@ -113,7 +113,13 @@
 							<label value="Usuario: *" sclass="font-weight-bold col-form-label"/>
 							<textbox id="txtUsuario" value="@bind(vm.empleado.usuario)" hflex="1" maxlength="13" disabled="true"/>
 							<label value="Clave: *" sclass="font-weight-bold col-form-label"/>
-							<textbox id="txtClave" type="password" hflex="1" maxlength="13"/>
+							<hlayout>
+								<textbox id="txtClave" type="password" hflex="1" maxlength="20"/>
+								<button id="btnMostrarClave" onClick="@command('mostrarClave')" iconSclass="z-icon-eye"/>
+								<div></div>
+								<div></div>
+								<div></div>
+							</hlayout>
 						</row>
 						<row>
 							<button id="btnGrabar" label="Grabar" onClick="@command('grabar')" iconSclass="z-icon-save"  

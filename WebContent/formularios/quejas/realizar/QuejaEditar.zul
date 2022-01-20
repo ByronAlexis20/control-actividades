@@ -16,7 +16,7 @@
 					<row>
 						<cell sclass="row-title">Tipo de queja:</cell>
 						<cell>
-							<combobox id="cboTipoQueja" model="@load(vm.tipoQuejas)" 
+							<combobox id="cboTipoQueja" model="@load(vm.tipoQuejas)" readonly="true"
 								placeholder="Tipo de queja" hflex="1" style="text-transform:uppercase">
 								<template name="model">
 									<comboitem label="${each.tipoQueja}" />

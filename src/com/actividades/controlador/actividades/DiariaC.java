@@ -2,6 +2,8 @@ package com.actividades.controlador.actividades;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -90,6 +92,7 @@ public class DiariaC {
 	public void nuevaAgenda() {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Agenda", null);
+		params.put("tipoAgenda", Constantes.TIPO_AGENDA_PRINCIPALES);
 		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/NuevaAgenda.zul", winActividades, params);
 		ventanaCargar.doModal();
 	}
@@ -111,6 +114,7 @@ public class DiariaC {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Ventana", this);
 		params.put("Agenda", agendaSeleccionada);
+		params.put("tipoAgenda", Constantes.TIPO_AGENDA_PRINCIPALES);
 		Window ventanaCargar = (Window) Executions.createComponents("/formularios/actividades/diaria/NuevaAgenda.zul", winActividades, params);
 		ventanaCargar.doModal();
 	}
@@ -234,6 +238,7 @@ public class DiariaC {
 		if (listaAgenda != null)
 			listaAgenda = null; 
 		listaAgenda = new ArrayList<>();
+		List<Agenda> lista = new ArrayList<>();
 		lstAgenda.setModel(new ListModelList(listaAgenda));
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
 		if(!usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)){
@@ -242,24 +247,27 @@ public class DiariaC {
 					//hay q buscar el jefe de ese departamento
 					List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
 					if(jefeArea.size() > 0) {
-						listaAgenda = agendaDAO.obtenerAgendaActivaYFechas(jefeArea.get(0).getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
+						lista = agendaDAO.obtenerAgendaActivaYFechasYGobernador(jefeArea.get(0).getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
 					}	
 				}else {
-					listaAgenda = new ArrayList<>();
+					lista = new ArrayList<>();
 					btnNuevoAgenda.setDisabled(true);
 					btnEditarAgenda.setDisabled(true);
 					btnEliminarAgenda.setDisabled(true);
 				}
 			}else {
-				listaAgenda = new ArrayList<>();
+				lista = new ArrayList<>();
 				btnNuevoAgenda.setDisabled(true);
 				btnEditarAgenda.setDisabled(true);
 				btnEliminarAgenda.setDisabled(true);
 			}
 			
 		}else {
-			listaAgenda = agendaDAO.obtenerAgendaActivaYFechas(usuario.getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
+			lista = agendaDAO.obtenerAgendaActivaYFechasYGobernador(usuario.getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
 		}
+		
+		listaAgenda = lista;
+
 		lstAgenda.setModel(new ListModelList(listaAgenda));
 		deshabilitarCampos();
 		agendaSeleccionada = null;	
@@ -272,8 +280,8 @@ public class DiariaC {
 		estados.add(Constantes.ESTADO_PUBLICADO);
 		estados.add(Constantes.ESTADO_RECHAZADO);
 		
-		List<Actividad> lista = new ArrayList<>();
-		listaActividad = lista;
+		List<Actividad> listaA = new ArrayList<>();
+		listaActividad = listaA;
 		lstActividades.setModel(new ListModelList(listaActividad));
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -310,6 +318,8 @@ public class DiariaC {
 		if (listaAgenda != null)
 			listaAgenda = null; 
 		listaAgenda = new ArrayList<>();
+		List<Agenda> lista = new ArrayList<>();
+		
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
 		if(!usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)){
 			if(usuario.getPermiso() != null ) {
@@ -317,26 +327,39 @@ public class DiariaC {
 					//hay q buscar el jefe de ese departamento
 					List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
 					if(jefeArea.size() > 0) {
-						listaAgenda = agendaDAO.obtenerAgendaActiva(jefeArea.get(0).getIdEmpleado());
+						lista = agendaDAO.obtenerAgendaActivaYGobernador(jefeArea.get(0).getIdEmpleado(), Constantes.TIPO_AGENDA_PRINCIPALES);
 					}	
 				}else {
-					listaAgenda = new ArrayList<>();
+					lista = new ArrayList<>();
 					btnNuevoAgenda.setDisabled(true);
 					btnEditarAgenda.setDisabled(true);
 					btnEliminarAgenda.setDisabled(true);
 				}
 			}else {
 				if(usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_AUTORIDAD_MAXIMA)){
-						listaAgenda = agendaDAO.obtenerAgendaActiva(usuario.getIdEmpleado());
+						lista = agendaDAO.obtenerAgendaActivaYGobernador(usuario.getIdEmpleado(), Constantes.TIPO_AGENDA_PRINCIPALES);
 				}else {
-					listaAgenda = new ArrayList<>();
+					lista = new ArrayList<>();
 					btnNuevoAgenda.setDisabled(true);
 					btnEditarAgenda.setDisabled(true);
 					btnEliminarAgenda.setDisabled(true);
 				}
 			}
 		}else {
-			listaAgenda = agendaDAO.obtenerAgendaActiva(usuario.getIdEmpleado());
+			lista = agendaDAO.obtenerAgendaActivaYGobernador(usuario.getIdEmpleado(), Constantes.TIPO_AGENDA_PRINCIPALES);
+		}
+		SimpleDateFormat formatoMes = new SimpleDateFormat("MM");
+		SimpleDateFormat formatoAnio = new SimpleDateFormat("yyyy");
+		
+		for(Agenda ag : lista) {
+			ZoneId timeZone = ZoneId.systemDefault();
+	        LocalDate getLocalDate = ag.getFechaInicio().toInstant().atZone(timeZone).toLocalDate();
+	        Integer mes = Integer.parseInt(formatoMes.format(new Date()));
+	        Integer anio = Integer.parseInt(formatoAnio.format(new Date()));
+	        
+	        if(getLocalDate.getYear() == anio && getLocalDate.getMonthValue() == mes) {
+	        	listaAgenda.add(ag);
+	        }
 		}
 		
 		lstAgenda.setModel(new ListModelList(listaAgenda));
@@ -562,14 +585,25 @@ public class DiariaC {
 			Messagebox.show("La ha sido RECHAZADA");
 			return;
 		}
+		Date fechaActual = new Date();
+		if(seleccion.getFecha().after(fechaActual)) {
+			Messagebox.show("Fecha es superior a la fecha actual");
+			return;
+		}
+		System.out.println(seleccion.getIdActividad());
+		List<Actividad> list = actividadDAO.buscarPorId(seleccion.getIdActividad());
+		Actividad ac = list.get(0);
+		System.out.println(ac.getIdActividad());
+		System.out.println(ac.getAgenda().getIdAgenda());
+		
 		EventListener<ClickEvent> clickListener = new EventListener<Messagebox.ClickEvent>() {
 			public void onEvent(ClickEvent event) throws Exception {
 				if(Messagebox.Button.YES.equals(event.getButton())) {
-					seleccion.setEstadoPublicado(Constantes.ESTADO_PUBLICADO);
-					agendaDAO.getEntityManager().getTransaction().begin();
-					agendaDAO.getEntityManager().merge(seleccion);
+					ac.setEstadoPublicado(Constantes.ESTADO_PUBLICADO);
+					actividadDAO.getEntityManager().getTransaction().begin();
+					actividadDAO.getEntityManager().merge(ac);
 					
-					agendaDAO.getEntityManager().getTransaction().commit();
+					actividadDAO.getEntityManager().getTransaction().commit();
 					Messagebox.show("Datos grabados con exito");
 					BindUtils.postGlobalCommand(null, null, "Actividad.buscarPorAgenda", null);
 				}

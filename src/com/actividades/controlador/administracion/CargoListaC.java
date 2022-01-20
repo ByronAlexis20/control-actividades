@@ -82,6 +82,15 @@ public class CargoListaC {
 			Messagebox.show("Debe seleccionar un cargo para eliminar!");
 			return; 
 		}
+		//validar tambien que no este relacionada en ninguna tabla
+		List<Cargo> listaCargo = cargoDAO.cargoPorId(car.getIdCargo());
+		if(listaCargo.size() != 0) {
+			if(listaCargo.get(0).getEmpleados().size() > 0) {
+				Messagebox.show("No se puede eliminar el cargo, porque es utilizada en otro registro!");
+				return;
+			}
+		}
+		
 		Messagebox.show("Desea eliminar el registro seleccionado?", "Confirmación de Eliminación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {	
 			@Override
 			public void onEvent(Event event) throws Exception {

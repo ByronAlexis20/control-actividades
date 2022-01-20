@@ -54,7 +54,7 @@ public class RegistrarActividadJefeC {
 			Clients.showNotification("No se ha seleccionado empleado");
 			return;
 		}
-		List<Agenda> listaAgenda = this.agendaDAO.obtenerAgendaActiva(empleado.getIdEmpleado());
+		List<Agenda> listaAgenda = this.agendaDAO.obtenerAgendaActiva(empleado.getIdEmpleado(), Constantes.TIPO_AGENDA_PRINCIPALES);
 		if(listaAgenda.size() == 0) {
 			Clients.showNotification("Empleado no tiene agendas, no se puede asignar tareas");
 			return;
@@ -71,7 +71,7 @@ public class RegistrarActividadJefeC {
 			Clients.showNotification("No se ha seleccionado empleado");
 			return;
 		}
-		List<Agenda> listaAgenda = this.agendaDAO.obtenerAgendaActiva(empleado.getIdEmpleado());
+		List<Agenda> listaAgenda = this.agendaDAO.obtenerAgendaActiva(empleado.getIdEmpleado(), Constantes.TIPO_AGENDA_PRINCIPALES);
 		if(listaAgenda.size() == 0) {
 			Clients.showNotification("Empleado no tiene agendas, no se puede asignar tareas");
 			return;

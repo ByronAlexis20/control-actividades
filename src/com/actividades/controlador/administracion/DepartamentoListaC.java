@@ -85,6 +85,15 @@ public class DepartamentoListaC {
 			Messagebox.show("Debe seleccionar un departamento para eliminar!");
 			return; 
 		}
+		List<Departamento> listaDepartamento = departamentoDAO.getDepartamentoPorId(dep.getIdDepartamento());
+		System.out.println(listaDepartamento.get(0).getEmpleados().size());
+		if(listaDepartamento.size() != 0) {
+			if(listaDepartamento.get(0).getEmpleados().size() > 0) {
+				Messagebox.show("No se puede eliminar, es utilizada en otros registros!");
+				return;				
+			}
+		}
+		
 		Messagebox.show("Desea eliminar el registro seleccionado?", "Confirmación de Eliminación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {	
 			@Override
 			public void onEvent(Event event) throws Exception {

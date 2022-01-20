@@ -3,7 +3,10 @@ package com.actividades.controlador.publicaciones;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -161,6 +164,26 @@ public class ActividadesListaC {
 			Clients.showNotification("Seleccione una opción de la lista.");
 			return;
 		}
+		SimpleDateFormat formatoMes = new SimpleDateFormat("MM");
+		SimpleDateFormat formatoAnio = new SimpleDateFormat("yyyy");
+		ZoneId timeZone = ZoneId.systemDefault();
+        LocalDate getLocalDate = seleccion.getFecha().toInstant().atZone(timeZone).toLocalDate();
+        Integer mesActividad = getLocalDate.getMonthValue();
+        Integer anioActividad = getLocalDate.getYear();
+        
+        Integer mesActual = Integer.parseInt(formatoMes.format(new Date()));
+        Integer anioActual = Integer.parseInt(formatoAnio.format(new Date()));
+		
+		if(anioActual > anioActividad) {
+			Clients.showNotification("No se puede dar de baja a actividades de meses anteriores.");
+			return;
+		}else if(anioActual == anioActividad) {
+			if(mesActual > mesActividad) {
+				Clients.showNotification("No se puede dar de baja a actividades de meses anteriores.");
+				return;
+			}
+		}
+		
 		actividadDAO.getEntityManager().refresh(seleccion);
 		
 		EventListener<ClickEvent> clickListener = new EventListener<Messagebox.ClickEvent>() {

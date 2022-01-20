@@ -211,9 +211,31 @@ public class PendientesC {
 	@NotifyChange({"listaAgenda"})
 	public void cargarAgendas(){
 		if (listaAgenda != null)
-			listaAgenda = null; 
+			listaAgenda = null;
+		listaAgenda = new ArrayList<>();
+		List<Agenda> lista = new ArrayList<>();
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
-		listaAgenda = agendaDAO.obtenerAgendaActiva(usuario.getIdEmpleado());
+		lista = agendaDAO.obtenerAgendaActivaYGobernador(usuario.getIdEmpleado(), Constantes.TIPO_AGENDA_PRINCIPALES);
+		boolean bandera = false;
+		for(Agenda ag : lista) {
+			if(ag.getActividads().size() > 0) {
+				//verificar si existen actividades pendientes
+				bandera = false;
+				for(Actividad ac : ag.getActividads()) {
+					System.out.println(ac.getEstadoActividad());
+					if(ac.getEstado().equals("A")) {
+						if(ac.getEstadoActividad().equals(Constantes.ESTADO_PENDIENTE)) {
+							bandera = true;
+						}
+					}
+				}
+				if(bandera == true) {
+					System.out.println("pendiente");
+					listaAgenda.add(ag);
+				}
+			}
+		}
+		System.out.println("carfa agenda");
 		lstAgenda.setModel(new ListModelList(listaAgenda));
 		deshabilitarCampos();
 		agendaSeleccionada = null;	

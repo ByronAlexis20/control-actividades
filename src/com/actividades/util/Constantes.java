@@ -44,12 +44,16 @@ public class Constantes {
 	public static String USUARIO_NO_PERMITIDO = "NO PERMITIDO";
 	
 	public static String CORREO_ORIGEN = "departamentoCGOB@gmail.com";
-	public static String CONTRASENIA_ORIGEN = "2021santaelena";
+	public static String CONTRASENIA_ORIGEN = "2022santaelena";
 	
 	
 	//tipo de actividades
 	public static Integer ID_TIPO_PRIMORDIALES = 1;
 	public static Integer ID_TIPO_INTERNAS = 2;
+	
+	//tipo de agenda
+	public static String TIPO_AGENDA_PRINCIPALES = "PRINCIPALES";
+	public static String TIPO_AGENDA_INTERNAS = "INTERNAS";
 	
 	public static String PATH_ARCHIVOS_SISTEMA = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/") + "temp\\";
 	public static String PATH_IMAGENES = "img\\";

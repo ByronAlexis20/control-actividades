@@ -15,4 +15,14 @@ public class TipoEvidenciaDAO extends ClaseDAO{
 		resultado = (List<TipoEvidencia>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<TipoEvidencia> buscarPorId(Integer id) {
+		List<TipoEvidencia> resultado = new ArrayList<TipoEvidencia>(); 
+		Query query = getEntityManager().createNamedQuery("TipoEvidencia.buscarPorID");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("id", id);
+		resultado = (List<TipoEvidencia>) query.getResultList();
+		return resultado;
+	}
 }

@@ -23,7 +23,6 @@ import org.zkoss.zul.Messagebox.ClickEvent;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
-import com.actividades.modelo.Actividad;
 import com.actividades.modelo.ActividadDAO;
 import com.actividades.modelo.Agenda;
 import com.actividades.modelo.AgendaDAO;
@@ -42,10 +41,12 @@ public class NuevaAgendaC {
 	private AgendaDAO agendaDAO = new AgendaDAO();
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	ActividadDAO actividadDAO = new ActividadDAO();
+	String tipoAgenda;
 	
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
+		tipoAgenda = (String) Executions.getCurrent().getArg().get("tipoAgenda");
 		if(Executions.getCurrent().getArg().get("Agenda") != null) {
 			agenda = (Agenda) Executions.getCurrent().getArg().get("Agenda");
 			txtDescripcion.setText(agenda.getDescripcion());
@@ -66,7 +67,7 @@ public class NuevaAgendaC {
 		//tambien validar la fecha de ingreso del jefe, y la fecha de la ultima agenda para no repetir fechas
 		//primero validar la ultima agenda
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
-		List<Agenda> listaAgenda = agendaDAO.obtenerUltimaAgenda(usuario.getIdEmpleado());
+		List<Agenda> listaAgenda = agendaDAO.obtenerUltimaAgenda(usuario.getIdEmpleado(), tipoAgenda);
 		if(listaAgenda.size() > 0) {
 			Date dt = listaAgenda.get(0).getFechaFin();
 	        Calendar c = Calendar.getInstance();
@@ -79,7 +80,7 @@ public class NuevaAgendaC {
 		}
 	}
 	//metodo que me valida si la agenda ya tiene actividades registradas
-	private void validarActividades() {
+	/*private void validarActividades() {
 		List<Actividad> listaActividad = actividadDAO.obtenerCodigoActividad(agenda.getIdAgenda());
 		if(listaActividad.size() > 0) {
 			dtpFechaInicio.setDisabled(true);
@@ -88,7 +89,7 @@ public class NuevaAgendaC {
 			dtpFechaInicio.setDisabled(false);
 			dtpFechaFin.setDisabled(false);
 		}
-	}
+	}*/
 	@Command
 	public void grabar(){
 		if(validarDatos() == true) {
@@ -100,6 +101,7 @@ public class NuevaAgendaC {
 						agenda.setEstado(Constantes.ESTADO_ACTIVO);
 						agenda.setFechaInicio(dtpFechaInicio.getValue());
 						agenda.setFechaFin(dtpFechaFin.getValue());
+						agenda.setTipoAgenda(tipoAgenda);
 						
 						//hay q preguntar por si es un usuario privilegiado
 						Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
@@ -209,5 +211,11 @@ public class NuevaAgendaC {
 	}
 	public void setAgenda(Agenda agenda) {
 		this.agenda = agenda;
+	}
+	public String getTipoAgenda() {
+		return tipoAgenda;
+	}
+	public void setTipoAgenda(String tipoAgenda) {
+		this.tipoAgenda = tipoAgenda;
 	}
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +28,7 @@ import javax.persistence.TemporalType;
 			+ "and a.agenda.idAgenda = :idAgenda and a.tipoActividad.idTipoActividad = :idTipoActividad and "
 			+ "a.estadoActividad = :idTipoEstadoActividad order by a.fecha desc"),
 	@NamedQuery(name="Actividad.buscarCodigoPorAgenda", query="SELECT a FROM Actividad a "
-			+ "where a.agenda.idAgenda = :idAgenda and a.estado = 'A' order by a.fecha desc"),
+			+ "where a.agenda.idAgenda = :idAgenda and a.estado = 'A' order by a.idActividad desc"),
 	@NamedQuery(name="Actividad.buscarPorFecha", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
 			+ " and (a.fecha between :fechaInicio and :fechaFin) and a.estado = 'A' and a.tipoActividad.idTipoActividad = :idTipoActividad"
 			+ " order by a.fecha desc"),
@@ -37,7 +38,7 @@ import javax.persistence.TemporalType;
 	@NamedQuery(name="Actividad.buscarRechazadas", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
 			+ " and a.estado = 'A' and a.estadoActividad = 'RECHAZADO'"),
 	@NamedQuery(name="Actividad.buscarPendientes", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
-			+ " and a.estado = 'A' and a.estadoActividad = 'PENDIENTE'"),
+			+ " and a.estado = 'A' and a.estadoActividad = 'PENDIENTE' and a.tipoActividad.idTipoActividad = 1"),
 	@NamedQuery(name="Actividad.buscarPorEmpleadoTipoActividad", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
 			+ " and a.estado = 'A' and a.tipoActividad.idTipoActividad = :idTipoActividad"),
 	@NamedQuery(name="Actividad.buscarActividadesPublicadas", query="SELECT a FROM Actividad a where a.estado = 'A' "),
@@ -46,6 +47,7 @@ import javax.persistence.TemporalType;
 			+ " order by a.fecha desc"),
 	@NamedQuery(name="Actividad.buscarPorDepartamento", query="SELECT a FROM Actividad a where a.agenda.empleado.departamento.idDepartamento = :idDepartamento "
 			+ "and a.estado = 'A' and a.tipoActividad.idTipoActividad = 1"),//principales
+	@NamedQuery(name="Actividad.buscarPorId", query="SELECT a FROM Actividad a where a.idActividad = :id"),
 })
 public class Actividad implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -88,7 +90,7 @@ public class Actividad implements Serializable {
 	private ClaseActividad claseActividad;
 
 	//bi-directional many-to-one association to Evidencia
-	@OneToMany(mappedBy="actividad")
+	@OneToMany(mappedBy="actividad", cascade = CascadeType.ALL)
 	private List<Evidencia> evidencias;
 	
 	@Column(name="id_responsable")
@@ -215,11 +217,5 @@ public class Actividad implements Serializable {
 		this.idResponsable = idResponsable;
 	}
 
-	@Override
-	public String toString() {
-		return "Actividad [idActividad=" + idActividad + ", descripcion=" + descripcion + ", estado=" + estado
-				+ ", estadoActividad=" + estadoActividad + ", estadoPublicado=" + estadoPublicado + ", fecha=" + fecha
-				+ ", agenda=" + agenda + ", tipoActividad=" + tipoActividad + ", evidencias=" + evidencias + "]";
-	}
 
 }

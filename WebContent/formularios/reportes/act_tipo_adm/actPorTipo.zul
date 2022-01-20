@@ -68,7 +68,7 @@
 							</grid>
 							<groupbox hflex="1" closable="false" vflex="1">
 								<hlayout>
-									<combobox id="cboTipoActivivdad" model="@load(vm.claseActividades)" 
+									<combobox id="cboTipoActivivdad" model="@load(vm.claseActividades)" readonly="true"
 										placeholder="Tipo de actividad" hflex="1" style="text-transform:uppercase">
 										<template name="model">
 											<comboitem label="${each.claseActividad}" />
