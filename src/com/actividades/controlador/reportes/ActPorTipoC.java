@@ -16,6 +16,7 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Radio;
 
 import com.actividades.modelo.Actividad;
@@ -58,6 +59,10 @@ public class ActPorTipoC {
 			}
 			if(dtpFechaFin.getValue() == null) {
 				Clients.showNotification("Debe seleccionar Fecha fin","info",dtpFechaFin,"end_center",2000);
+				return;
+			}
+			if(dtpFechaInicio.getValue().after(dtpFechaFin.getValue())) {
+				Messagebox.show("Fecha inicio no debe ser mayor a fecha fin");
 				return;
 			}
 			Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());

@@ -2,8 +2,6 @@ package com.actividades.controlador.actividades;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,9 +28,9 @@ import org.zkoss.zul.Datebox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Messagebox.ClickEvent;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
-import org.zkoss.zul.Messagebox.ClickEvent;
 
 import com.actividades.modelo.Actividad;
 import com.actividades.modelo.ActividadDAO;
@@ -179,6 +177,11 @@ public class InternasC {
 			Clients.showNotification("Debe seleccionar fecha fin");
 			return;
 		}
+		if(dtpFechaInicio.getValue().after(dtpFechaFin.getValue())) {
+			Messagebox.show("Fecha inicio no debe ser mayor a fecha fin");
+			return;
+		}
+		
 		if (listaAgenda != null)
 			listaAgenda = null; 
 		listaAgenda = new ArrayList<>();

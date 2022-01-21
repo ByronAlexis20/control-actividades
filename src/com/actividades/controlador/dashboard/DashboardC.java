@@ -113,9 +113,7 @@ public class DashboardC {
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Empleado", emp.getEmp());
-		params.put("Anio", Integer.parseInt(txtAnio.getText()));
-		params.put("Mes", mesSeleccionado.getIdMes());
-		Window ventanaCargar = (Window) Executions.createComponents("/formularios/dashboard/ListadoActividades.zul", null, params);
+		Window ventanaCargar = (Window) Executions.createComponents("/formularios/dashboard/BusquedaFecha.zul", null, params);
 		ventanaCargar.doModal();
 	}
 	

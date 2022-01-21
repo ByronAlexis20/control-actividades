@@ -235,6 +235,10 @@ public class DiariaC {
 			Clients.showNotification("Debe seleccionar fecha fin");
 			return;
 		}
+		if(dtpFechaInicio.getValue().after(dtpFechaFin.getValue())) {
+			Messagebox.show("Fecha inicio no debe ser mayor a fecha fin");
+			return;
+		}
 		if (listaAgenda != null)
 			listaAgenda = null; 
 		listaAgenda = new ArrayList<>();

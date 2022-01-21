@@ -45,6 +45,18 @@ public class AgendaDAO extends ClaseDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<Agenda> obtenerAgendaActivaYFechasTipos(Integer idEmpleado,Date fechaInicio, Date fechaFin) {
+		List<Agenda> resultado = new ArrayList<Agenda>(); 
+		Query query = getEntityManager().createNamedQuery("Agenda.buscarPorEmpleadoLogeadoYFechasTipos");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idEmpleado",idEmpleado);
+		query.setParameter("fechaInicio",fechaInicio);
+		query.setParameter("fechaFin",fechaFin);
+		resultado = (List<Agenda>) query.getResultList();
+		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<Agenda> obtenerAgendaActivaYFechasInternas(Integer idEmpleado,Date fechaInicio, Date fechaFin) {
 		List<Agenda> resultado = new ArrayList<Agenda>(); 
 		Query query = getEntityManager().createNamedQuery("Agenda.buscarPorEmpleadoLogeadoYFechasInternas");

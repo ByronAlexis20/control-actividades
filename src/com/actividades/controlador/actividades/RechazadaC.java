@@ -2,6 +2,8 @@ package com.actividades.controlador.actividades;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -161,8 +163,25 @@ public class RechazadaC {
 	public void cargarAgendas(){
 		if (listaAgenda != null)
 			listaAgenda = null; 
+		listaAgenda = new ArrayList<>();
+		List<Agenda> lista = new ArrayList<>();
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
-		listaAgenda = agendaDAO.obtenerAgendaActiva(usuario.getIdEmpleado(), Constantes.TIPO_AGENDA_PRINCIPALES);
+		lista = agendaDAO.obtenerAgendaActivaYGobernador(usuario.getIdEmpleado(), Constantes.TIPO_AGENDA_PRINCIPALES);
+		for(Agenda ag : lista) {
+			SimpleDateFormat formatoMes = new SimpleDateFormat("MM");
+			SimpleDateFormat formatoAnio = new SimpleDateFormat("yyyy");
+			
+			List<Actividad> listaPendiente = actividadDAO.obtenerRechazadaPorAgenda(ag.getIdAgenda());
+			if(listaPendiente.size() > 0) {
+				ZoneId timeZone = ZoneId.systemDefault();
+		        LocalDate getLocalDate = ag.getFechaInicio().toInstant().atZone(timeZone).toLocalDate();
+		        Integer mes = Integer.parseInt(formatoMes.format(new Date()));
+		        Integer anio = Integer.parseInt(formatoAnio.format(new Date()));
+		        if(anio.equals(getLocalDate.getYear()) && mes.equals(getLocalDate.getMonthValue())) {
+		        	listaAgenda.add(ag);
+		        }
+			}
+		}
 		lstAgenda.setModel(new ListModelList(listaAgenda));
 		deshabilitarCampos();
 		agendaSeleccionada = null;	
@@ -180,9 +199,14 @@ public class RechazadaC {
 			Clients.showNotification("Debe seleccionar fecha fin");
 			return;
 		}
+		if(dtpFechaInicio.getValue().after(dtpFechaFin.getValue())) {
+			Messagebox.show("Fecha inicio no debe ser mayor a fecha fin");
+			return;
+		}
 		if (listaAgenda != null)
 			listaAgenda = null; 
 		listaAgenda = new ArrayList<>();
+		List<Agenda> lista = new ArrayList<>();
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
 		if(!usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)){
 			if(usuario.getPermiso() != null) {
@@ -190,18 +214,26 @@ public class RechazadaC {
 					//hay q buscar el jefe de ese departamento
 					List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
 					if(jefeArea.size() > 0) {
-						listaAgenda = agendaDAO.obtenerAgendaActivaYFechas(jefeArea.get(0).getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
+						lista = agendaDAO.obtenerAgendaActivaYFechasTipos(jefeArea.get(0).getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
 					}	
 				}else {
-					listaAgenda = new ArrayList<>();
+					lista = new ArrayList<>();
 				}
 			}else {
-				listaAgenda = new ArrayList<>();
+				lista = new ArrayList<>();
 			}
 			
 		}else {
-			listaAgenda = agendaDAO.obtenerAgendaActivaYFechas(usuario.getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
+			lista = agendaDAO.obtenerAgendaActivaYFechasTipos(usuario.getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
 		}
+		
+		for(Agenda ag : lista) {
+			List<Actividad> listaPendiente = actividadDAO.obtenerRechazadaPorAgenda(ag.getIdAgenda());
+			if(listaPendiente.size() > 0) {
+		        listaAgenda.add(ag);
+			}
+		}
+		
 		lstAgenda.setModel(new ListModelList(listaAgenda));
 		deshabilitarCampos();
 		agendaSeleccionada = null;	
@@ -214,8 +246,8 @@ public class RechazadaC {
 		estados.add(Constantes.ESTADO_PUBLICADO);
 		estados.add(Constantes.ESTADO_RECHAZADO);
 		
-		List<Actividad> lista = new ArrayList<>();
-		listaActividad = lista;
+		List<Actividad> listaA = new ArrayList<>();
+		listaActividad = listaA;
 	}
 	@Command
 	public void editarActividad() {

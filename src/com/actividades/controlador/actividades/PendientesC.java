@@ -2,6 +2,8 @@ package com.actividades.controlador.actividades;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,9 +30,9 @@ import org.zkoss.zul.Datebox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Messagebox.ClickEvent;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
-import org.zkoss.zul.Messagebox.ClickEvent;
 
 import com.actividades.modelo.Actividad;
 import com.actividades.modelo.ActividadDAO;
@@ -114,7 +116,6 @@ public class PendientesC {
 			
 			if(anioAgenda.equals(anioActual)) {
 				if(mesAgenda < mesActual) {
-					System.out.println("menor");
 					deshabilitarCampos();
 					Clients.showNotification("Ya no puede realizar modificaciones en las actividades");
 				}
@@ -145,9 +146,14 @@ public class PendientesC {
 			Clients.showNotification("Debe seleccionar fecha fin");
 			return;
 		}
+		if(dtpFechaInicio.getValue().after(dtpFechaFin.getValue())) {
+			Messagebox.show("Fecha inicio no debe ser mayor a fecha fin");
+			return;
+		}
 		if (listaAgenda != null)
 			listaAgenda = null; 
 		listaAgenda = new ArrayList<>();
+		List<Agenda> lista = new ArrayList<>();
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
 		if(!usuario.getTipoUsuario().getIdTipoUsuario().equals(Constantes.ID_JEFE_AREA)){
 			if(usuario.getPermiso() != null) {
@@ -155,18 +161,26 @@ public class PendientesC {
 					//hay q buscar el jefe de ese departamento
 					List<Empleado> jefeArea = usuarioDAO.buscarPorDepartamento(usuario.getDepartamento().getIdDepartamento());
 					if(jefeArea.size() > 0) {
-						listaAgenda = agendaDAO.obtenerAgendaActivaYFechas(jefeArea.get(0).getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
+						lista = agendaDAO.obtenerAgendaActivaYFechasTipos(jefeArea.get(0).getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
 					}	
 				}else {
-					listaAgenda = new ArrayList<>();
+					lista = new ArrayList<>();
 				}
 			}else {
-				listaAgenda = new ArrayList<>();
+				lista = new ArrayList<>();
 			}
 			
 		}else {
-			listaAgenda = agendaDAO.obtenerAgendaActivaYFechas(usuario.getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
+			lista = agendaDAO.obtenerAgendaActivaYFechasTipos(usuario.getIdEmpleado(),dtpFechaInicio.getValue(),dtpFechaFin.getValue());
 		}
+		
+		for(Agenda ag : lista) {
+			List<Actividad> listaPendiente = actividadDAO.obtenerPendientePorAgenda(ag.getIdAgenda());
+			if(listaPendiente.size() > 0) {
+		        listaAgenda.add(ag);
+			}
+		}
+		
 		lstAgenda.setModel(new ListModelList(listaAgenda));
 		deshabilitarCampos();
 		agendaSeleccionada = null;	
@@ -178,8 +192,8 @@ public class PendientesC {
 		estados.add(Constantes.ESTADO_PUBLICADO);
 		estados.add(Constantes.ESTADO_RECHAZADO);
 		
-		List<Actividad> lista = new ArrayList<>();
-		listaActividad = lista;
+		List<Actividad> listaA = new ArrayList<>();
+		listaActividad = listaA;
 	}
 	
 	@GlobalCommand("Actividad.buscarPorAgenda")
@@ -216,26 +230,21 @@ public class PendientesC {
 		List<Agenda> lista = new ArrayList<>();
 		Empleado usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
 		lista = agendaDAO.obtenerAgendaActivaYGobernador(usuario.getIdEmpleado(), Constantes.TIPO_AGENDA_PRINCIPALES);
-		boolean bandera = false;
 		for(Agenda ag : lista) {
-			if(ag.getActividads().size() > 0) {
-				//verificar si existen actividades pendientes
-				bandera = false;
-				for(Actividad ac : ag.getActividads()) {
-					System.out.println(ac.getEstadoActividad());
-					if(ac.getEstado().equals("A")) {
-						if(ac.getEstadoActividad().equals(Constantes.ESTADO_PENDIENTE)) {
-							bandera = true;
-						}
-					}
-				}
-				if(bandera == true) {
-					System.out.println("pendiente");
-					listaAgenda.add(ag);
-				}
+			SimpleDateFormat formatoMes = new SimpleDateFormat("MM");
+			SimpleDateFormat formatoAnio = new SimpleDateFormat("yyyy");
+			
+			List<Actividad> listaPendiente = actividadDAO.obtenerPendientePorAgenda(ag.getIdAgenda());
+			if(listaPendiente.size() > 0) {
+				ZoneId timeZone = ZoneId.systemDefault();
+		        LocalDate getLocalDate = ag.getFechaInicio().toInstant().atZone(timeZone).toLocalDate();
+		        Integer mes = Integer.parseInt(formatoMes.format(new Date()));
+		        Integer anio = Integer.parseInt(formatoAnio.format(new Date()));
+		        if(anio.equals(getLocalDate.getYear()) && mes.equals(getLocalDate.getMonthValue())) {
+		        	listaAgenda.add(ag);
+		        }
 			}
 		}
-		System.out.println("carfa agenda");
 		lstAgenda.setModel(new ListModelList(listaAgenda));
 		deshabilitarCampos();
 		agendaSeleccionada = null;	

@@ -23,8 +23,10 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Include;
+import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treecell;
 import org.zkoss.zul.Treechildren;
@@ -50,6 +52,8 @@ public class MenuControlC {
 	@Wire Window windowRoot;
 	@Wire Include areaContenido;
 	@Wire Image fotoUsuario;
+	@Wire private Button btnMostrarClave;
+	@Wire private Textbox p;
 	Menu opcionSeleccionado;
 	EmpleadoDAO usuarioDAO = new EmpleadoDAO();
 	PermisoDAO permisoDAO = new PermisoDAO();
@@ -226,7 +230,18 @@ public class MenuControlC {
 		Empleado us = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername());
 		return us;
 	}
-	
+	@Command
+	public void mostrarClave() {
+		try {
+			if(p.getType().equals("password")) {
+				p.setType("text");
+			}else {
+				p.setType("password");
+			}
+		}catch(Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
 	@Command
 	public void dashboard() {
 		areaContenido.setSrc("/formularios/dashboard/Dashboard.zul");

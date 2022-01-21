@@ -44,11 +44,31 @@ public class ActividadDAO extends ClaseDAO{
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<Actividad> obtenerRechazadaPorAgenda(Integer idAgenda) {
+		List<Actividad> resultado = new ArrayList<Actividad>(); 
+		Query query = getEntityManager().createNamedQuery("Actividad.buscarRechazadasPorAgenda");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idAgenda", idAgenda);
+		resultado = (List<Actividad>) query.getResultList();
+		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<Actividad> obtenerPendiente(Integer idEmpleado) {
 		List<Actividad> resultado = new ArrayList<Actividad>(); 
 		Query query = getEntityManager().createNamedQuery("Actividad.buscarPendientes");
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setParameter("idEmpleado", idEmpleado);
+		resultado = (List<Actividad>) query.getResultList();
+		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Actividad> obtenerPendientePorAgenda(Integer idAgenda) {
+		List<Actividad> resultado = new ArrayList<Actividad>(); 
+		Query query = getEntityManager().createNamedQuery("Actividad.buscarPendientesPorAgenda");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idAgenda", idAgenda);
 		resultado = (List<Actividad>) query.getResultList();
 		return resultado;
 	}
@@ -109,6 +129,32 @@ public class ActividadDAO extends ClaseDAO{
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setParameter("idEmpleado", idEmpleado);
 		query.setParameter("idTipoActividad", idTipoActividad);
+		resultado = (List<Actividad>) query.getResultList();
+		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Actividad> buscarPorEmpleadoTipoActividadFechas(Integer idEmpleado,Integer idTipoActividad, Date fechaInicio, Date fechaFin) {
+		List<Actividad> resultado = new ArrayList<Actividad>(); 
+		Query query = getEntityManager().createNamedQuery("Actividad.buscarPorEmpleadoTipoActividadFechas");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idEmpleado", idEmpleado);
+		query.setParameter("idTipoActividad", idTipoActividad);
+		query.setParameter("fechaInicio", fechaInicio);
+		query.setParameter("fechaFin", fechaFin);
+		resultado = (List<Actividad>) query.getResultList();
+		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Actividad> buscarPorEmpleadoTipoActividadFechasInternas(Integer idEmpleado,Integer idTipoActividad, Date fechaInicio, Date fechaFin) {
+		List<Actividad> resultado = new ArrayList<Actividad>(); 
+		Query query = getEntityManager().createNamedQuery("Actividad.buscarPorEmpleadoTipoActividadFechasInternas");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idEmpleado", idEmpleado);
+		query.setParameter("idTipoActividad", idTipoActividad);
+		query.setParameter("fechaInicio", fechaInicio);
+		query.setParameter("fechaFin", fechaFin);
 		resultado = (List<Actividad>) query.getResultList();
 		return resultado;
 	}

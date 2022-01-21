@@ -19,6 +19,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -98,7 +99,6 @@ public class ActividadesFechaC {
 	
 	@Command
 	public void seleccionaFechaFin() {
-		System.out.println(new SimpleDateFormat("yyyyMMdd").format(dtpFechaInicio.getValue()));
 		dtpFechaFin.setConstraint("after " + new SimpleDateFormat("yyyyMMdd").format(dtpFechaInicio.getValue()));
 		dtpFechaFin.setValue(dtpFechaInicio.getValue());
 	}
@@ -107,6 +107,18 @@ public class ActividadesFechaC {
 	public void cargarActividades() {
 		if(departamentoSeleccionado == null) {
 			Messagebox.show("Debe seleccionar un departamento!!");
+			return;
+		}
+		if(dtpFechaInicio.getValue() == null) {
+			Clients.showNotification("Debe seleccionar Fecha de inicio","info",dtpFechaInicio,"end_center",2000);
+			return;
+		}
+		if(dtpFechaFin.getValue() == null) {
+			Clients.showNotification("Debe seleccionar Fecha fin","info",dtpFechaFin,"end_center",2000);
+			return;
+		}
+		if(dtpFechaInicio.getValue().after(dtpFechaFin.getValue())) {
+			Messagebox.show("Fecha inicio no debe ser mayor a fecha fin");
 			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -120,6 +132,18 @@ public class ActividadesFechaC {
 	public void descargarReporte() {
 		if(departamentoSeleccionado == null) {
 			Messagebox.show("Debe seleccionar un departamento!!");
+			return;
+		}
+		if(dtpFechaInicio.getValue() == null) {
+			Clients.showNotification("Debe seleccionar Fecha de inicio","info",dtpFechaInicio,"end_center",2000);
+			return;
+		}
+		if(dtpFechaFin.getValue() == null) {
+			Clients.showNotification("Debe seleccionar Fecha fin","info",dtpFechaFin,"end_center",2000);
+			return;
+		}
+		if(dtpFechaInicio.getValue().after(dtpFechaFin.getValue())) {
+			Messagebox.show("Fecha inicio no debe ser mayor a fecha fin");
 			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();

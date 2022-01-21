@@ -119,6 +119,10 @@ public class ActPorTipoAdminC {
 				Clients.showNotification("Debe seleccionar Fecha fin","info",dtpFechaFin,"end_center",2000);
 				return;
 			}
+			if(dtpFechaInicio.getValue().after(dtpFechaFin.getValue())) {
+				Messagebox.show("Fecha inicio no debe ser mayor a fecha fin");
+				return;
+			}
 			ClaseActividad clase = (ClaseActividad) cboTipoActivivdad.getSelectedItem().getValue();
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("ID_EMPLEADO", departamentoSeleccionado.getEmpleado().getIdEmpleado());

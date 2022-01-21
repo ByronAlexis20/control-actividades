@@ -77,7 +77,16 @@
 								<label value="Nombres: *" sclass="font-weight-bold col-form-label"/>
 							</cell>
 							<cell>
-								<textbox id="txtNombres" hflex="1" maxlength="60" style="text-transform:uppercase"/>
+								<textbox id="txtNombres" hflex="1" maxlength="60" xmlns:w="client" style="text-transform:uppercase">
+									<attribute w:name="doKeyPress_">
+										function(evt){ if(this.getValue().length
+										> 0 ){ if (!this._shallIgnore(evt,
+										"abcdefghijklmnopqrstuvwxyzñ ABCDEFGHIJKLMNÑOPQRSTUVWXYZ")) this.$doKeyPress_(evt);
+										}else{ if (!this._shallIgnore(evt,
+										"abcdefghijklmnopqrstuvwxyzñ ABCDEFGHIJKLMNÑOPQRSTUVWXYZ")) this.$doKeyPress_(evt); }
+										}
+									</attribute>
+								</textbox>
 							</cell>
 						</row>
 						<row>
@@ -85,7 +94,16 @@
 								<label value="Apellidos: *" sclass="font-weight-bold col-form-label"/>
 							</cell>
 							<cell>
-								<textbox id="txtApellidos" hflex="1" maxlength="60" style="text-transform:uppercase"/>
+								<textbox id="txtApellidos" hflex="1" maxlength="60" xmlns:w="client" style="text-transform:uppercase">
+									<attribute w:name="doKeyPress_">
+										function(evt){ if(this.getValue().length
+										> 0 ){ if (!this._shallIgnore(evt,
+										"abcdefghijklmnopqrstuvwxyzñ ABCDEFGHIJKLMNÑOPQRSTUVWXYZ")) this.$doKeyPress_(evt);
+										}else{ if (!this._shallIgnore(evt,
+										"abcdefghijklmnopqrstuvwxyzñ ABCDEFGHIJKLMNÑOPQRSTUVWXYZ")) this.$doKeyPress_(evt); }
+										}
+									</attribute>
+								</textbox>
 							</cell>
 						</row>
 						<row>

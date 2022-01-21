@@ -35,12 +35,27 @@ import javax.persistence.TemporalType;
 	@NamedQuery(name="Actividad.reportePorTipoActividad", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
 			+ " and (a.fecha between :fechaInicio and :fechaFin) and a.estado = 'A' and a.tipoActividad.idTipoActividad = :idTipoActividad"
 			+ " and a.claseActividad.idClaseActividad = :idClaseActividad order by a.fecha desc"),
+	
 	@NamedQuery(name="Actividad.buscarRechazadas", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
 			+ " and a.estado = 'A' and a.estadoActividad = 'RECHAZADO'"),
+	@NamedQuery(name="Actividad.buscarRechazadasPorAgenda", query="SELECT a FROM Actividad a where a.agenda.idAgenda = :idAgenda "
+			+ " and a.estado = 'A' and a.estadoActividad = 'RECHAZADO'"),
+	
 	@NamedQuery(name="Actividad.buscarPendientes", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
 			+ " and a.estado = 'A' and a.estadoActividad = 'PENDIENTE' and a.tipoActividad.idTipoActividad = 1"),
+	@NamedQuery(name="Actividad.buscarPendientesPorAgenda", query="SELECT a FROM Actividad a where a.agenda.idAgenda = :idAgenda "
+			+ " and a.estado = 'A' and a.estadoActividad = 'PENDIENTE' and a.tipoActividad.idTipoActividad = 1"),
 	@NamedQuery(name="Actividad.buscarPorEmpleadoTipoActividad", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
-			+ " and a.estado = 'A' and a.tipoActividad.idTipoActividad = :idTipoActividad"),
+			+ " and a.estado = 'A' and a.tipoActividad.idTipoActividad = :idTipoActividad "),
+	
+	@NamedQuery(name="Actividad.buscarPorEmpleadoTipoActividadFechas", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
+			+ " and a.estado = 'A' and a.tipoActividad.idTipoActividad = :idTipoActividad and a.estadoPublicado = 'PUBLICADO' "
+			+ "and (a.fecha between :fechaInicio and :fechaFin) "),
+	
+	@NamedQuery(name="Actividad.buscarPorEmpleadoTipoActividadFechasInternas", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
+			+ " and a.estado = 'A' and a.tipoActividad.idTipoActividad = :idTipoActividad and a.agenda.estado = 'A' "
+			+ "and (a.fecha between :fechaInicio and :fechaFin) "),
+	
 	@NamedQuery(name="Actividad.buscarActividadesPublicadas", query="SELECT a FROM Actividad a where a.estado = 'A' "),
 	@NamedQuery(name="Actividad.buscarPorFechaEmpleado", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
 			+ " and a.fecha = :fecha and a.estado = 'A' and a.tipoActividad.idTipoActividad = :idTipoActividad"

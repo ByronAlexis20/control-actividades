@@ -23,7 +23,9 @@ import java.util.List;
 			+ "lower(e.persona.apellido) like(:patron)) and e.estado = 'A' order by e.idEmpleado"),
 	@NamedQuery(name="Empleado.buscarPorUsuario", query="SELECT e FROM Empleado e where e.usuario = :patron and e.idEmpleado <> :idUsuario and e.estado = 'A'"),
 	@NamedQuery(name="Empleado.buscarEmpleado", query="SELECT e FROM Empleado e "
-			+ "where ((lower(e.persona.nombre) like (:patron)) or (lower(e.persona.apellido) like (:patron))) and e.estado = 'A' order by e.idEmpleado"),
+			+ "where ((lower(e.persona.nombre) like (:patron)) or (lower(e.persona.apellido) like (:patron))) and e.estado = 'A' "
+			+ "and e.idEmpleado <> 1 "
+			+ "order by e.idEmpleado"),
 	@NamedQuery(name="Empleado.buscarEmpleadoJefesInactivos", query="SELECT e FROM Empleado e "
 			+ "where ((lower(e.persona.nombre) like (:patron)) or (lower(e.persona.apellido) like (:patron))) and e.estado = 'I' and e.tipoUsuario.idTipoUsuario = 2 order by e.idEmpleado"),
 	@NamedQuery(name="Empleado.buscarPorCedula", query="SELECT e FROM Empleado e where e.persona.cedula = :cedula and e.estado = 'A'"),

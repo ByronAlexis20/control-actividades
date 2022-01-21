@@ -55,6 +55,7 @@
 							<![CDATA[ <i class="z-icon-lock"
 							aria-hidden="true"></i>]]>
 						</html>
+						
 						<textbox id="p" name="password" type="password"
 							width="180px" placeholder="Contraseña"
 							style="width: 100%; border: 0;  border-radius: 5px;  margin: 8px 0;  outline: none;  padding: 8px; box-sizing: border-box; padding-left: 25px; font-size:15px;" />

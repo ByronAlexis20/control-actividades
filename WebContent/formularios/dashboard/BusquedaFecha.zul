@@ -1,0 +1,41 @@
+<?page title="fechas" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window id="winFechaBusqueda" border="normal"  width="30%"
+		apply="org.zkoss.bind.BindComposer" position="center"
+		viewModel="@id('vm') @init('com.actividades.controlador.dashboard.BusquedaFechaC')">
+		<vlayout>
+			<vbox hflex="1" align="center" sclass="banner-modal" height="35px" pack="center">
+				<div hflex="1" align="center">
+					<label value="Ingrese Datos" sclass="letter-modal"/>
+				</div>
+			</vbox>
+			<grid hflex="1">
+				<columns>
+					<column align="right" hflex="min" />
+					<column/>
+				</columns>
+				<rows>
+					<row>
+						<cell>Fecha Inicio:</cell>
+						<cell>
+							<datebox id="dtpFechaInicio" hflex="1"/>
+						</cell>
+					</row>
+					<row>
+						<cell>Fecha Fin:</cell>
+						<cell>
+							<datebox id="dtpFechaFin" hflex="1"/>
+						</cell>
+					</row>
+				</rows>
+			</grid>
+			<!-- Los iconos listados con iconSclass son de: http://fontawesome.io/icons/ -->
+			<vbox hflex="1" align="center" height="35px" pack="center">
+				<div hflex="1" align="center">
+					<button label="Buscar" zclass="btn btn-primary btn btn-sm" onClick="@command('buscar')" />
+					<button id="salir" label="Salir" iconSclass="z-icon-sign-out" zclass="btn btn-danger btn btn-sm" onClick="@command('salir')" />
+				</div>
+			</vbox>
+		</vlayout>
+	</window>
+</zk>

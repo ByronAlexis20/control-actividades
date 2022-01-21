@@ -12,9 +12,17 @@ import java.util.List;
 	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeado", query="SELECT a FROM Agenda a where a.estado = 'A' "
 			+ "and a.empleado.idEmpleado = :idEmpleado and a.tipoAgenda = :tipoAgenda order by a.fechaInicio desc"),
 	@NamedQuery(name="Agenda.obtenerAgendaActivaYGobernador", query="SELECT a FROM Agenda a where a.estado = 'A' "
-			+ "and a.empleado.idEmpleado = :idEmpleado and (a.tipoAgenda = :tipoAgenda or a.tipoAgenda = :tipoAgendaGobernador) order by a.fechaInicio desc"),
+			+ "and a.empleado.idEmpleado = :idEmpleado and (a.tipoAgenda = :tipoAgenda or a.tipoAgenda = :tipoAgendaGobernador) "
+			+ "order by a.fechaInicio desc"),
+	
 	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeadoYFechas", query="SELECT a FROM Agenda a where a.estado = 'A' "
 			+ "and a.empleado.idEmpleado = :idEmpleado and (a.fechaInicio between :fechaInicio and :fechaFin) order by a.fechaInicio desc"),
+	
+	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeadoYFechasTipos", query="SELECT a FROM Agenda a where a.estado = 'A' "
+			+ "and a.empleado.idEmpleado = :idEmpleado and (a.fechaInicio between :fechaInicio and :fechaFin) "
+			+ "and (a.tipoAgenda = 'PRINCIPALES' or a.tipoAgenda = 'GOBERNADOR') "
+			+ "order by a.fechaInicio desc"),
+	
 	@NamedQuery(name="Agenda.buscarPorEmpleadoLogeadoYFechasInternas", query="SELECT a FROM Agenda a where a.estado = 'A' "
 			+ "and a.empleado.idEmpleado = :idEmpleado and (a.fechaInicio between :fechaInicio and :fechaFin) "
 			+ "and a.tipoAgenda = :tipoAgenda order by a.fechaInicio desc"),

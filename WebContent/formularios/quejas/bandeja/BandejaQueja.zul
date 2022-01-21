@@ -15,11 +15,10 @@
 					zclass="btn btn-outline-primary btn btn-sm" onClick="@command('verQueja')"/>
 			</div>
 			<hlayout>
-				<textbox hflex="1" value="@bind(vm.textoBuscar)"
-					style="text-transform:uppercase" onOK="@command('buscar')"
-					placeholder="Busqueda por departamento" />
-				<button label="Buscar!" iconSclass="z-icon-search" onClick="@command('buscar')"
-					zclass="btn btn-outline-primary btn btn-sm"/>
+				<datebox id="dtpFechaInicio" placeholder="Fecha Inicio"></datebox>
+				<datebox id="dtpFechaFin" placeholder="Fecha Fin"></datebox>
+				<button id="btnBusar" onClick="@command('buscarPorFechas')"
+					iconSclass="z-icon-search" zclass="btn btn-outline-primary btn btn-sm"/>
 			</hlayout>
 			<hlayout vflex="1" hflex="1">
 				<listbox id="lstQuejas" model="@load(vm.listaQuejas)" autopaging="true" selectedItem="@bind(vm.quejaSeleccionada)"
