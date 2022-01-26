@@ -60,8 +60,12 @@ import javax.persistence.TemporalType;
 	@NamedQuery(name="Actividad.buscarPorFechaEmpleado", query="SELECT a FROM Actividad a where a.agenda.empleado.idEmpleado = :idEmpleado "
 			+ " and a.fecha = :fecha and a.estado = 'A' and a.tipoActividad.idTipoActividad = :idTipoActividad"
 			+ " order by a.fecha desc"),
+	
 	@NamedQuery(name="Actividad.buscarPorDepartamento", query="SELECT a FROM Actividad a where a.agenda.empleado.departamento.idDepartamento = :idDepartamento "
 			+ "and a.estado = 'A' and a.tipoActividad.idTipoActividad = 1"),//principales
+	
+	@NamedQuery(name="Actividad.buscarPorTipoActividad", query="SELECT a FROM Actividad a where a.estado = 'A' and a.tipoActividad.idTipoActividad = :id"),//principales
+	
 	@NamedQuery(name="Actividad.buscarPorId", query="SELECT a FROM Actividad a where a.idActividad = :id"),
 })
 public class Actividad implements Serializable {

@@ -1,0 +1,60 @@
+<?page title="Lista de Empleados" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:n="native">
+	<div apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('com.actividades.controlador.reportes.ActividadesGobernadorC')" 
+		hflex="1" vflex="1" class="contenedor-formulario">
+		<vlayout vflex="1" zclass="contenido" hflex="1">
+			<groupbox hflex="1">
+				<div align="center">
+					<label value="Actividades por año"
+						style="color:#088A08;font-size:20px"
+						sclass="p-1 text-red font-italic font-weight-bold" />
+				</div>
+			</groupbox>
+			<hlayout>
+				<textbox value="@bind(vm.textoBuscar)"
+					onOK="@command('buscar')"
+					placeholder="Búsqueda por año" xmlns:w="client">
+					<attribute w:name="doKeyPress_">
+						function(evt){ if(this.getValue().length
+						> 0 ){ if (!this._shallIgnore(evt,
+						"0123456789")) this.$doKeyPress_(evt);
+						}else{ if (!this._shallIgnore(evt,
+						"0123456789")) this.$doKeyPress_(evt); }
+						}
+					</attribute>
+				</textbox>
+				<button label="Buscar!" iconSclass="z-icon-search"
+					zclass="btn btn-outline-primary btn btn-sm"
+					onClick="@command('buscar')"/>
+				<button label="Imprimir" iconSclass="z-icon-print"
+					zclass="btn btn-outline-primary btn btn-sm"
+					onClick="@command('imprimir')" />
+			</hlayout>
+			<hlayout vflex="1" hflex="1">
+				<listbox model="@load(vm.listaActividades)"
+					hflex="1" vflex="1">
+					<listhead>
+						<listheader label="Cédula" width="10%" sclass="lb-listheader"/>
+						<listheader label="Departamento" width="15%" sclass="lb-listheader"/>
+						<listheader label="Nombre" width="15%" sclass="lb-listheader"/>
+						<listheader label="Apellido" sclass="lb-listheader"/>
+						<listheader label="Actividad" sclass="lb-listheader"/>
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell label="@load(each.agenda.empleado.persona.cedula)" sclass="lb-listcell"/>
+							<listcell label="@load(each.agenda.empleado.departamento.nombre)" sclass="lb-listcell"/>
+							<listcell label="@load(each.agenda.empleado.persona.nombre)" sclass="lb-listcell"/>
+							<listcell label="@load(each.agenda.empleado.persona.apellido)" sclass="lb-listcell"/>
+							<listcell label="@load(each.descripcion)" sclass="lb-listcell"/>
+						</listitem>
+					</template>
+				</listbox>
+			</hlayout>
+		</vlayout>
+		<!--  <vlayout hflex="1">
+			Copyright © 2021 Sistema de Control de Actividades || Todos los derechos reservados
+		</vlayout>-->
+	</div>
+</zk>
